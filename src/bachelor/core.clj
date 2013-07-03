@@ -571,12 +571,15 @@
 ;   ())
 ;  )
   
-(def as-and-bs
+(def grammar
   (insta/parser
-    "S = AB*
-     AB = A B
-     A = 'a' +
-     B = 'b' +")
+    "RULE = EXPR' >> 'FACT
+     EXPR = '('EXPR' 'OpL' 'EXPR')' | '('WSK' 'OpA' 'NUM')' | '('WSK' 'OpA' 'WSK')' | '('FACT')'
+     OpL = 'AND' | 'OR'
+     OpA = '>' | '<' | '=='
+     WSK = #'[A-Z]+[0-9]*'
+     FACT = #'[a-z]+[0-9]*'
+     NUM = #'[-+]?[0-9]+[.]?[0-9]*|[0-9]+'")
   )
     
     
