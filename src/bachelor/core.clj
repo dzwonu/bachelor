@@ -438,7 +438,6 @@
 (defn generate
   ""
   [parse-tree]
-  (println parse-tree)
   (let [[_ expr _ [_ fact-value]] parse-tree
         expression (parse-expr expr)
         fact (symbol fact-value)]
@@ -446,7 +445,7 @@
       [] 
       (if ~expression
         (str ~fact) 
-        ())
+        (println "else"))
       )
     )
   )
@@ -458,7 +457,7 @@
                [rdr (BufferedReader. (FileReader. "resources/rules.txt"))]
                			      (doall (line-seq rdr)))
         		       ]
-    		   (generate (grammar line)))
+    (macroexpand-1 '(generate-funcs (grammar line))))
   )
 
 (defn processRules
