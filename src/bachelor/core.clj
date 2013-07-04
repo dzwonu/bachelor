@@ -383,7 +383,7 @@
      NUM = #'[-+]?[0-9]+[.]?[0-9]*|[0-9]+'")
   )
     
-(def Facts (list "buy1"))
+(def Facts ())
 
 (defn parse-expr 
   "parses expr struct into list of symbols"
@@ -410,40 +410,62 @@
                               (list opl expr1 expr2))
         (= :FACT part1-type) (let
                               [fact (str part1-val)
+                               bool (symbol "boolean")
                                some (symbol "some")]
-                              (list some #{fact} Facts))
+                              (list bool (list some #{fact} Facts)))
         :else
         ())
       )
     )
   )
 
-[:RULE [:EXPR "(" [:EXPR "(" [:WSK "ROC"] " " [:OpA ">"] " " [:NUM "100"] ")"] "
- " [:OpL "AND"] " " [:EXPR "(" [:WSK "ROC"] " " [:OpA "<"] " " [:NUM "120"] ")"]
- ")"] " >> " [:FACT "buy"]]
-
 (defmacro generate-funcs 
   "creates function from parse-tree"
   [parse-tree]
+  (println parse-tree)
   (let [[_ expr _ [_ fact-value]] parse-tree
-        expr (parse-expr expr)
+        expression (parse-expr expr)
         fact (symbol fact-value)]
     `(fn 
        [] 
-       (if ~expr (str ~fact) 
+       (if ~expression
+         (str ~fact) 
          ())
        )
     )
   )
 
+(defn generate
+  ""
+  [parse-tree]
+  (println parse-tree)
+  (let [[_ expr _ [_ fact-value]] parse-tree
+        expression (parse-expr expr)
+        fact (symbol fact-value)]
+    (fn 
+      [] 
+      (if ~expression
+        (str ~fact) 
+        ())
+      )
+    )
+  )
 
+(defn processRulesFromFile
+  "processes file with rules"
+  []
+  (for [line (with-open 
+               [rdr (BufferedReader. (FileReader. "resources/rules.txt"))]
+               			      (doall (line-seq rdr)))
+        		       ]
+    		   (generate (grammar line)))
+  )
 
-
-
-
-
-
-
-
-
-
+(defn processRules
+  ""
+  [rules]
+  (cond
+    (empty? rules) ()
+    :else
+    (cons (macroexpand-1 '(generate-funcs (first rules))) (processRules (rest rules))))
+  )
