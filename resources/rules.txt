@@ -1,0 +1,4 @@
+( ROC > 100 ) >> kup
+( ROC < 100 ) >> sprzedaj
+( MOMENTUM > 0 ) >> kup
+( MOMENTUM < 0 ) >> sprzedaj

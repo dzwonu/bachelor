@@ -36,7 +36,7 @@
 (defn createCompany
   "Tworzy dane sp�ki"
   []
-  (def Notowania (reverse (for [line (with-open [rdr (BufferedReader. (FileReader. "C:/bachelor/src/bachelor.data/FUNMEDIA.csv"))]
+  (def Notowania (reverse (for [line (with-open [rdr (BufferedReader. (FileReader. "resources/FUNMEDIA.csv"))]
 			      (doall (line-seq rdr)))
 		       ]
 		   (processFileLine 0 line))))
@@ -355,222 +355,23 @@
 	(str "Momentum:-"))
   )
 
-;(println (conj Facts (verifyROC)))
-;(println (conj Facts (verifyMomentum)))
+;(def tokens (for [line (with-open [rdr (BufferedReader. (FileReader. "resources/rules.txt"))]
+;					 (doall (line-seq rdr)))
+;				  ]
+;			      (reverse (wyr [] (splitExpr line)))))
 
-
-(defn acceptOpL
-  "Sprawdza czy symbol jest operatorem logicznym"
-  [sym]
-  (cond
-   (= sym "AND") sym
-   (= sym "OR") sym
-   :else
-   ())
+(defn ROC99
+  ""
+  []
+  99
   )
 
-(defn acceptOpA
-  "Sprawdza czy symbol jest operatorem arytmetycznym"
-  [sym]
-  (cond
-   (= sym ">") sym
-   (= sym "<") sym
-   (= sym "==") sym
-   :else
-   ())
+(defn ROC101
+  ""
+  []
+  101
   )
 
-(defn acceptWSK
-  "Sprawdza czy symbol jest prawid�owym wska�nikiem"
-  [sym]
-  (cond
-   (= sym "ROC") sym
-   (= sym "MOMENTUM") sym
-   (= sym "RSI") sym
-   (= sym "LINSK4") sym
-   (= sym "LINSK9") sym
-   (= sym "LINSK18") sym
-   (= sym "WAZSK4") sym
-   (= sym "WAZSK9") sym
-   (= sym "WAZSK18") sym
-   (= sym "WYKSK4") sym
-   (= sym "WYKSK9") sym
-   (= sym "WYKSK18") sym
-   :else
-   ())
-  )
-
-(defn checkString
-  "Sprawdza czy string sk�ada si� wy��cznie z ma�ych liter"
-  [sym]
-  (cond
-   (empty? sym) ()
-   (= (str (first sym)) (str/upper-case (first sym))) sym
-   :else
-   (checkString (rest sym)))
-  )
-
-(defn acceptFACT
-  "Sprawdza czy symbol jest faktem"
-  [sym]
-  (cond
-   (empty? (checkString sym)) sym
-   :else
-   ())
-  )
-
-(defn acceptNUM
-  "Sprawdza czy symbol jest liczb�"
-  [sym]
-  (cond
-   (float? (read-string sym)) sym
-   (integer? (read-string sym)) sym
-   :else
-   ())
-  )
-
-(defn acceptLP
-  "Sprawdza czy symbol to nawias otwieraj�cy"
-  [sym]
-  (cond
-   (= sym "(") sym
-   :else
-   ())
-  )
-
-(defn acceptPP
-  "Sprawdza czy symbol to nawias zamykaj�cy"
-  [sym]
-  (cond
-   (= sym ")") sym
-   :else
-   ())
-  )
-
-(defn acceptImplication
-  "Sprawdza poprawno�� symbolu implikacji"
-  [sym]
-  (cond
-   (= sym ">>") sym
-   :else
-   ())
-  )
-
-(defn expect
-  "Sprawdza czy pobrany symbol jest prawid�owy"
-  [expected sym]
-  (cond
-   (= expected "OpL") (acceptOpL sym)
-   (= expected "OpA") (acceptOpA sym)
-   (= expected "WSK") (acceptWSK sym)
-   (= expected "FACT") (acceptFACT sym)
-   (= expected "NUM") (acceptNUM sym)
-   (= expected "LP") (acceptLP sym)
-   :else
-   (acceptPP symbol))
-  )
-
-(defn splitExpr
-  "Wydziela tokeny z linii z regu��"
-  [line]
-  (str/split line #" ")
-  )
-
-(defn wyr
-  "nowe wyrazenie"
-  [przetworzone doPrzetworzenia]
-  (cond
-   (empty? doPrzetworzenia) przetworzone
-   (empty? przetworzone) (if (empty? (acceptLP (first doPrzetworzenia)))
-			   "error-poczatek";todo - error
-			   (wyr (cons (first doPrzetworzenia) przetworzone) (rest doPrzetworzenia)))
-   (not (empty? (acceptLP (first przetworzone)))) (if (empty? (acceptFACT (first doPrzetworzenia)))
-						    (if (empty? (acceptWSK (first doPrzetworzenia)))
-						      (if (empty? (acceptLP (first doPrzetworzenia)))
-							"error-LP";todo - error
-							(wyr (cons (first doPrzetworzenia) przetworzone) (rest doPrzetworzenia)))
-						      (wyr (cons (first doPrzetworzenia) przetworzone) (rest doPrzetworzenia)))
-						    (wyr (cons (first doPrzetworzenia) przetworzone) (rest doPrzetworzenia)))
-   (not (empty? (acceptFACT (first przetworzone)))) (if (empty? (acceptPP (first doPrzetworzenia)))
-						      "error-FACT";todo - error
-						      (wyr (cons (first doPrzetworzenia) przetworzone) (rest doPrzetworzenia)))
-   (not (empty? (acceptWSK (first przetworzone)))) (if (empty? (acceptOpA (first doPrzetworzenia)))
-						     (if (empty? (acceptPP (first doPrzetworzenia)))
-						       "error-WSK";todo - error
-						       (wyr (cons (first doPrzetworzenia) przetworzone) (rest doPrzetworzenia)))
-						     (wyr (cons (first doPrzetworzenia) przetworzone) (rest doPrzetworzenia)))
-   (not (empty? (acceptOpA (first przetworzone)))) (if (empty? (acceptNUM (first doPrzetworzenia)))
-						     (if (empty? (acceptWSK (first doPrzetworzenia)))
-						       "error-OpA";todo - error
-						       (wyr (cons (first doPrzetworzenia) przetworzone) (rest doPrzetworzenia)))
-						     (wyr (cons (first doPrzetworzenia) przetworzone) (rest doPrzetworzenia)))
-   (not (empty? (acceptPP (first przetworzone)))) (if (empty? (acceptOpL (first doPrzetworzenia)))
-						    (if (empty? (acceptImplication (first doPrzetworzenia)))
-						      "error-PP";todo - error
-						      (wyr (cons (first doPrzetworzenia) przetworzone) (rest doPrzetworzenia)))
-						    (wyr (cons (first doPrzetworzenia) przetworzone) (rest doPrzetworzenia)))
-   (not (empty? (acceptOpL (first przetworzone)))) (if (empty? (acceptLP (first doPrzetworzenia)))
-						     "error-OpL";todo - error
-						     (wyr (cons (first doPrzetworzenia) przetworzone) (rest doPrzetworzenia)))
-   (not (empty? (acceptImplication (first przetworzone)))) (if (empty? (acceptFACT (first doPrzetworzenia)))
-							     "error-Implication";todo - error
-							     (wyr (cons (first doPrzetworzenia) przetworzone) (rest doPrzetworzenia)))
-   (not (empty? (acceptNUM (first przetworzone)))) (if (empty? (acceptPP (first doPrzetworzenia)))
-						     "error-NUM";todo - error
-						     (wyr (cons (first doPrzetworzenia) przetworzone) (rest doPrzetworzenia)))
-   :else
-   "error")
-  )
-
-(def tokens (for [line (with-open [rdr (BufferedReader. (FileReader. "C:/bachelor/src/bachelor.data/rules.txt"))]
-					 (doall (line-seq rdr)))
-				  ]
-			      (reverse (wyr [] (splitExpr line)))))
-
-;(println  tokens)
-
-;(defn createRules
-;  "przetwarza sekwencje token�w na list� regu�"
-;  [tokensList rules]
-;  (cond
-;   (empty? tokensList) rules
-;   :else
-;   (createRules (rest tokensList) (cons (createRule (first tokensList)) rules)))
-;  )
-;
-;(defn createRule
-;  "przetwarza pojedyncz� list� z tokenami na funckj� - regu��"
-;  [tokens]
-;  (cond
-;   (empty? tokens) ()
-;   :else
-;   ())
-;  )
-;
-;(defn createStringFromTokens
-;  "tworzy z token�w string dla funkcji (eval (str ...))"
-;  [tokens expression]
-;  (cond
-;   (empty? tokens) expression
-;   (not (empty? (acceptLP (first tokens)))) (if (empty? (acceptLP (first (rest tokens))))
-;					      (createStringFromTokens (rest tokens)
-;								      (str expression (first tokens)))
-;					      ());przypadek (EXPR, czyli ((
-;   (not (empty? (acceptWSK (first tokens)))) (if (empty? (acceptOpA (first (rest tokens))))
-;					       (createStringFromTokens (rest tokens)
-;								       (str expression "(" (first tokens) ") "))
-;					       (createStringFromTokens (rest (rest tokens))
-;								       (str expression (first (rest tokens)) " (" (first tokens) ") ")))
-;   (not (empty? (acceptNUM (first tokens)))) (createStringFromTokens (rest tokens)
-;								     (str expression (first tokens)))
-;   (not (empty? (acceptPP (first tokens)))) (if (empty? (acceptPP (first (rest tokens))))
-;					      (createStringFromTokens (rest tokens)
-;								      (str expression (first tokens)))
-;					      ());przypadek EXPR), czyli ))
-;   :else
-;   ())
-;  )
-  
 (def grammar
   (insta/parser
     "RULE = EXPR' >> 'FACT
@@ -582,17 +383,67 @@
      NUM = #'[-+]?[0-9]+[.]?[0-9]*|[0-9]+'")
   )
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+(def Facts (list "buy1"))
+
+(defn parse-expr 
+  "parses expr struct into list of symbols"
+  [expr]
+  (cond
+    (empty? expr) ()
+    :else
+    (let [[_ _ [part1-type part1-val] _ [part2-type part2-val] _ [part3-type part3-val] _] expr]
+      (cond 
+        (and (= :WSK part1-type) (= :OpA part2-type) (= :NUM part3-type)) (let 
+                                                                            [wsk (symbol part1-val)
+                                                                             opa (symbol part2-val)
+                                                                             num (Integer/valueOf part3-val)]
+                                                                            (list opa (list wsk) num))
+        (and (= :WSK part1-type) (= :OpA part2-type) (= :WSK part3-type)) (let
+                                                                            [wsk1 (symbol part1-val)
+                                                                             opa (symbol part2-val)
+                                                                             wsk2 (symbol part3-val)]
+                                                                            (list opa (list wsk1) (list wsk2)))
+        (= :OpL part2-type) (let
+                              [expr1 (parse-expr (get expr 2))
+                               opl (symbol part2-val)
+                               expr2 (parse-expr (get expr 6))]
+                              (list opl expr1 expr2))
+        (= :FACT part1-type) (let
+                              [fact (str part1-val)
+                               some (symbol "some")]
+                              (list some #{fact} Facts))
+        :else
+        ())
+      )
+    )
+  )
+
+[:RULE [:EXPR "(" [:EXPR "(" [:WSK "ROC"] " " [:OpA ">"] " " [:NUM "100"] ")"] "
+ " [:OpL "AND"] " " [:EXPR "(" [:WSK "ROC"] " " [:OpA "<"] " " [:NUM "120"] ")"]
+ ")"] " >> " [:FACT "buy"]]
+
+(defmacro generate-funcs 
+  "creates function from parse-tree"
+  [parse-tree]
+  (let [[_ expr _ [_ fact-value]] parse-tree
+        expr (parse-expr expr)
+        fact (symbol fact-value)]
+    `(fn 
+       [] 
+       (if ~expr (str ~fact) 
+         ())
+       )
+    )
+  )
+
+
+
+
+
+
+
+
+
+
+
 
