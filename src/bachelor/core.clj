@@ -422,31 +422,15 @@
 (defmacro generate-funcs 
   "creates function from parse-tree"
   [parse-tree]
-  (println parse-tree)
   (let [[_ expr _ [_ fact-value]] parse-tree
         expression (parse-expr expr)
-        fact (symbol fact-value)]
+        fact (str fact-value)]
     `(fn 
        [] 
        (if ~expression
          (str ~fact) 
          ())
        )
-    )
-  )
-
-(defn generate
-  ""
-  [parse-tree]
-  (let [[_ expr _ [_ fact-value]] parse-tree
-        expression (parse-expr expr)
-        fact (symbol fact-value)]
-    (fn 
-      [] 
-      (if ~expression
-        (str ~fact) 
-        (println "else"))
-      )
     )
   )
 
@@ -457,14 +441,6 @@
                [rdr (BufferedReader. (FileReader. "resources/rules.txt"))]
                			      (doall (line-seq rdr)))
         		       ]
-    (macroexpand-1 '(generate-funcs (grammar line))))
+    (macroexpand-1 `(generate-funcs ~(grammar line))))
   )
 
-(defn processRules
-  ""
-  [rules]
-  (cond
-    (empty? rules) ()
-    :else
-    (cons (macroexpand-1 '(generate-funcs (first rules))) (processRules (rest rules))))
-  )
