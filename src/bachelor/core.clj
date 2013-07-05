@@ -387,7 +387,7 @@
 
 (defn parse-expr 
   "parses expr struct into list of symbols"
-  [expr]
+  [expr arg]
   (cond
     (empty? expr) ()
     :else
@@ -412,7 +412,7 @@
                               [fact (str part1-val)
                                bool (symbol "boolean")
                                some (symbol "some")]
-                              (list bool (list some #{fact} Facts)))
+                              (list bool (list some #{fact} arg)))
         :else
         ())
       )
@@ -423,12 +423,13 @@
   "creates function from parse-tree"
   [parse-tree]
   (let [[_ expr _ [_ fact-value]] parse-tree
-        expression (parse-expr expr)
-        fact (str fact-value)]
+        arg (gensym "facts")
+        expression (parse-expr expr arg)
+        new-fact (str fact-value)]
     `(fn 
-       [] 
+       [~arg] 
        (if ~expression
-         (str ~fact) 
+         (str ~new-fact) 
          ())
        )
     )
@@ -443,4 +444,43 @@
         		       ]
     (macroexpand-1 `(generate-funcs ~(grammar line))))
   )
+
+(defn evaluateRules
+  "evaluates rules"
+  [rules facts]
+  (cond
+    (empty? rules) facts
+    :else
+    (cons (eval (list (first rules))) (evaluateRules (rest rules) facts)))
+  )
+
+(defn done?
+  "checks if list of facts contain buy or sell fact"
+  [facts]
+  (boolean (or (some #{"buy"} facts) (some #{"sell"} facts)))
+  )
+
+
+((clojure.core/fn [facts1209] (if (boolean (some #{"f1"} facts1209)) (clojure.core/str "f2") ())) ["f1"])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
