@@ -383,7 +383,7 @@
      NUM = #'[-+]?[0-9]+[.]?[0-9]*|[0-9]+'")
   )
     
-(def Facts ())
+(def Facts [])
 
 (defn parse-expr 
   "parses expr struct into list of symbols"
@@ -445,23 +445,57 @@
     (macroexpand-1 `(generate-funcs ~(grammar line))))
   )
 
-(defn evaluateRules
-  "evaluates rules"
-  [rules facts]
-  (cond
-    (empty? rules) facts
-    :else
-    (cons (eval (list (first rules))) (evaluateRules (rest rules) facts)))
+(defn containsFact?
+  "check if fact is on list of facts"
+  [fact facts]
+  (boolean (some #{(str fact)} facts))
+  )
+
+(defn buy?
+  "check if list of facts contain buy fact"
+  [facts]
+  (boolean (some #{"buy"} facts))
+  )
+
+(defn sell?
+  "check if list of facts contain sell fact"
+  [facts]
+  (boolean (some #{"sell"} facts))
   )
 
 (defn done?
   "checks if list of facts contain buy or sell fact"
   [facts]
-  (boolean (or (some #{"buy"} facts) (some #{"sell"} facts)))
+  (boolean (or (buy? facts) (sell? facts)))
+  )
+
+(defn evaluateRules
+  "evaluates rules"
+  [rules facts]
+  (cond
+    (empty? rules) facts
+    (empty? (eval (list (first rules) facts))) (evaluateRules (rest rules) facts)
+    (containsFact? (eval (list (first rules) facts)) facts) (evaluateRules (rest rules) facts)
+    :else
+    (cons (eval (list (first rules) facts)) (evaluateRules (rest rules) facts)))
+  )
+
+(defn inference
+  "evaluates all rules as long as don't get buy or sell conclusion"
+  [rules facts]
+  (cond
+    (done? facts) (if (buy? facts)
+                    "buy"
+                    "sell")
+    (empty? rules) "no conclusion"
+    (= (count facts) (count (vec (evaluateRules rules facts)))) "no conclusion"
+    :else
+    (inference rules (vec (evaluateRules rules facts))))
   )
 
 
-((clojure.core/fn [facts1209] (if (boolean (some #{"f1"} facts1209)) (clojure.core/str "f2") ())) ["f1"])
+
+
 
 
 
