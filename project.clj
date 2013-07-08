@@ -6,5 +6,6 @@
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [org.clojure/clojure-contrib "1.2.0"]
                  [instaparse "1.2.0-SNAPSHOT"]
-                 [org.clojure/tools.trace "0.7.3"]]
+                 [org.clojure/tools.trace "0.7.3"]
+                 [seesaw "1.4.3"]]
   :main bachelor.core)
