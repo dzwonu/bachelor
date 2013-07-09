@@ -1,6 +1,8 @@
 (ns bachelor.wsk
   (:require [clojure.string :as str])
-  (:use [clojure.contrib.generic.math-functions])
+  (:use [clojure.contrib.generic.math-functions]
+        [clj-time.core]
+        [clj-time.format])
   )
 
 (import '(java.io BufferedReader FileReader)
@@ -8,18 +10,24 @@
 
 (defstruct Company :id :name :session)
 
-(defstruct Session :open :high :low :close :vol)
+(defstruct Session :date :open :high :low :close :vol)
 
 (defstruct Fact :short :description)
 
-(defstruct Rule :name :args)
+(def custom-formatter (formatter "yyyyMMdd"))
+
+(defn parseDate
+  "Parses string with session date to date var"
+  [date]
+  (parse custom-formatter date)
+  )
 
 (defn processFileLine
   "Przetwarza linie z pliku do postaci uzywanej w aplikacji"
   [ind line]
   ;(println line)
-  (let [[name open high low close vol] (str/split line #";")]
-    (def s (struct Session (read-string open) (read-string high) (read-string low) (read-string close) (read-string vol)))
+  (let [[name date open high low close vol] (str/split line #",")]
+    (def s (struct Session (parseDate date) (read-string open) (read-string high) (read-string low) (read-string close) (read-string vol)))
     (def c (struct Company ind name s)))
   c
   )
@@ -33,19 +41,17 @@
 
 (defn createCompany
   "Tworzy dane sp�ki"
-  []
-  (reverse (for [line (with-open [rdr (BufferedReader. (FileReader. "resources/FUNMEDIA.csv"))]
-			      (doall (line-seq rdr)))
+  [company]
+  (reverse (for [line (with-open [rdr (BufferedReader. (FileReader. (str "resources/notowania/" company ".mst")))]
+			      (doall (rest (line-seq rdr))))
 		       ]
 		   (processFileLine 0 line)))
   )
 
-(def Notowania (createCompany))
-
 (defn printNotowania
-  []
-  (doseq [i (range (count Notowania))]
-    (println (:vol (:session (nth Notowania i "nie ma"))))))
+  [notowania]
+  (doseq [i (range (count notowania))]
+    (println (:vol (:session (nth notowania i "nie ma"))))))
 
 (defn getClose
   "Pobiera cen� zamkni�cia sesji pierwszej pozycji z listy"
@@ -256,24 +262,24 @@
 
 (defn liczWskazniki
   "Oblicza wszystkie zaprogramowane wska�niki"
-  []
-  (def listROC10 (liczROC 10 Notowania))
+  [notowania]
+  (def listROC10 (liczROC 10 notowania))
 
-  (def listROC5 (liczROC 5 Notowania))
+  (def listROC5 (liczROC 5 notowania))
   
-  (def listMomentum (liczMomentum 3 Notowania))
+  (def listMomentum (liczMomentum 3 notowania))
 
-  (def listLinSK4 (linSK 4 Notowania))
+  (def listLinSK4 (linSK 4 notowania))
 
-  (def listLinSK9 (linSK 9 Notowania))
+  (def listLinSK9 (linSK 9 notowania))
 
-  (def listLinSK18 (linSK 18 Notowania))
+  (def listLinSK18 (linSK 18 notowania))
 
-  (def listRSI (liczRSI Notowania (liczRS 5 Notowania)))
+  (def listRSI (liczRSI notowania (liczRS 5 notowania)))
 
-  (def listWazSK4 (wazSK 4 Notowania))
+  (def listWazSK4 (wazSK 4 notowania))
 
-  (def listWykSK4 (wykSK 4 Notowania))
+  (def listWykSK4 (wykSK 4 notowania))
   )
 
 (defn checkROC

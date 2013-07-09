@@ -1,16 +1,22 @@
 (ns bachelor.core
   (:require [instaparse.core :as insta]
+            [incanter.charts :as charts]
+            [incanter.core :as incanter]
             [clojure.string :as str]
             [bachelor.wsk :as wsk])
   (:use [clojure.contrib.generic.math-functions]
-        [seesaw.core])
-  ;(:import )  
+        [seesaw.core]
+        [seesaw.font]
+        [seesaw.graphics]
+        [clj-time.coerce])
+  (:import java.io.File)
+  (:import java.io.FileNotFoundException)
   )
-
-(use 'seesaw.font)
 
 (import '(java.io BufferedReader FileReader)
 	'(java.lang String))
+
+(import 'org.jfree.chart.ChartPanel)
 
 (defstruct Company :id :name :session)
 
@@ -141,8 +147,25 @@
     (inference rules (vec (evaluateRules rules facts))))
   )
 
-(wsk/liczWskazniki)
+(defn as-file [s]
+  "Return whatever we have as a java.io.File object"
+  (cond (instance? File s) s ; already a file, return unchanged
+        (string? s) (File. s) ; return java.io.File for path s
+        :else (throw (FileNotFoundException. (str s)))))
+ 
+(defn walk [^File dir]
+  (let [children (.listFiles dir)
+        files (filter #(.isFile %) children)]
+    files))
 
+(defn createCompaniesList
+  "Creates list of companies"
+  [files]
+  (cond
+    (empty? files) ()
+    :else
+    (cons (first (str/split (.getName (first files)) #"\.")) (createCompaniesList (rest files))))
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;
@@ -150,29 +173,43 @@
 
 (native!)
 
-(def content (label "First content"))
-
-(config! content :background :black :foreground :white :font (font :name :monospaced
-                                                                   :style #{:italic}
-                                                                   :size 24))
-
 (def rulesList (listbox :model (for [line (with-open 
                                             [rdr (BufferedReader. (FileReader. "resources/rules.txt"))]
                                             			      (doall (line-seq rdr)))
                                      		       ]
-                                 line)
-                 :listen [:selection (fn [e] (println (selection e)))]))
-
-(def loadList (listbox :model []))
+                                 line)))
 
 (def conclusion (text :text "Naciśnij przycisk Analizuj"
+                      :columns 17
                       :editable? false))
 
-(def loadBtn (button :text "Załaduj notowania"
-                     :listen [:action (fn [e] (config! loadList :model wsk/Notowania))]))
+(def companiesList (combobox :model (createCompaniesList (walk (as-file "resources/notowania")))))
+
+(wsk/liczWskazniki (wsk/createCompany (config companiesList :text)))
+
+(defn x
+  "Creates seq with sessions dates"
+  []
+  (for [line (wsk/createCompany (config companiesList :text))]
+    (to-long (:date (:session line))))
+  )
+
+(defn y
+  "Creates seq with sessions close prices"
+  []
+  (for [line (wsk/createCompany (config companiesList :text))]
+    (:close (:session line)))
+  )
+
+(def graph
+  (ChartPanel. (charts/time-series-plot (x) (y)
+                                        :title (config companiesList :text)
+                                        :x-label "Czas"
+                                        :y-label "Wartość")))
 
 (def inferenceBtn (button :text "Analizuj"
-                          :listen [:action (fn [e] (config! conclusion :text (inference (processRulesFromFile) [])))]))
+                          :listen [:action (fn [e] 
+                                               (config! conclusion :text (inference (processRulesFromFile) [])))]))
 
 (def explainBtn (button :text "Wyjaśnij"))
 
@@ -194,12 +231,21 @@
 
 (def center (grid-panel :border "Notowania"
                         :columns 1
-                        :items [(scrollable loadList)]))
+                        :items [graph]))
 
-(def north-left (grid-panel :border "Spółka"
+(def loadBtn (button :text "Załaduj notowania"
+                     :listen [:action (fn [e] 
+                                        (wsk/liczWskazniki (wsk/createCompany (config companiesList :text)))
+                                        (config! center 
+                                                 :items [(ChartPanel. (charts/time-series-plot (x) (y)
+                                                                                               :title (config companiesList :text)
+                                                                                               :x-label "Czas"
+                                                                                               :y-label "Wartość"))]))]))
+
+(def north-left (grid-panel :border "Aktywa"
                        :columns 2
                        :hgap 5
-                       :items [(text "Nazwa spółki")
+                       :items [companiesList
                                loadBtn]))
 
 (def north-center (grid-panel :border "Wnioskowanie"
@@ -227,7 +273,7 @@
           :vgap 5 :hgap 5 :border 5))
 
 (def f (frame :title "Bachelor",
-               :minimum-size [800 :by 600],
+               :minimum-size [1024 :by 768],
                :content bp,
                :on-close :exit
                ))
