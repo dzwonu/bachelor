@@ -280,6 +280,9 @@
   (def listWazSK4 (wazSK 4 notowania))
 
   (def listWykSK4 (wykSK 4 notowania))
+  
+  (def listVol (for [line notowania]
+                 (:vol (:session line))))
   )
 
 (defn checkROC
@@ -341,21 +344,45 @@
 	(str "Momentum:+")
 	(str "Momentum:-"))
   )
-
+  
 (defn ROC10
-  ""
+  "ROC10 for last session"
   []
   (first listROC10)
   )
 
 (defn ROC5
-  ""
+  "ROC5 for last session"
   []
   (first listROC5)
   )
 
 (defn MOMENTUM3
-  ""
+  "MOMENTUM3 for last session"
   []
   (first listMomentum)
+  )
+
+(defn LASTVOL
+  "Gets last vol value"
+  []
+  (getVol listVol)
+  )
+
+(defn VOL10
+  "Gets vol value for 10th session back"
+  []
+  (nth listVol 10 0)
+  )
+
+(defn VOL20
+  "Gets vol value for 20th session back"
+  []
+  (nth listVol 20 0)
+  )
+
+(defn VOL30
+  "Gets vol value for 30th session back"
+  []
+  (nth listVol 30 0)
   )

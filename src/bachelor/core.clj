@@ -18,14 +18,6 @@
 
 (import 'org.jfree.chart.ChartPanel)
 
-(defstruct Company :id :name :session)
-
-(defstruct Session :open :high :low :close :vol)
-
-(defstruct Fact :short :description)
-
-(defstruct Rule :name :args)
-
 (def grammar
   (insta/parser
     "RULE = EXPR' >> 'FACT
@@ -167,6 +159,7 @@
     (cons (first (str/split (.getName (first files)) #"\.")) (createCompaniesList (rest files))))
   )
 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;
 ; GUI
@@ -184,8 +177,6 @@
                       :editable? false))
 
 (def companiesList (combobox :model (createCompaniesList (walk (as-file "resources/notowania")))))
-
-(wsk/liczWskazniki (wsk/createCompany (config companiesList :text)))
 
 (defn x
   "Creates seq with sessions dates"
@@ -281,6 +272,7 @@
 (defn -main
   "main function - loading gui"
   [& args]
+  (wsk/liczWskazniki (wsk/createCompany (config companiesList :text)))
   (invoke-later
     (-> f
         pack!
