@@ -192,11 +192,25 @@
     (:close (:session line)))
   )
 
+(defn y-vol
+  "Creates seq with sessions vol value:"
+  []
+  (for [line (wsk/createCompany (config companiesList :text))]
+    (:vol (:session line)))
+  )
+
 (def graph
   (ChartPanel. (charts/time-series-plot (x) (y)
                                         :title (config companiesList :text)
                                         :x-label "Czas"
-                                        :y-label "Wartość")))
+                                        :y-label "Wartość"))
+  )
+
+(def graph-vol
+  (ChartPanel. (charts/time-series-plot (x) (y-vol)
+                                        :title "Wolumen"
+                                        ))
+  )
 
 (def inferenceBtn (button :text "Analizuj"
                           :listen [:action (fn [e] 
@@ -222,7 +236,8 @@
 
 (def center (grid-panel :border "Notowania"
                         :columns 1
-                        :items [graph]))
+                        :items [graph
+                                graph-vol]))
 
 (def loadBtn (button :text "Załaduj notowania"
                      :listen [:action (fn [e] 
@@ -231,7 +246,10 @@
                                                  :items [(ChartPanel. (charts/time-series-plot (x) (y)
                                                                                                :title (config companiesList :text)
                                                                                                :x-label "Czas"
-                                                                                               :y-label "Wartość"))]))]))
+                                                                                               :y-label "Wartość"))
+                                                         (ChartPanel. (charts/time-series-plot (x) (y-vol)
+                                                                                               :title "Wolumen"))
+                                                                                               ]))]))
 
 (def north-left (grid-panel :border "Aktywa"
                        :columns 2

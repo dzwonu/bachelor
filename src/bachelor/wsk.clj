@@ -283,6 +283,9 @@
   
   (def listVol (for [line notowania]
                  (:vol (:session line))))
+  
+  (def listClose (for [line notowania]
+                   (:close (:session line)))
   )
 
 (defn checkROC
@@ -386,3 +389,31 @@
   []
   (nth listVol 30 0)
   )
+
+(defn RSI
+  "Gets lat RSI value"
+  []
+  (first listRSI)
+  )
+
+(defn LASTCLOSE
+  "Gets close price from last session"
+  []
+  (first listClose)
+  )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

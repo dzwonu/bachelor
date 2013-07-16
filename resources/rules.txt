@@ -1,5 +1,4 @@
-((f1) and (sell1)) >> sell2
-(f1) >> sell1
-(ROC10 > 104) >> buy
-(ROC5 < 104) >> f1
-((ROC10 > 104) or (sell2)) >> sell
+(RSI > 70) >> rsisell
+(RSI > 95) >> sell
+(RSI < 30) >> rsibuy
+(RSI < 5) >> buy
