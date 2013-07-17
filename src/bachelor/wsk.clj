@@ -101,7 +101,7 @@
   (cond
    (or (empty? lst) (zero? k)) ()
    :else
-   (cons (nth lst k) (getKElements (dec k) (rest lst))))
+   (cons (nth lst (dec k) 0) (getKElements (dec k) lst)))
   )
 
 (defn createMapClose
@@ -285,7 +285,7 @@
                  (:vol (:session line))))
   
   (def listClose (for [line notowania]
-                   (:close (:session line)))
+                   (:close (:session line))))
   )
 
 (defn checkROC
@@ -401,11 +401,156 @@
   []
   (first listClose)
   )
+  
+(defn CLOSE10
+  "Gets close price for 10th session back"
+  []
+  (nth listClose 10 0)
+  )
+  
+(defn CLOSE20
+  "Gets close price for 20th session back"
+  []
+  (nth listClose 20 0)
+  )
+  
+(defn CLOSE30
+  "Gets close price for 30th session back"
+  []
+  (nth listClose 30 0)
+  )
 
+(defn MAX10ROC10
+  "Gets max ROC10 value for last 10 sessions"
+  []
+  (apply max (getKElements 10 listROC10))
+  )
 
+(defn MAX20ROC10
+  "Gets max ROC10 value for last 20 sessions"
+  []
+  (apply max (getKElements 20 listROC10))
+  )
 
+(defn MAX30ROC10
+  "Gets max ROC10 value for last 30 sessions"
+  []
+  (apply max (getKElements 30 listROC10))
+  )
 
+(defn MAX5ROC5
+  "Gets max ROC5 value for last 5 sessions"
+  []
+  (apply max (getKElements 5 listROC5))
+  )
 
+(defn MAX10ROC5
+  "Gets max ROC5 value for last 10 sessions"
+  []
+  (apply max (getKElements 10 listROC5))
+  )
+
+(defn MAX15ROC5
+  "Gets max ROC5 value for last 15 sessions"
+  []
+  (apply max (getKElements 15 listROC5))
+  )
+
+(defn MAX5CLOSE
+  "Gets max close price for last 5 sessions"
+  []
+  (apply max (getKElements 5 listClose))
+  )
+
+(defn MAX10CLOSE
+  "Gets max close price for last 10 sessions"
+  []
+  (apply max (getKElements 10 listClose))
+  )
+
+(defn MAX15CLOSE
+  "Gets max close price for last 15 sessions"
+  []
+  (apply max (getKElements 15 listClose))
+  )
+
+(defn MAX20CLOSE
+  "Gets max close price for last 20 sessions"
+  []
+  (apply max (getKElements 20 listClose))
+  )
+
+(defn MAX30CLOSE
+  "Gets max close price for last 30 sessions"
+  []
+  (apply max (getKElements 30 listClose))
+  )
+
+(defn MIN10ROC10
+  "Gets min ROC10 value for last 10 sessions"
+  []
+  (apply min (getKElements 10 listROC10))
+  )
+
+(defn MIN20ROC10
+  "Gets min ROC10 value for last 20 sessions"
+  []
+  (apply min (getKElements 20 listROC10))
+  )
+
+(defn MIN30ROC10
+  "Gets min ROC10 value for last 30 sessions"
+  []
+  (apply min (getKElements 30 listROC10))
+  )
+
+(defn MIN5ROC5
+  "Gets min ROC5 value for last 5 sessions"
+  []
+  (apply min (getKElements 5 listROC5))
+  )
+
+(defn MIN10ROC5
+  "Gets min ROC5 value for last 10 sessions"
+  []
+  (apply min (getKElements 10 listROC5))
+  )
+
+(defn MIN15ROC5
+  "Gets min ROC5 value for last 15 sessions"
+  []
+  (apply min (getKElements 15 listROC5))
+  )
+
+(defn MIN5CLOSE
+  "Gets min close price for last 5 sessions"
+  []
+  (apply min (getKElements 5 listClose))
+  )
+
+(defn MIN10CLOSE
+  "Gets min close price for last 10 sessions"
+  []
+  (apply min (getKElements 10 listClose))
+  )
+
+(defn MIN15CLOSE
+  "Gets min close price for last 15 sessions"
+  []
+  (apply min (getKElements 15 listClose))
+  )
+
+(defn MIN20CLOSE
+  "Gets min close price for last 20 sessions"
+  []
+  (apply min (getKElements 20 listClose))
+  )
+
+(defn MIN30CLOSE
+  "Gets min close price for last 30 sessions"
+  []
+  (apply min (getKElements 30 listClose))
+  )
 
 
 

@@ -24,8 +24,8 @@
      EXPR = '('EXPR' 'OpL' 'EXPR')' | '('WSK' 'OpA' 'NUM')' | '('WSK' 'OpA' 'WSK')' | '('FACT')'
      OpL = 'and' | 'or'
      OpA = '>' | '<' | '=='
-     WSK = #'[A-Z]+[0-9]*'
-     FACT = #'[a-z]+[0-9]*'
+     WSK = #'[A-Z]+[A-Z0-9]*'
+     FACT = #'[a-z]+[a-z0-9]*'
      NUM = #'[-+]?[0-9]+[.]?[0-9]*|[0-9]+'")
   )
     
@@ -130,14 +130,24 @@
   "evaluates all rules as long as don't get buy or sell conclusion"
   [rules facts]
   (cond
-    (done? facts) (if (buy? facts)
-                    "buy"
-                    "sell")
-    (empty? rules) "no conclusion"
-    (= (count facts) (count (vec (evaluateRules rules facts)))) "no conclusion"
+    (done? facts) facts
+    (empty? rules) facts
+    (= (count facts) (count (vec (evaluateRules rules facts)))) facts
     :else
     (inference rules (vec (evaluateRules rules facts))))
   )
+
+(defn checkFacts
+  "checks if list of facts contains conclusion"
+  [facts]
+  (cond
+    (done? facts) (if (buy? facts)
+                    "buy"
+                    "sell")
+    :else
+    "no conclusion")
+  )
+           
 
 (defn as-file [s]
   "Return whatever we have as a java.io.File object"
@@ -209,18 +219,19 @@
 (def graph-vol
   (ChartPanel. (charts/time-series-plot (x) (y-vol)
                                         :title "Wolumen"
+                                        :x-label "Czas"
+                                        :y-label "Wartość"
                                         ))
   )
 
+(def explanation (listbox :model []))
+
 (def inferenceBtn (button :text "Analizuj"
                           :listen [:action (fn [e] 
-                                               (config! conclusion :text (inference (processRulesFromFile) [])))]))
+                                             (config! explanation :model (reverse (inference (processRulesFromFile) [])))
+                                             (config! conclusion :text (checkFacts (inference (processRulesFromFile) []))))]))
 
 (def explainBtn (button :text "Wyjaśnij"))
-
-(def explanation (text :multi-line? true
-                       :font "MONOSPACED-PLAIN-14"
-                       :text "Wyjaśnienie \nprocesu \nwnioskowania"))
 
 (def tb (toolbar :orientation :horizontal
                  :floatable? false
@@ -248,7 +259,9 @@
                                                                                                :x-label "Czas"
                                                                                                :y-label "Wartość"))
                                                          (ChartPanel. (charts/time-series-plot (x) (y-vol)
-                                                                                               :title "Wolumen"))
+                                                                                               :title "Wolumen"
+                                                                                               :x-label "Czas"
+                                                                                               :y-label "Wartość"))
                                                                                                ]))]))
 
 (def north-left (grid-panel :border "Aktywa"
