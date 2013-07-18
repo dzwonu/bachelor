@@ -151,6 +151,78 @@
    (+ k (sumWeightsWaz (dec k))))
   )
 
+(defn typicalPrice
+  "Calculates typical price for session"
+  [session]
+  (/ (+ (:high session) (:low session) (:close session)) 3)
+  )
+
+(defn moneyFlow
+  "Calculates money flow for session"
+  [session]
+  (* (typicalPrice session) (:vol session))
+  )
+
+(defn posMoneyFlow
+  "Calculates positive money flow for k sessions"
+  [k lst]
+  (cond
+    (empty? lst) 0
+    (zero? k) 0
+    (= (count lst) 1) 0
+    (> (typicalPrice (:session (first lst))) (typicalPrice (:session (first (rest lst))))) (+ (moneyFlow (:session (first lst))) (posMoneyFlow (dec k) (rest lst)))
+    :else
+    (+ 0 (posMoneyFlow (dec k) (rest lst))))
+  )
+
+(defn negMoneyFlow
+  "Calculates negative money flow for k sessions"
+  [k lst]
+  (cond
+    (empty? lst) 0
+    (zero? k) 0
+    (= (count lst) 1) 0
+    (< (typicalPrice (:session (first lst))) (typicalPrice (:session (first (rest lst))))) (+ (moneyFlow (:session (first lst))) (negMoneyFlow (dec k) (rest lst)))
+    :else
+    (+ 0 (negMoneyFlow (dec k) (rest lst))))
+  )
+
+(defn mfi
+  "Calculates money flow index for last k sessions"
+  [k lst]
+  (* 100 (/ (posMoneyFlow k lst) (+ (posMoneyFlow k lst) (negMoneyFlow k lst))))
+  )
+
+(defn TR
+  "Calculates True Range"
+  [previous actual]
+  (max (abs (- (:high actual) (:low actual)))
+       (abs (- (:close previous) (:high actual)))
+       (abs (- (:close previous) (:low actual))))
+  )
+
+(defn sumTR
+  "Sums True Range for last k sessions"
+  [k lst]
+  (cond
+    (empty? lst) 0
+    (zero? k) 0
+    (= (count lst) 1) 0
+    :else
+    (+ (TR (:session (first (rest lst))) (:session (first lst)))
+       (sumTR (dec k) (rest lst))))
+  )
+
+(defn atr
+  "Calculates Average True Range for k sessions"
+  [k lst]
+  (cond
+    (empty? lst) 0
+    (zero? k) 0
+    :else
+    (/ (sumTR k lst) k))
+  )
+
 (defn alfa
   "Wylicza wsp�czynnik alfa dla wyk�adniczej �redniej krocz�cej"
   [k]
@@ -230,6 +302,39 @@
    (cons (- 100 (/ 100 (inc (first rs)))) (liczRSI (rest lst) (rest rs))))
   )
 
+(defn CLV
+  "Calculates CLV - close location value"
+  [session]
+  (if (zero? (- (:high session) (:low session)))
+    (/ (- (- (:close session) (:low session)) (- (:high session) (:close session))) 0.01)
+    (/ (- (- (:close session) (:low session)) (- (:high session) (:close session))) (- (:high session) (:low session))))
+  )
+
+(defn VOLxCLV
+  "Multiply vol and CLV"
+  [lst]
+  (cond
+    (empty? lst) ()
+    :else
+    (cons (* (:vol (:session (first lst))) (CLV (:session (first lst)))) (VOLxCLV (rest lst))))
+  )
+
+(defn Accum
+  "Calculates Accumulation/Distribution index"
+  [lst]
+  (cond
+    (empty? lst) ()
+    (= (count lst) 1) (cons (first lst)
+                            (Accum (rest lst)) 
+                            )
+    :else
+    (cons (+ 
+            (first (rest lst))
+            (first lst))
+          (Accum (rest lst)) 
+          ))
+  )
+
 (defn printList
   [lst]
   (cond
@@ -280,6 +385,20 @@
   (def listWazSK4 (wazSK 4 notowania))
 
   (def listWykSK4 (wykSK 4 notowania))
+  
+  (def listAccum (Accum (VOLxCLV notowania)))
+  
+  (def mfi10 (mfi 10 notowania))
+  
+  (def mfi20 (mfi 20 notowania))
+  
+  (def mfi30 (mfi 30 notowania))
+  
+  (def atr10 (atr 10 notowania))
+  
+  (def atr20 (atr 20 notowania))
+  
+  (def atr30 (atr 30 notowania))
   
   (def listVol (for [line notowania]
                  (:vol (:session line))))
@@ -552,6 +671,83 @@
   (apply min (getKElements 30 listClose))
   )
 
+(defn MAX10ACCUM
+  "Gets max value for Accumulation/Distribution index for last 10 sessions"
+  []
+  (apply max (getKElements 10 listAccum))
+  )
+
+(defn MAX20ACCUM
+  "Gets max value for Accumulation/Distribution index for last 20 sessions"
+  []
+  (apply max (getKElements 20 listAccum))
+  )
+
+(defn MAX30ACCUM
+  "Gets max value for Accumulation/Distribution index for last 30 sessions"
+  []
+  (apply max (getKElements 30 listAccum))
+  )
+
+(defn MIN10ACCUM
+  "Gets min value for Accumulation/Distribution index for last 10 sessions"
+  []
+  (apply min (getKElements 10 listAccum))
+  )
+
+(defn MIN20ACCUM
+  "Gets min value for Accumulation/Distribution index for last 20 sessions"
+  []
+  (apply min (getKElements 20 listAccum))
+  )
+
+(defn MIN30ACCUM
+  "Gets min value for Accumulation/Distribution index for last 30 sessions"
+  []
+  (apply min (getKElements 30 listAccum))
+  )
+
+(defn LASTACCUM
+  "Gets last value for Accumulation/Distribution index"
+  []
+  (first listAccum)
+  )
+
+(defn MFI10
+  "Gets MFI value for k = 10"
+  []
+  mfi10
+  )
+
+(defn MFI20
+  "Gets MFI value for k = 20"
+  []
+  mfi20
+  )
+
+(defn MFI30
+  "Gets MFI value for k = 30"
+  []
+  mfi30
+  )
+
+(defn ATR10PERCENT
+  "Gets what percent of last close price is ATR10"
+  []
+  (* 100 (/ atr10 (LASTCLOSE)))
+  )
+
+(defn ATR20PERCENT
+  "Gets what percent of last close price is ATR20"
+  []
+  (* 100 (/ atr20 (LASTCLOSE)))
+  )
+
+(defn ATR30PERCENT
+  "Gets what percent of last close price is ATR30"
+  []
+  (* 100 (/ atr30 (LASTCLOSE)))
+  )
 
 
 
