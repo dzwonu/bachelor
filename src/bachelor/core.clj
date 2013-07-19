@@ -149,13 +149,15 @@
   )
            
 
-(defn as-file [s]
+(defn as-file
   "Return whatever we have as a java.io.File object"
+  [s]
   (cond (instance? File s) s ; already a file, return unchanged
         (string? s) (File. s) ; return java.io.File for path s
         :else (throw (FileNotFoundException. (str s)))))
  
-(defn walk [^File dir]
+(defn walk
+  [^File dir]
   (let [children (.listFiles dir)
         files (filter #(.isFile %) children)]
     files))
@@ -228,10 +230,11 @@
 
 (def inferenceBtn (button :text "Analizuj"
                           :listen [:action (fn [e] 
-                                             (config! explanation :model (reverse (inference (processRulesFromFile) [])))
                                              (config! conclusion :text (checkFacts (inference (processRulesFromFile) []))))]))
 
-(def explainBtn (button :text "Wyjaśnij"))
+(def explainBtn (button :text "Wyjaśnij"
+                        :listen [:action (fn [e]
+                                           (config! explanation :model (reverse (inference (processRulesFromFile) []))))]))
 
 (def tb (toolbar :orientation :horizontal
                  :floatable? false
@@ -245,24 +248,29 @@
                       :columns 1
                       :items [(scrollable explanation)]))
 
+(def center-split (top-bottom-split graph graph-vol :divider-location 3/4))
+
 (def center (grid-panel :border "Notowania"
                         :columns 1
-                        :items [graph
-                                graph-vol]))
+                        :items [center-split]))
 
 (def loadBtn (button :text "Załaduj notowania"
                      :listen [:action (fn [e] 
                                         (wsk/liczWskazniki (wsk/createCompany (config companiesList :text)))
+                                        (config! conclusion :text "Naciśnij przycisk Analizuj")
+                                        (config! explanation :model [])
                                         (config! center 
-                                                 :items [(ChartPanel. (charts/time-series-plot (x) (y)
-                                                                                               :title (config companiesList :text)
-                                                                                               :x-label "Czas"
-                                                                                               :y-label "Wartość"))
-                                                         (ChartPanel. (charts/time-series-plot (x) (y-vol)
-                                                                                               :title "Wolumen"
-                                                                                               :x-label "Czas"
-                                                                                               :y-label "Wartość"))
-                                                                                               ]))]))
+                                                 :items [(top-bottom-split
+                                                           (ChartPanel. (charts/time-series-plot (x) (y)
+                                                                                                 :title (config companiesList :text)
+                                                                                                 :x-label "Czas"
+                                                                                                 :y-label "Wartość"))
+                                                           (ChartPanel. (charts/time-series-plot (x) (y-vol)
+                                                                                                 :title "Wolumen"
+                                                                                                 :x-label "Czas"
+                                                                                                 :y-label "Wartość"))
+                                                           :divider-location 3/4)
+                                                         ]))]))
 
 (def north-left (grid-panel :border "Aktywa"
                        :columns 2
@@ -287,7 +295,7 @@
                                north-right]))
 
 (def bp (border-panel
-          :south tb
+          ;:south tb
           :west west
           :east east
           :north north

@@ -76,3 +76,9 @@
 (ATR10PERCENT > 5) >> atr10highvolatility
 (ATR20PERCENT > 5) >> atr20highvolatility
 (ATR30PERCENT > 5) >> atr30highvolatility
+((DAYS10EMA12CUTEMA26 > 0) and (DAYS10EMA26CUTEMA12 == 0)) >> ema12buy
+((DAYS10EMA26CUTEMA12 > 0) and (DAYS10EMA12CUTEMA26 == 0)) >> ema12sell
+(((rsibuy) and (risingtrendmediumtime)) and ((accumbuy) and (ema12buy))) >> buy
+(((rsisell) and (fallingtrendmediumtime)) and ((accumsell) and (ema12sell))) >> sell
+((DAYS10MACDCUTSIGNAL > 0) and (DAYS10SIGNALCUTMACD == 0)) >> macdbuy
+((DAYS10SIGNALCUTMACD > 0) and (DAYS10MACDCUTSIGNAL == 0)) >> macdsell

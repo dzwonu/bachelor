@@ -8,7 +8,7 @@
 (import '(java.io BufferedReader FileReader)
 	'(java.lang String))
 
-(defstruct Company :id :name :session)
+(defstruct Company :name :session)
 
 (defstruct Session :date :open :high :low :close :vol)
 
@@ -24,11 +24,11 @@
 
 (defn processFileLine
   "Przetwarza linie z pliku do postaci uzywanej w aplikacji"
-  [ind line]
+  [line]
   ;(println line)
   (let [[name date open high low close vol] (str/split line #",")]
     (def s (struct Session (parseDate date) (read-string open) (read-string high) (read-string low) (read-string close) (read-string vol)))
-    (def c (struct Company ind name s)))
+    (def c (struct Company name s)))
   c
   )
 
@@ -45,7 +45,7 @@
   (reverse (for [line (with-open [rdr (BufferedReader. (FileReader. (str "resources/notowania/" company ".mst")))]
 			      (doall (rest (line-seq rdr))))
 		       ]
-		   (processFileLine 0 line)))
+		   (processFileLine line)))
   )
 
 (defn printNotowania
@@ -248,6 +248,16 @@
    (+ (* (getClose lst) (pow (- 1 (alfa k)) n)) (multiplyWeightsWyk k (inc n) (rest lst))))
   )
 
+(defn multiplyWeightsWykMACD
+  "Mno�y ceny przez wagi wyk�adnicze"
+  [k n lst]
+  (cond
+   (empty? lst) 0
+   (< k n) 0
+   :else
+   (+ (* (first lst) (pow (- 1 (alfa k)) n)) (multiplyWeightsWykMACD k (inc n) (rest lst))))
+  )
+
 (defn wykSK
   "Wylicza wyk�adnicz� �redni� krocz�c� dla k sesji"
   [k lst]
@@ -365,6 +375,41 @@
    (cons (/ (reduce + (createMapClose (getKElements k lst))) k) (linSK k (rest lst))))
   )
 
+(defn checkSK
+  "Checks how many times first SK cuts from bottom second SK in last k days"
+  [sk1 sk2 k]
+  (cond
+    (or (empty? sk1) (empty? sk2)) 0
+    (or (empty? (rest sk1)) (empty? (rest sk2))) 0
+    (zero? k) 0
+    :else
+    (if (and
+          (< (first (rest sk1)) (first (rest sk2)))
+          (> (first sk1) (first sk2)))
+      (inc (checkSK (rest sk1) (rest sk2) (dec k)))
+      (checkSK (rest sk1) (rest sk2) (dec k)))
+    )
+  )
+
+(defn lineMACD
+  "Calculates MACD line"
+  [ema12 ema26]
+  (cond
+    (or (empty? ema12) (empty? ema26)) ()
+    :else
+    (cons (- (first ema26) (first ema12)) (lineMACD (rest ema12) (rest ema26))))
+  )
+
+(defn signalLine
+  "Wylicza linię sygnału"
+  [k lst]
+  (cond
+   (empty? lst) ()
+   (>= k (count lst)) (cons 0 (signalLine k (rest lst)))
+   :else
+   (cons (/ (multiplyWeightsWykMACD k 0 lst) (sumWeightsWyk k k)) (signalLine k (rest lst))))
+  )
+
 (defn liczWskazniki
   "Oblicza wszystkie zaprogramowane wska�niki"
   [notowania]
@@ -386,6 +431,10 @@
 
   (def listWykSK4 (wykSK 4 notowania))
   
+  (def listWykSK12 (wykSK 12 notowania))
+  
+  (def listWykSK26 (wykSK 26 notowania))
+  
   (def listAccum (Accum (VOLxCLV notowania)))
   
   (def mfi10 (mfi 10 notowania))
@@ -399,6 +448,10 @@
   (def atr20 (atr 20 notowania))
   
   (def atr30 (atr 30 notowania))
+  
+  (def macd (lineMACD listWykSK12 listWykSK26))
+  
+  (def sigLine (signalLine 9 macd))
   
   (def listVol (for [line notowania]
                  (:vol (:session line))))
@@ -749,12 +802,29 @@
   (* 100 (/ atr30 (LASTCLOSE)))
   )
 
+(defn DAYS10EMA12CUTEMA26
+  "Gets how many times EMA12 cuts EMA26 from bottom in last 10 days"
+  []
+  (checkSK listWykSK12 listWykSK26 10)
+  )
 
+(defn DAYS10EMA26CUTEMA12
+  "Gets how many times EMA26 cuts EMA12 from bottom in last 10 days"
+  []
+  (checkSK listWykSK26 listWykSK12 10)
+  )
 
+(defn DAYS10MACDCUTSIGNAL
+  "Gets how many times MACD line cuts signal line from bottom in last 10 days"
+  []
+  (checkSK macd sigLine 10)
+  )
 
-
-
-
+(defn DAYS10SIGNALCUTMACD
+  "Gets how many times signal line cuts MACD line from bottom in last 10 days"
+  []
+  (checkSK sigLine macd 10)
+  )
 
 
 
