@@ -185,48 +185,114 @@
                                  line)))
 
 (def conclusion (text :text "Naciśnij przycisk Analizuj"
-                      :columns 17
                       :editable? false))
+
+(def explanation (listbox :model []))
 
 (def companiesList (combobox :model (createCompaniesList (walk (as-file "resources/notowania")))))
 
+(def sessions (combobox :model ["All" 15 30 45 60 90 150 200 250]))
+
+(def vol (checkbox :selected? true))
+
 (defn x
-  "Creates seq with sessions dates"
-  []
-  (for [line (wsk/createCompany (config companiesList :text))]
-    (to-long (:date (:session line))))
+  "Creates seq with sessions dates for last k sessions"
+  [k lst]
+  (cond
+    (= (str k) "All") (for [line lst]
+                        (to-long (:date (:session line))))
+    (empty? lst) ()
+    (zero? k) ()
+    :else
+    (cons (to-long (:date (:session (first lst)))) (x (dec k) (rest lst))))
   )
 
 (defn y
-  "Creates seq with sessions close prices"
-  []
-  (for [line (wsk/createCompany (config companiesList :text))]
-    (:close (:session line)))
+  "Creates seq with sessions close prices from last k sessions"
+  [k lst]
+  (cond
+    (= (str k) "All") (for [line lst]
+                        (:close (:session line)))
+    (empty? lst) ()
+    (zero? k) ()
+    :else
+    (cons (:close (:session (first lst))) (y (dec k) (rest lst))))
   )
 
 (defn y-vol
-  "Creates seq with sessions vol value:"
-  []
-  (for [line (wsk/createCompany (config companiesList :text))]
-    (:vol (:session line)))
+  "Creates seq with sessions vol value from last k sessions"
+  [k lst]
+  (cond
+    (= (str k) "All") (for [line lst]
+                        (/ (:vol (:session line)) 1000))
+    (empty? lst) ()
+    (zero? k) ()
+    :else
+    (cons (/ (:vol (:session (first lst))) 1000) (y-vol (dec k) (rest lst))))
   )
 
 (def graph
-  (ChartPanel. (charts/time-series-plot (x) (y)
+  (ChartPanel. (charts/time-series-plot (x (read-string (config sessions :text)) (wsk/createCompany (config companiesList :text))) 
+                                        (y (read-string (config sessions :text)) (wsk/createCompany (config companiesList :text)))
                                         :title (config companiesList :text)
                                         :x-label "Czas"
-                                        :y-label "Wartość"))
+                                        :y-label "Wartość [zł]"))
   )
 
 (def graph-vol
-  (ChartPanel. (charts/time-series-plot (x) (y-vol)
+  (ChartPanel. (charts/time-series-plot (x (read-string (config sessions :text)) (wsk/createCompany (config companiesList :text))) 
+                                        (y-vol (read-string (config sessions :text)) (wsk/createCompany (config companiesList :text)))
                                         :title "Wolumen"
                                         :x-label "Czas"
-                                        :y-label "Wartość"
+                                        :y-label "Ilość [tyś.]"
                                         ))
   )
 
-(def explanation (listbox :model []))
+(def center-split (top-bottom-split graph graph-vol :divider-location 3/4))
+
+(def center (grid-panel :border "Notowania"
+                        :columns 1
+                        :items [center-split]))
+
+(defn drawGraphs
+  "Draws graphs"
+  []
+  (if (selection vol)
+    (config! center 
+             :items [(top-bottom-split
+                       (ChartPanel. (charts/time-series-plot (x (read-string (config sessions :text)) (wsk/createCompany (config companiesList :text))) 
+                                                             (y (read-string (config sessions :text)) (wsk/createCompany (config companiesList :text)))
+                                                             :title (config companiesList :text)
+                                                             :x-label "Czas"
+                                                             :y-label "Wartość [zł]"))
+                       (ChartPanel. (charts/time-series-plot (x (read-string (config sessions :text)) (wsk/createCompany (config companiesList :text))) 
+                                                             (y-vol (read-string (config sessions :text)) (wsk/createCompany (config companiesList :text)))
+                                                             :title "Wolumen"
+                                                             :x-label "Czas"
+                                                             :y-label "Ilość [tyś.]"))
+                       :divider-location 3/4)
+                     ])
+    (config! center 
+             :items [(ChartPanel. (charts/time-series-plot (x (read-string (config sessions :text)) (wsk/createCompany (config companiesList :text))) 
+                                                           (y (read-string (config sessions :text)) (wsk/createCompany (config companiesList :text)))
+                                                           :title (config companiesList :text)
+                                                           :x-label "Czas"
+                                                           :y-label "Wartość [zł]"))
+                     ])
+    )
+  )
+
+(listen companiesList :selection (fn [e]
+                                   (wsk/liczWskazniki (wsk/createCompany (config companiesList :text)))
+                                   (config! conclusion :text "Naciśnij przycisk Analizuj")
+                                   (config! explanation :model [])
+                                   (drawGraphs)))
+
+(listen sessions :selection (fn [e]
+                              (drawGraphs)))
+
+(listen vol :selection (fn [e]
+                         (drawGraphs)))
 
 (def inferenceBtn (button :text "Analizuj"
                           :listen [:action (fn [e] 
@@ -248,58 +314,46 @@
                       :columns 1
                       :items [(scrollable explanation)]))
 
-(def center-split (top-bottom-split graph graph-vol :divider-location 3/4))
-
-(def center (grid-panel :border "Notowania"
+(def Aktywa (grid-panel :border "Aktywa"
                         :columns 1
-                        :items [center-split]))
+                        :hgap 5
+                        :items [companiesList]))
 
-(def loadBtn (button :text "Załaduj notowania"
-                     :listen [:action (fn [e] 
-                                        (wsk/liczWskazniki (wsk/createCompany (config companiesList :text)))
-                                        (config! conclusion :text "Naciśnij przycisk Analizuj")
-                                        (config! explanation :model [])
-                                        (config! center 
-                                                 :items [(top-bottom-split
-                                                           (ChartPanel. (charts/time-series-plot (x) (y)
-                                                                                                 :title (config companiesList :text)
-                                                                                                 :x-label "Czas"
-                                                                                                 :y-label "Wartość"))
-                                                           (ChartPanel. (charts/time-series-plot (x) (y-vol)
-                                                                                                 :title "Wolumen"
-                                                                                                 :x-label "Czas"
-                                                                                                 :y-label "Wartość"))
-                                                           :divider-location 3/4)
-                                                         ]))]))
+(def Wykres (grid-panel :border "Wykres"
+                        :columns 4
+                        :hgap 5
+                        :items [(label "Liczba sesji") sessions
+                                (label "Wolumen?") vol]))
 
-(def north-left (grid-panel :border "Aktywa"
-                       :columns 2
-                       :hgap 5
-                       :items [companiesList
-                               loadBtn]))
+(def north-left (grid-panel :columns 2
+                            :items [Aktywa
+                                    Wykres]))
 
-(def north-center (grid-panel :border "Wnioskowanie"
-                       :columns 2
-                       :hgap 5
-                       :items [inferenceBtn
-                               explainBtn]))
+(def Wnioskowanie (grid-panel :border "Wnioskowanie"
+                              :columns 2
+                              :hgap 5
+                              :items [inferenceBtn
+                                      explainBtn]))
 
-(def north-right (grid-panel :border "Wniosek"
-                             :columns 1
-                             :items [conclusion]))
+(def Wniosek (grid-panel :border "Wniosek"
+                         :columns 1
+                         :items [conclusion]))
 
-(def north (flow-panel :align :left
-                       :hgap 30
+(def north-right (grid-panel :columns 2
+                             :items [Wnioskowanie
+                                     Wniosek]))
+
+(def north (grid-panel :columns 2
+                       :hgap 100
                        :items [north-left
-                               north-center
                                north-right]))
 
 (def bp (border-panel
           ;:south tb
-          :west west
+          :west center
           :east east
           :north north
-          :center center
+          :center west
           :vgap 5 :hgap 5 :border 5))
 
 (def f (frame :title "Bachelor",
