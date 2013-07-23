@@ -14,7 +14,7 @@
   )
 
 (import '(java.io BufferedReader FileReader)
-	'(java.lang String))
+        	'(java.lang String))
 
 (import 'org.jfree.chart.ChartPanel)
 
@@ -55,10 +55,10 @@
                                expr2 (parse-expr (get expr 6) arg)]
                               (list opl expr1 expr2))
         (= :FACT part1-type) (let
-                              [fact (str part1-val)
-                               bool (symbol "boolean")
-                               some (symbol "some")]
-                              (list bool (list some #{fact} arg)))
+                               [fact (str part1-val)
+                                bool (symbol "boolean")
+                                some (symbol "some")]
+                               (list bool (list some #{fact} arg)))
         :else
         ())
       )
@@ -357,10 +357,10 @@
           :vgap 5 :hgap 5 :border 5))
 
 (def f (frame :title "Bachelor",
-               :minimum-size [1024 :by 768],
-               :content bp,
-               :on-close :exit
-               ))
+              :minimum-size [1024 :by 768],
+              :content bp,
+              :on-close :exit
+              ))
 
 (defn -main
   "main function - loading gui"
