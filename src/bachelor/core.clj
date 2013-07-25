@@ -251,8 +251,7 @@
 
 (def center-split (top-bottom-split graph graph-vol :divider-location 3/4))
 
-(def center (grid-panel :border "Notowania"
-                        :columns 1
+(def center (flow-panel :border "Notowania"
                         :items [center-split]))
 
 (defn drawGraphs
@@ -297,6 +296,9 @@
 
 (def link (text :text "http://bossa.pl/pub/ciagle/mstock/mstcgl.zip"))
 
+(def progress (progress-bar :min 0
+                            :max 100))
+
 (def getFromLink (button :text "Pobierz"
                          :listen [:action (fn [e] 
                                             (download/downloadZip (config link :text))
@@ -304,13 +306,9 @@
                                             (def tempSelection (selection companiesList :text))
                                             (config! companiesList :model (createCompaniesList (walk (as-file "resources/notowania"))))
                                             (selection! companiesList tempSelection)
-                                            (wsk/createCompany (config companiesList :text))
+                                            (wsk/liczWskazniki (wsk/createCompany (config companiesList :text)))
                                             (drawGraphs)
-                                            (show! (pack! (dialog :title "Done"
-                                                                  :content (label :text "Notowania pobrane poprawnie"
-                                                                                  :h-text-position :center
-                                                                                  :v-text-position :center)
-                                                                  :option-type :default))))]))
+                                            (alert "Notowania pobrane poprawnie"))]))
 
 (def inferenceBtn (button :text "Analizuj"
                           :listen [:action (fn [e] 
@@ -324,52 +322,47 @@
                  :floatable? false
                  :items ["Pasek stanu"]))
 
-(def west (grid-panel :border "Reguły"
-                      :columns 1
+(def west (flow-panel :border "Reguły"
+                      :hgap 5
                       :items [(scrollable rulesList)]))
 
-(def east (grid-panel :border "Wyjaśnienie"
-                      :columns 1
-                      :items [(scrollable explanation)]))
-
-(def Aktywa (grid-panel :border "Aktywa"
-                        :columns 1
+(def Aktywa (flow-panel :border "Aktywa"
                         :hgap 5
                         :items [companiesList]))
 
-(def Wykres (grid-panel :border "Wykres"
-                        :columns 4
-                        :hgap 5
-                        :items ["Liczba sesji" sessions
-                                "Wolumen?" vol]))
+(def Wykres (flow-panel :border "Wykres"
+                                :hgap 5
+                                :items ["Liczba sesji" sessions
+                                        "Wolumen?" vol]))
 
-(def Notowania (grid-panel :border "Notowania"
-                           :columns 2
+(def Notowania (flow-panel :border "Notowania"
                            :hgap 5
                            :items [link
-                                   getFromLink]))
+                                   getFromLink
+                                   progress]))
 
-(def north-left (flow-panel :items [Aktywa
-                                    Wykres
-                                    Notowania]))
+(def north (flow-panel :align :left
+                       :hgap 10
+                       :items [Aktywa
+                               Wykres
+                               Notowania]))
 
-(def Wnioskowanie (grid-panel :border "Wnioskowanie"
-                              :columns 2
-                              :hgap 5
+(def Wnioskowanie (horizontal-panel :border "Wnioskowanie"
+                              ;:hgap 5
                               :items [inferenceBtn
                                       explainBtn]))
 
-(def Wniosek (grid-panel :border "Wniosek"
-                         :columns 1
+(def Wniosek (vertical-panel :border "Wniosek"
+                         ;:hgap 5
                          :items [conclusion]))
 
-(def north-right (flow-panel :align :right
-                             :items [Wnioskowanie
-                                     Wniosek]))
+(def Wyjasnienie (vertical-panel :border "Wyjaśnienie"
+                             ;:hgap 5
+                             :items [(scrollable explanation)]))
 
-(def north (grid-panel :columns 2
-                       :items [north-left
-                               north-right]))
+(def east (grid-panel :items [Wnioskowanie
+                                  Wniosek
+                                  Wyjasnienie]))
 
 (def bp (border-panel
           ;:south tb
@@ -377,7 +370,7 @@
           :east east
           :north north
           :center center
-          :vgap 5 :hgap 5 :border 5))
+          :vgap 5 :hgap 10 :border 5))
 
 (def f (frame :title "Bachelor",
               :minimum-size [1024 :by 768],
