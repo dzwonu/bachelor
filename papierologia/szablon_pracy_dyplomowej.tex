@@ -1,0 +1,33 @@
+\documentclass[a4paper,12pt,twoside]{book}
+
+\usepackage{praca_dyplomowa}
+
+\author{Maciej Dzwonnikk}
+\title{System ekspertowy do oceny spółek giełdowych za pomocą analizy technicznej}
+
+\begin{document}
+\frontmatter
+\input{0_strona_tytulowa}
+\tableofcontents
+
+\mainmatter
+\pagestyle{headings}
+\input{1_wstep}
+\input{2_teoria}
+\input{3_nowa_teoria}
+\input{4_narzedzia}
+\input{5_badania}
+\input{6_podsumowanie}
+
+\bibliographystyle{plplain}
+\bibliography{bibliografia}
+
+\appendix
+\renewcommand{\chaptermark}[1]{%
+\markboth{\MakeUppercase{%
+DODATEK \thechapter.%
+\ }}{}}
+\input{a_latex}
+\input{b_cd}
+
+\end{document}

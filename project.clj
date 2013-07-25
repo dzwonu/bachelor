@@ -9,5 +9,6 @@
                  [org.clojure/tools.trace "0.7.3"]
                  [seesaw "1.4.3"]
                  [incanter "1.5.1"]
-                 [clj-time "0.5.1"]]
+                 [clj-time "0.5.1"]
+                 [clj-http "0.7.6"]]
   :main bachelor.core)

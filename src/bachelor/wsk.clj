@@ -25,7 +25,6 @@
 (defn processFileLine
   "Przetwarza linie z pliku do postaci uzywanej w aplikacji"
   [line]
-  ;(println line)
   (let [[name date open high low close vol] (str/split line #",")]
     (def s (struct Session (parseDate date) (read-string open) (read-string high) (read-string low) (read-string close) (read-string vol)))
     (def c (struct Company name s)))
@@ -45,7 +44,9 @@
   (reverse (for [line (with-open [rdr (BufferedReader. (FileReader. (str "resources/notowania/" company ".mst")))]
                                  (doall (rest (line-seq rdr))))
                  ]
-             (processFileLine line)))
+             (if (not (empty? line))
+               (processFileLine line)
+               )))
   )
 
 (defn printNotowania

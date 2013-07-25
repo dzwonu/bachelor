@@ -3,7 +3,8 @@
             [incanter.charts :as charts]
             [incanter.core :as incanter]
             [clojure.string :as str]
-            [bachelor.wsk :as wsk])
+            [bachelor.wsk :as wsk]
+            [bachelor.download :as download])
   (:use [clojure.contrib.generic.math-functions]
         [seesaw.core]
         [seesaw.font]
@@ -236,7 +237,7 @@
                                         (y (read-string (config sessions :text)) (wsk/createCompany (config companiesList :text)))
                                         :title (config companiesList :text)
                                         :x-label "Czas"
-                                        :y-label "Wartość [zł]"))
+                                        :y-label "Wartość [zł | pkt]"))
   )
 
 (def graph-vol
@@ -264,7 +265,7 @@
                                                              (y (read-string (config sessions :text)) (wsk/createCompany (config companiesList :text)))
                                                              :title (config companiesList :text)
                                                              :x-label "Czas"
-                                                             :y-label "Wartość [zł]"))
+                                                             :y-label "Wartość [zł | pkt]"))
                        (ChartPanel. (charts/time-series-plot (x (read-string (config sessions :text)) (wsk/createCompany (config companiesList :text))) 
                                                              (y-vol (read-string (config sessions :text)) (wsk/createCompany (config companiesList :text)))
                                                              :title "Wolumen"
@@ -277,7 +278,7 @@
                                                            (y (read-string (config sessions :text)) (wsk/createCompany (config companiesList :text)))
                                                            :title (config companiesList :text)
                                                            :x-label "Czas"
-                                                           :y-label "Wartość [zł]"))
+                                                           :y-label "Wartość [zł | pkt]"))
                      ])
     )
   )
@@ -293,6 +294,23 @@
 
 (listen vol :selection (fn [e]
                          (drawGraphs)))
+
+(def link (text :text "http://bossa.pl/pub/ciagle/mstock/mstcgl.zip"))
+
+(def getFromLink (button :text "Pobierz"
+                         :listen [:action (fn [e] 
+                                            (download/downloadZip (config link :text))
+                                            (download/walkZip "resources/mstcgl.zip")
+                                            (def tempSelection (selection companiesList :text))
+                                            (config! companiesList :model (createCompaniesList (walk (as-file "resources/notowania"))))
+                                            (selection! companiesList tempSelection)
+                                            (wsk/createCompany (config companiesList :text))
+                                            (drawGraphs)
+                                            (show! (pack! (dialog :title "Done"
+                                                                  :content (label :text "Notowania pobrane poprawnie"
+                                                                                  :h-text-position :center
+                                                                                  :v-text-position :center)
+                                                                  :option-type :default))))]))
 
 (def inferenceBtn (button :text "Analizuj"
                           :listen [:action (fn [e] 
@@ -322,12 +340,18 @@
 (def Wykres (grid-panel :border "Wykres"
                         :columns 4
                         :hgap 5
-                        :items [(label "Liczba sesji") sessions
-                                (label "Wolumen?") vol]))
+                        :items ["Liczba sesji" sessions
+                                "Wolumen?" vol]))
 
-(def north-left (grid-panel :columns 2
-                            :items [Aktywa
-                                    Wykres]))
+(def Notowania (grid-panel :border "Notowania"
+                           :columns 2
+                           :hgap 5
+                           :items [link
+                                   getFromLink]))
+
+(def north-left (flow-panel :items [Aktywa
+                                    Wykres
+                                    Notowania]))
 
 (def Wnioskowanie (grid-panel :border "Wnioskowanie"
                               :columns 2
@@ -339,21 +363,20 @@
                          :columns 1
                          :items [conclusion]))
 
-(def north-right (grid-panel :columns 2
+(def north-right (flow-panel :align :right
                              :items [Wnioskowanie
                                      Wniosek]))
 
 (def north (grid-panel :columns 2
-                       :hgap 100
                        :items [north-left
                                north-right]))
 
 (def bp (border-panel
           ;:south tb
-          :west center
+          ;:west center
           :east east
           :north north
-          :center west
+          :center center
           :vgap 5 :hgap 5 :border 5))
 
 (def f (frame :title "Bachelor",
