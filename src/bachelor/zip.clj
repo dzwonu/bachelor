@@ -1,4 +1,4 @@
-(ns bachelor.download
+(ns bachelor.zip
   (:require [clojure.string :as str]
             [clojure.java.io :as io]
             [clj-http.client :as client])
@@ -32,13 +32,4 @@
   [zip entry]
   (with-open [w (io/writer (str "resources/notowania/" (.getName entry)))]
              (.write w (getZipEntryContent zip entry)))
-  )
-
-(defn walkZip
-  "Processes zip file"
-  [file]
-  (with-open [zip (java.util.zip.ZipFile. file)]
-             (doseq [ze (zipEntries zip)]
-               (writeZipEntry zip ze)
-               ))
   )

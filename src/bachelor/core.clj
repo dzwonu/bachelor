@@ -4,7 +4,7 @@
             [incanter.core :as incanter]
             [clojure.string :as str]
             [bachelor.wsk :as wsk]
-            [bachelor.download :as download])
+            [bachelor.zip :as zip])
   (:use [clojure.contrib.generic.math-functions]
         [seesaw.core]
         [seesaw.font]
@@ -186,7 +186,8 @@
                                  line)))
 
 (def conclusion (text :text "Naciśnij przycisk Analizuj"
-                      :editable? false))
+                      :editable? false
+                      :multi-line? false))
 
 (def explanation (listbox :model []))
 
@@ -251,8 +252,8 @@
 
 (def center-split (top-bottom-split graph graph-vol :divider-location 3/4))
 
-(def center (flow-panel :border "Notowania"
-                        :items [center-split]))
+(def center (vertical-panel :border "Notowania"
+                            :items [center-split]))
 
 (defn drawGraphs
   "Draws graphs"
@@ -297,18 +298,36 @@
 (def link (text :text "http://bossa.pl/pub/ciagle/mstock/mstcgl.zip"))
 
 (def progress (progress-bar :min 0
-                            :max 100))
+                            :max (count (createCompaniesList (walk (as-file "resources/notowania"))))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;Unpacking zip
+
+(defn walkZip
+  "Processes zip file"
+  [file]
+  (with-open [zip (java.util.zip.ZipFile. file)]
+             (config! progress :max (+ (.size zip) (/ (config progress :max) 10)))
+             (doseq [ze (zip/zipEntries zip)]
+               (zip/writeZipEntry zip ze)
+               (config! progress :value (inc (config progress :value)))))
+  )
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (def getFromLink (button :text "Pobierz"
                          :listen [:action (fn [e] 
-                                            (download/downloadZip (config link :text))
-                                            (download/walkZip "resources/mstcgl.zip")
-                                            (def tempSelection (selection companiesList :text))
-                                            (config! companiesList :model (createCompaniesList (walk (as-file "resources/notowania"))))
-                                            (selection! companiesList tempSelection)
-                                            (wsk/liczWskazniki (wsk/createCompany (config companiesList :text)))
-                                            (drawGraphs)
-                                            (alert "Notowania pobrane poprawnie"))]))
+                                            (.start (Thread. 
+                                                      (fn []
+                                                        (config! progress :value (/ (config progress :max) 10))
+                                                        (zip/downloadZip (config link :text))
+                                                        (walkZip "resources/mstcgl.zip")
+                                                        (def tempSelection (selection companiesList :text))
+                                                        (config! companiesList :model (createCompaniesList (walk (as-file "resources/notowania"))))
+                                                        (selection! companiesList tempSelection)
+                                                        (wsk/liczWskazniki (wsk/createCompany (config companiesList :text)))
+                                                        (drawGraphs)
+                                                        (alert "Notowania pobrane poprawnie")))))]))
 
 (def inferenceBtn (button :text "Analizuj"
                           :listen [:action (fn [e] 
@@ -331,9 +350,9 @@
                         :items [companiesList]))
 
 (def Wykres (flow-panel :border "Wykres"
-                                :hgap 5
-                                :items ["Liczba sesji" sessions
-                                        "Wolumen?" vol]))
+                        :hgap 5
+                        :items ["Liczba sesji" sessions
+                                "Wolumen?" vol]))
 
 (def Notowania (flow-panel :border "Notowania"
                            :hgap 5
@@ -347,22 +366,27 @@
                                Wykres
                                Notowania]))
 
-(def Wnioskowanie (horizontal-panel :border "Wnioskowanie"
-                              ;:hgap 5
+(def Wnioskowanie (flow-panel :border "Wnioskowanie"
+                              :align :left
+                              :hgap 5
                               :items [inferenceBtn
                                       explainBtn]))
 
-(def Wniosek (vertical-panel :border "Wniosek"
-                         ;:hgap 5
+(def Wniosek (flow-panel :border "Wniosek"
+                         :align :left
+                         :hgap 5
                          :items [conclusion]))
 
-(def Wyjasnienie (vertical-panel :border "Wyjaśnienie"
-                             ;:hgap 5
+(def Wyjasnienie (flow-panel :border "Wyjaśnienie"
+                             :align :left
+                             :hgap 5
                              :items [(scrollable explanation)]))
 
-(def east (grid-panel :items [Wnioskowanie
-                                  Wniosek
-                                  Wyjasnienie]))
+(def east-content (vertical-panel :items [Wnioskowanie
+                                          Wniosek
+                                          Wyjasnienie]))
+
+(def east (flow-panel :items [east-content]))
 
 (def bp (border-panel
           ;:south tb
@@ -387,6 +411,7 @@
         pack!
         show!))
   )
+
 
 
 
