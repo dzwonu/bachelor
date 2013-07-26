@@ -3,23 +3,27 @@
 \contentsline {section}{\numberline {1.1}Cele pracy}{1}
 \contentsline {section}{\numberline {1.2}Przegl\IeC {\k a}d literatury oraz uzasadnienie wyboru tematu}{1}
 \contentsline {section}{\numberline {1.3}Uk\IeC {\l }ad pracy}{2}
-\contentsline {chapter}{\numberline {2}Tytu\IeC {\l } cz\IeC {\k e}\IeC {\'s}ci teoretycznej}{3}
-\contentsline {section}{\numberline {2.1}Podrozdzia\IeC {\l }...}{3}
-\contentsline {chapter}{\numberline {3}Tytu\IeC {\l } cz\IeC {\k e}\IeC {\'s}ci z\nobreakspace {}teori\IeC {\k a} w\IeC {\l }asn\IeC {\k a}}{5}
-\contentsline {section}{\numberline {3.1}Podrozdzia\IeC {\l }...}{5}
-\contentsline {chapter}{\numberline {4}Technologie i\nobreakspace {}narz\IeC {\k e}dzia}{7}
-\contentsline {section}{\numberline {4.1}J\IeC {\k e}zyk programowania}{7}
-\contentsline {section}{\numberline {4.2}Oprogramowanie}{7}
-\contentsline {subsection}{\numberline {4.2.1}\IeC {\'S}rodowisko programistyczne}{7}
-\contentsline {subsection}{\numberline {4.2.2}Wykorzystane biblioteki}{7}
-\contentsline {subsection}{\numberline {4.2.3}Serwer bazy danych}{7}
-\contentsline {section}{\numberline {4.3}Sprz\IeC {\k e}t}{7}
-\contentsline {section}{\numberline {4.4}Techniki i\nobreakspace {}metodologie programistyczne}{7}
-\contentsline {section}{\numberline {4.5}...}{7}
-\contentsline {chapter}{\numberline {5}Wyniki bada\IeC {\'n} eksperymentalnych}{9}
-\contentsline {chapter}{\numberline {6}Podsumowanie i\nobreakspace {}wnioski}{11}
-\contentsline {chapter}{\numberline {A}Edycja i\nobreakspace {}formatowanie pracy}{13}
-\contentsline {section}{\numberline {A.1}Kwestie techniczne}{13}
-\contentsline {section}{\numberline {A.2}Formatowanie}{13}
-\contentsline {section}{\numberline {A.3}Bibliografia}{14}
-\contentsline {chapter}{\numberline {B}P\IeC {\l }yta CD}{15}
+\contentsline {chapter}{\numberline {2}Teoria}{3}
+\contentsline {section}{\numberline {2.1}Systemy ekspertowe}{3}
+\contentsline {paragraph}{}{3}
+\contentsline {section}{\numberline {2.2}Programowanie funkcyjne}{5}
+\contentsline {section}{\numberline {2.3}Analiza techniczna}{5}
+\contentsline {chapter}{\numberline {3}Tytu\IeC {\l } cz\IeC {\k e}\IeC {\'s}ci z\nobreakspace {}teori\IeC {\k a} w\IeC {\l }asn\IeC {\k a}}{7}
+\contentsline {section}{\numberline {3.1}Podrozdzia\IeC {\l }...}{7}
+\contentsline {chapter}{\numberline {4}Technologie i\nobreakspace {}narz\IeC {\k e}dzia}{9}
+\contentsline {section}{\numberline {4.1}J\IeC {\k e}zyk programowania}{9}
+\contentsline {section}{\numberline {4.2}Oprogramowanie}{9}
+\contentsline {subsection}{\numberline {4.2.1}\IeC {\'S}rodowisko programistyczne}{9}
+\contentsline {subsection}{\numberline {4.2.2}Wykorzystane biblioteki}{9}
+\contentsline {subsection}{\numberline {4.2.3}Serwer bazy danych}{9}
+\contentsline {section}{\numberline {4.3}Sprz\IeC {\k e}t}{9}
+\contentsline {section}{\numberline {4.4}Techniki i\nobreakspace {}metodologie programistyczne}{9}
+\contentsline {section}{\numberline {4.5}...}{9}
+\contentsline {chapter}{\numberline {5}Wyniki bada\IeC {\'n} eksperymentalnych}{11}
+\contentsline {chapter}{\numberline {6}Podsumowanie i\nobreakspace {}wnioski}{13}
+\contentsline {chapter}{Bibliografia}{15}
+\contentsline {chapter}{\numberline {A}Edycja i\nobreakspace {}formatowanie pracy}{17}
+\contentsline {section}{\numberline {A.1}Kwestie techniczne}{17}
+\contentsline {section}{\numberline {A.2}Formatowanie}{17}
+\contentsline {section}{\numberline {A.3}Bibliografia}{18}
+\contentsline {chapter}{\numberline {B}P\IeC {\l }yta CD}{19}
