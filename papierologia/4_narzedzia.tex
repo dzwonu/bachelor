@@ -1,22 +1,45 @@
 \chapter{Technologie i~narzędzia}\label{chap:narzedzia}
-W tym rozdziale należy krótko opisać technologie oraz narzędzie wykorzystane w~pracy. 
 
 \section{Język programowania}
-Uzasadnić wybór języka programowania
+
+\paragraph{}
+Aplikacja została zrealizowana w~języku Clojure\cite{clj} w~wersji 1.5.1. Jest to język programowania działający na maszynie wirtualnej jawy (ang. JVM - Java Virtual Machine). Jest to język ogólnego przeznaczenia kompilowany do bajtkodu JVM. Clojure jest językiem funkcyjnym, jednym z~dialektów języka Lisp. Tak jak Lisp jest językiem listowym (wszystkie elementy języka są listami), realizującym filozofię "kod jako dane".
+
+Pierwszym powodem wyboru tego języka programowania jest to, że~języki funkcyjne bardzo dobrze sprawdzają się przy tworzeniu systemów ekspertowych, a~także pozwalają na generowanie nowego kodu aplikacji w~trakcie jej działania. Samo programowanie funkcyjne jest natomiast dziedziną, która nie jest przybliżana podczas studiów. Stąd też chęć zapoznania się z~tym paradygmatem programowania.
+
+Kolejnym powodem użycia języka Clojure jest możliwość wykorzystania w~nim elementów języka Java. Dzięki temu w~łatwy i~szybki sposób mogłem stworzyć graficzny interfejs użytkownika dla aplikacji i~więcej czasu poświęcić na te fragmenty aplikacji, które są nieodłącznymi elementami systemu ekspertowego.
+
+Ostatnią przyczyną wybrania Clojure jest to, że~programy pisane w~tym języku kompilowane są do bajtkodu JVM, a~więc można je uruchamiać na każdej maszynie i~systemie operacyjnym posiadającym maszynę wirtualną jawy.
 
 \section{Oprogramowanie}
-Opisać oprogramowanie wykorzystane przy realizacji pracy. Poniższy podział na podrozdziały należy oczywiście odpowiednio dostosować.
+
+\paragraph{}
+Podczas tworzenia systemu ekspertowego dla tej pracy wykorzystywałem następujące oprogramowanie.
 
 \subsection{Środowisko programistyczne}
 
+\paragraph{}
+Aplikacja była tworzone częściowo na komputerze z~systemem operacyjnym Windows~7, a~częściowo na komputerze z~systemem Windows~8. Dzięki temu, że~programy pisane w~Clojure uruchamiane są na maszynie wirtualnej jawy, nie występowały rzadne problemy podczas przenoszenia kodu pomiędzy tymi systemami i~dalszym rozwijaniu go i~uruchamianiu. Dzięki temu również praca byłaby możliwa chociażby na systemach Unixowych.
+
+Do budowania aplikacji i~zarządzania zależnościami wykorzystywałem środowisko Leiningen\cite{leiningen}. Jest to narzędzie do łatwego konfigurowania projektów tworzonych w~języku Clojure. 
+
+Do budowania i~uruchamiania aplikacji wykorzystywane jest środowisko JDK (ang. Java Development Kit) w~wersji 7u25.
+
+W~trakcie pisania aplikacji korzystałem z~edytora Clooj\cite{clooj}. Jest to proste, zintegrowane środowisko programistyczne dla języka Clojure (jak i~tworzone w~tym języku). Edytor dostarcza podstawowe funkcjonalności, takie jak kolorowanie składni, dostęp do dokumentacji funkcji języka, czy możliwość łatwego tworzenia nowych plików źródłowych z~automatycznym generowaniem nowych przestrzeni nazw.
+
 \subsection{Wykorzystane biblioteki}
 
-\subsection{Serwer bazy danych}
-
-\section{Sprzęt}
+\paragraph{}
+Podczas tworzenie aplikacji wykorzystywałem następujące biblioteki:
+\begin{itemize}
+	\item Seesaw\cite{seesaw} - biblioteka do tworzenia interfejsów użytkownika w~Clojure, jest zbudowana w oparciu o bibliotekę graficzną Swing
+	\item Incanter\cite{incanter} - biblioteka do obliczeń matematycznych, statystycznych i~tworzenia wykresów w~Clojure
+	\item Instaparse\cite{instaparse} - biblioteka do tworzenia parserów gramatyk w~Clojure
+	\item clj-time\cite{clj-time} - biblioteka do operacji na datach i~czasie w~Clojure
+	\item clj-http\cite{clj-http} - biblioteka do obsługi zapytań http w~Clojure
+\end{itemize}
 
 \section{Techniki i~metodologie programistyczne}
-Wymienić techniki programistyczne wykorzystane przy tworzeniu pracy, np. TDD, wzorce projektowe.
 
-\section{...}
-Jeśli wykorzystano inne zewnętrzne technologie, bazy danych (np. obrazów) itd. niemieszczące się do żadnego z~powyższych podpunktów należy utworzyć dodatkowe podrozdziały.
+\paragraph{}
+Projekt tworzony był z~wykorzystaniem paradygmatu programowania funkcyjnego. Nie jest on jednak zrealizowany w~czystym podejściu funkcyjnym. Przechowuje w~postaci list wyliczone wartości wskaźników analizy technicznej, a~także realizuje operację wczytywania danych o~spółce giełdowej z~pliku.

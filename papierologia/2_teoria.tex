@@ -68,4 +68,42 @@ Systemy ekspertowe są to aplikacje mieszczące się w~dziedzinie sztucznej inte
 
 \section{Programowanie funkcyjne}
 
+\paragraph{}
+Najbardziej powszechnym podejściem do programowania jest podejście impreratywne. Programowanie imperatywne opiera się na wykonywaniu kolejnych instrukcji zmieniających stan programu. W podejściu tym wykorzystywane są zmienne, które przechowuje informację o~aktualnym stanie aplikacji bądź jej fragmentu. Istotą paradygmatu programowania imperatywnego jest możliwość modyfikowania danych przechowywanych w~tych zmiennych, a~co za tym idzie zmiana stanu aplikacji. W podejściu tym funkcje, pomimo przekazania takich samych parametrów,  mogą zwracać różne wyniki. Spowodowane jest to tzw. efektami ubocznymi działania funkcji. Funkcja napisana z podejściem imperatywnym operuje nie tylko na parametrach do niej przekazanych, ale również na stanie aplikacji, czyli różnego rodzaju zmiennych. Zależnie od stanu w~jakim podczas danego wywołania funkcji znajduje się program, można uzyskać różny wynik takiego wywołania.
+
+Programowanie funkcyjne opiera się na ewaluacji funkcji, a~nie przechowywaniu stanu aplikacji. W podejściu tym każda funkcja zwraca pewną wartość, a~działania wykonuje wyłącznie na otrzymanych parametrach. Dzięki temu funkcje są pozbawione efektów ubocznych i~mamy pewność, że wywołanie funkcji z~takimi samymi parametrami zawsze zwróci taki sam wynik, niezależnie od chwili wywołania. Jako że każda funkcja jest ewaluowana do pewnej wartości, to mogą być one wykorzystywane jako argumenty innych funkcji. Stąd też jedna z głównych zalet podejścia funkcyjnego - modularność. Kod tworzony zgodnie z~paradygmatem funkcyjnym jest łatwy do ponownego wykorzystania i~dalszej rozbudowy.
+
+Kolejną istotną cechą jest leniwe wartościowanie. W przeciwieństwie do wartościowania zachłannego, które polega na wyliczaniu wartości wszystkich argumentów przed wywołaniem funkcji, nawet jeśli nie są one wykorzystywane, wartościowanie leniwe polega na ewaluacji wartości argumentów dopiero w~chwili odwołania się do nich. Dzięki temu czas procesora jest wykorzystywany wyłącznie na obliczenia, które są konieczne w~danym wywołaniu. Dzięki temu również można wyliczyć wartość funkcji nawet jeśli nie jest znana wartość któregoś z~jej argumentów, pod warunkiem jednak, że nie jest on wykorzystywany w~obliczeniach.
+
+Programowanie funkcyjne w~dużym stopniu oparte jest na rekurencji, czyli wywoływaniu funkcji przez samą siebie. Gdyby dla każdego takiego wywołania było zajmowane kolejne miejsce na stosie w~pamięci operacyjnej systemu, bardzo szybko doszłoby do przepełnienia stosu. Stąd też powszechną techniką stosowaną przy podejściu funkcyjnym jest rekurencja ogonowa. Jest to rodzaj rekurencji, w~którym wywołanie rekurencyjne jest ostatnią instrukcją funkcji. Dzięki temu nie ma potrzeby zajmowania nowego miejsca na stosie. Wykorzystywana jest dotychczasowa ramka stosu funkcji, jako że~wszystkie operacje zostały już wykonane i~zarezerowana pamięć nie jest już dłużej potrzebna. Taka operacja pozwala na optymalizację zarządzania pamięcią, a~także ułatwia tworzenie kodu, jako że~rekurencja zazwyczaj jest dużo bardziej naturalna niż iteracyjność. Istotne jest również to, że~języki funkcyjne automatycznie przeprowadzają optymalizację rekurencji ogonowej, dzięki czemu programista nie musi się tym zajmować.
+
+Jedną z~najważniejszych cech funkcyjnych języków programowania jest posiadanie niemutowalnych struktur danych. Oznacza to, że~wartość, bądź zbiór wartości raz przypisany do zmiennej bądź struktury danych nie może zostać zmieniony. Jest to cecha zaskakująca dla osób mających doświadczenie wyłącznie z~programowaniem imperatywnym, które opiera się na modyfikowaniu wartości struktur danych i~stanu aplikacji. Jednak programowanie funkcyjne opiera się na ewaluacji funkcji, a~nie przechowywaniu danych w~zmiennych. Dzięki niemutowalności danych unika się również wiele błędów związanych z~efektami ubocznymi funkcji, które mogłyby te dane modyfikować.
+
+Języki funkcyjne można podzielić na dwie grupy:
+\begin{itemize}
+	\item Języki czysto funkcyjne
+	\item Języki mieszane
+\end{itemize}
+
+Języki czysto funkcyjne są to języki, w~których nie występują efekty uboczne, a~operacje wejścia/wyjścia odbywają się np.~z~użyciem monad. W~językach tych wartościowanie jest leniwe.
+
+Jezyki mieszanie to takie, które dopuszczają stosowanie zmiennych, operacje wejścia/wyjścia i~mieszanie stylu funkcyjnego z~imperatywnym (a~nawet obiektowym). Funkcje w~tych językach mogą mieć również efekty uboczne.
+
 \section{Analiza techniczna}
+
+W~tej pracy pojęcie analizy technicznej wykorzystywane jest w~odniesieniu do rynku akcji. Analiza techniczna to badanie zachowań rynku, przede wszystkim przy użyciu wykresów, którego celem jest przewidywanie przyszłych trendów cenowych.\footnote{\cite{analiza}, str. 1} Zachowanie rynku oznacza w~tym wypadku zmiany ceny konkretnego aktywa - akcji spółki giełdowej, a~także wolumenu, czyli liczby akcji zmieniających właściciela podczas jednej sesji giełdowej (jednego dnia). Analiza techniczna oparta jest na 3 założeniach:
+\begin{itemize}
+	\item Rynek dyskontuje wszystko
+	\item Ceny podlegają trendom
+	\item Historia się powtarza
+\end{itemize}
+
+Pierwszy punkt - rynek dyskontuje wszystko - zakłada, że~rynkowa cena akcji w~pełni odzwierciedla wszystkie czynniki mogące mieć wpływ na wartość aktywa, takie jak czynniki fundamentalne, polityczne czy psychologiczne. Analityk wykresów opiera się na prawie popytu i~podaży. Jeśli popyt przewyższa podaż, to cena powinna rosnąć. Jeśli natomiast podaż przewyższa popyt - cena powinna spadać. Analityka nie interesują przyczyny zmiany popytu i~podaży, a~jedynie jej skutki.
+
+To, że~ceny podlegają trendom jest kolejną przesłanką na jakiej opiera się analiza techniczna. Jej uzupełnieniem jest stwierdzenie, że trend kontynuuje swój bieg w~dotychczasowym kierunku tak długo, aż nie pojawią się przesłanki do tego, aby się zmienił.
+
+Ostatnie założenie opiera się mocno na badaniu ludzkiej psychiki. W~analizie technicznej zakłada się, że~ludzka psychika, która ma przełożenie na trendy cenowe na rynku, raczej się nie zmienia. W~związku z~tym trendy występujące w przeszłości powinny powtórzyć się również w~przyszłości. 
+
+Warto w~tym miejscu wspomnieć również o~drugim rodzaju analizy rynków finansowych - analizie fundamentalnej. Różni się ona tym, że~koncentruje się na badaniu gospodarczych uwarunkowań popytu i~podaży, które są przyczyną wzrostów, spadków lub stabilizacji cen. Przy podejściu fundamentalnym bada się wszystkie czynniki oddziałujące na cenę danego towaru, w~celu określenia jego rzeczywistej wartości. Jeśli rzeczywista wartość danego towaru jest niższa od jego bieżącej ceny rynkowej, znaczy to, że towar ów jest "przewartościowany" i~należy go sprzedać. Jeśli cena towaru jest niższa od jego rzeczywistej wartości, jest on "niedowartościowany" i~należy go kupić.\footnote{\cite{analiza}, str. 4}
+
+Analizę techniczną podzielić możemy na dwa obszary. Pierwszym z~nich jest analiza wykresów i~odnajdywanie na nich formacji cenowych, sugerujących kontynuację trendu, bądź jego odwrócenie. Drugi to analiza wskaźników analizy technicznej. Stworzono wiele wskaźników pomocnych w~rozpoznawaniu określonych stanów w~jakich znajduje się rynek, a~także generujących sygnały takie jak sygnał kupna/sprzedaży, zmiany bądź kontynuacji trendu.

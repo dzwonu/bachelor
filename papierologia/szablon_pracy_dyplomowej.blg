@@ -4,52 +4,60 @@ The top-level auxiliary file: szablon_pracy_dyplomowej.aux
 The style file: plplain.bst
 Database file #1: bibliografia.bib
 Warning--entry type for "Nie10" isn't style-file defined
---line 41 of file bibliografia.bib
+--line 81 of file bibliografia.bib
+Warning--to sort, need author or key in clj
+Warning--to sort, need author or key in leiningen
+Warning--to sort, need author or key in clooj
+Warning--to sort, need author or key in seesaw
+Warning--to sort, need author or key in incanter
+Warning--to sort, need author or key in instaparse
+Warning--to sort, need author or key in clj-time
+Warning--to sort, need author or key in clj-http
 Warning--to sort, need author or key in texlive
 Warning--to sort, need author or key in Kile
 Warning--to sort, need author or key in kbibtex
 Warning--empty publisher in clojure
 Warning--empty publisher in mulawka
 Warning--empty publisher in analiza
-You've used 8 entries,
+You've used 16 entries,
             2129 wiz_defined-function locations,
-            548 strings with 4721 characters,
-and the built_in function-call counts, 1563 in all, are:
-= -- 139
-> -- 38
+            572 strings with 5318 characters,
+and the built_in function-call counts, 2837 in all, are:
+= -- 259
+> -- 46
 < -- 0
-+ -- 19
++ -- 27
 - -- 10
-* -- 59
-:= -- 241
-add.period$ -- 21
-call.type$ -- 8
-change.case$ -- 26
+* -- 99
+:= -- 379
+add.period$ -- 37
+call.type$ -- 16
+change.case$ -- 50
 chr.to.int$ -- 0
-cite$ -- 14
-duplicate$ -- 71
-empty$ -- 180
+cite$ -- 30
+duplicate$ -- 127
+empty$ -- 364
 format.name$ -- 10
-if$ -- 348
+if$ -- 668
 int.to.chr$ -- 0
-int.to.str$ -- 8
+int.to.str$ -- 16
 missing$ -- 6
-newline$ -- 40
+newline$ -- 72
 num.names$ -- 10
-pop$ -- 67
+pop$ -- 131
 preamble$ -- 1
-purify$ -- 21
+purify$ -- 37
 quote$ -- 0
-skip$ -- 56
+skip$ -- 119
 stack$ -- 0
-substring$ -- 41
-swap$ -- 8
+substring$ -- 81
+swap$ -- 16
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 26
-warning$ -- 6
+type$ -- 58
+warning$ -- 14
 while$ -- 10
-width$ -- 9
-write$ -- 70
-(There were 7 warnings)
+width$ -- 18
+write$ -- 126
+(There were 15 warnings)

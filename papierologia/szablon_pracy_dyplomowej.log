@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/W32TeX) (format=pdflatex 2013.7.22)  26 JUL 2013 16:42
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/W32TeX) (format=pdflatex 2013.7.22)  29 JUL 2013 16:57
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -558,6 +558,12 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
  [4] (./1_wstep.tex
 Rozdzia\PlPrIeC {\l } 1.
+
+Overfull \hbox (5.06912pt too wide) in paragraph at lines 2--3
+\OT4/cmr/m/n/12 Niniejsza pra-ca do-ty-czy in-»y-nie-rii opro-gra-mo-wa-nia i s
+ys-te-mów eks-per-to-wych. W wy-
+ []
+
 LaTeX Font Info:    Try loading font information for OMS+cmr on input line 9.
 (c:/texlive/2013/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
@@ -578,57 +584,87 @@ LaTeX Font Info:    External font `plex10' loaded for size
 (Font)              <5> on input line 6.
 [3
 
-] [4]) (./3_nowa_teoria.tex [5] [6
+] [4] [5]
+Underfull \vbox (badness 2653) has occurred while \output is active []
 
-]
+ [6]
+[7]) (./3_nowa_teoria.tex [8]
 Rozdzia\PlPrIeC {\l } 3.
-) (./4_narzedzia.tex [7] [8
+) (./4_narzedzia.tex [9
+
+] [10
 
 ]
 Rozdzia\PlPrIeC {\l } 4.
-) (./5_badania.tex [9] [10
-
-]
+[11]) (./5_badania.tex [12]
 Rozdzia\PlPrIeC {\l } 5.
-) (./6_podsumowanie.tex [11] [12
 
-]
+Overfull \hbox (4.99362pt too wide) in paragraph at lines 20--26
+[][] 
+ []
+
+
+Underfull \vbox (badness 1533) has occurred while \output is active []
+
+ [13
+
+])
+(./6_podsumowanie.tex [14]
 Rozdzia\PlPrIeC {\l } 6.
-) (./szablon_pracy_dyplomowej.bbl [13] [14
+) (./szablon_pracy_dyplomowej.bbl [15
+
+] [16
 
 ]
 LaTeX Font Info:    Try loading font information for OT4+cmtt on input line 5.
 
 (c:/texlive/2013/texmf-dist/tex/latex/polski/ot4cmtt.fd
 File: ot4cmtt.fd 2008/02/24 v1.2.1 Font defs for fonts PL (MW)
-)) (./a_latex.tex
-[15] [16
+)
+Underfull \hbox (badness 10000) in paragraph at lines 16--18
+[]\OT4/cmr/m/n/12 Repozytorium bi-blio-te-ki clj-time.  $\OT4/cmtt/m/n/12 https
+ : / / github . com / clj-[]time /
+ []
+
+
+Underfull \hbox (badness 2197) in paragraph at lines 20--22
+[]\OT4/cmr/m/n/12 Repozytorium bi-blio-te-ki in-sta-par-se.  $\OT4/cmtt/m/n/12 
+https : / / github . com / Engelberg /
+ []
+
+
+Underfull \hbox (badness 1057) in paragraph at lines 28--30
+[]\OT4/cmr/m/n/12 Repozytorium pro-jek-tu clo-oj.  $\OT4/cmtt/m/n/12 https : / 
+/ github . com / arthuredelstein /
+ []
+
+) (./a_latex.tex [17] [18
 
 ]
 Dodatek A.
-[17]) (./b_cd.tex
+[19]) (./b_cd.tex
 Overfull \hbox (4.77383pt too wide) in paragraph at lines 22--1
 []\OT4/cmr/m/n/12 Bibliografi¦ na-le-»y przy-go-to-wa¢ ko-rzy-sta-j¡c z me-cha-
 ni-zmów do-star-cza-nych przez
  []
 
-[18]
+[20]
 Dodatek B.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [19
+ [21
 
 ])
-[20] (./szablon_pracy_dyplomowej.aux) ) 
+[22] (./szablon_pracy_dyplomowej.aux) ) 
 Here is how much of TeX's memory you used:
- 3431 strings out of 493311
- 43963 string characters out of 6141401
- 105970 words of memory out of 5000000
- 6750 multiletter control sequences out of 15000+600000
+ 3439 strings out of 493311
+ 44036 string characters out of 6141401
+ 106002 words of memory out of 5000000
+ 6758 multiletter control sequences out of 15000+600000
  18700 words of font info for 57 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 38i,11n,46p,1996b,332s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,11n,48p,1994b,332s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/texlive/2013/texmf-dist/fonts/enc/dv
 ips/pl/plmi.enc}{c:/texlive/2013/texmf-dist/fonts/enc/dvips/pl/pltt.enc}{c:/tex
 live/2013/texmf-dist/fonts/enc/dvips/pl/plit.enc}{c:/texlive/2013/texmf-dist/fo
@@ -641,10 +677,10 @@ fb><c:/texlive/2013/texmf-dist/fonts/type1/public/pl/plr7.pfb><c:/texlive/2013/
 texmf-dist/fonts/type1/public/pl/plr8.pfb><c:/texlive/2013/texmf-dist/fonts/typ
 e1/public/pl/plsl12.pfb><c:/texlive/2013/texmf-dist/fonts/type1/public/pl/plti1
 2.pfb><c:/texlive/2013/texmf-dist/fonts/type1/public/pl/pltt12.pfb>
-Output written on szablon_pracy_dyplomowej.pdf (24 pages, 106568 bytes).
+Output written on szablon_pracy_dyplomowej.pdf (26 pages, 121671 bytes).
 PDF statistics:
- 129 PDF objects out of 1000 (max. 8388607)
- 91 compressed objects within 1 object stream
+ 136 PDF objects out of 1000 (max. 8388607)
+ 96 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

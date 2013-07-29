@@ -7,23 +7,33 @@
 \contentsline {section}{\numberline {2.1}Systemy ekspertowe}{3}
 \contentsline {paragraph}{}{3}
 \contentsline {section}{\numberline {2.2}Programowanie funkcyjne}{5}
-\contentsline {section}{\numberline {2.3}Analiza techniczna}{5}
-\contentsline {chapter}{\numberline {3}Tytu\IeC {\l } cz\IeC {\k e}\IeC {\'s}ci z\nobreakspace {}teori\IeC {\k a} w\IeC {\l }asn\IeC {\k a}}{7}
-\contentsline {section}{\numberline {3.1}Podrozdzia\IeC {\l }...}{7}
-\contentsline {chapter}{\numberline {4}Technologie i\nobreakspace {}narz\IeC {\k e}dzia}{9}
-\contentsline {section}{\numberline {4.1}J\IeC {\k e}zyk programowania}{9}
-\contentsline {section}{\numberline {4.2}Oprogramowanie}{9}
-\contentsline {subsection}{\numberline {4.2.1}\IeC {\'S}rodowisko programistyczne}{9}
-\contentsline {subsection}{\numberline {4.2.2}Wykorzystane biblioteki}{9}
-\contentsline {subsection}{\numberline {4.2.3}Serwer bazy danych}{9}
-\contentsline {section}{\numberline {4.3}Sprz\IeC {\k e}t}{9}
-\contentsline {section}{\numberline {4.4}Techniki i\nobreakspace {}metodologie programistyczne}{9}
-\contentsline {section}{\numberline {4.5}...}{9}
-\contentsline {chapter}{\numberline {5}Wyniki bada\IeC {\'n} eksperymentalnych}{11}
-\contentsline {chapter}{\numberline {6}Podsumowanie i\nobreakspace {}wnioski}{13}
-\contentsline {chapter}{Bibliografia}{15}
-\contentsline {chapter}{\numberline {A}Edycja i\nobreakspace {}formatowanie pracy}{17}
-\contentsline {section}{\numberline {A.1}Kwestie techniczne}{17}
-\contentsline {section}{\numberline {A.2}Formatowanie}{17}
-\contentsline {section}{\numberline {A.3}Bibliografia}{18}
-\contentsline {chapter}{\numberline {B}P\IeC {\l }yta CD}{19}
+\contentsline {paragraph}{}{5}
+\contentsline {section}{\numberline {2.3}Analiza techniczna}{7}
+\contentsline {chapter}{\numberline {3}Tytu\IeC {\l } cz\IeC {\k e}\IeC {\'s}ci z\nobreakspace {}teori\IeC {\k a} w\IeC {\l }asn\IeC {\k a}}{9}
+\contentsline {section}{\numberline {3.1}Podrozdzia\IeC {\l }...}{9}
+\contentsline {chapter}{\numberline {4}Technologie i\nobreakspace {}narz\IeC {\k e}dzia}{11}
+\contentsline {section}{\numberline {4.1}J\IeC {\k e}zyk programowania}{11}
+\contentsline {paragraph}{}{11}
+\contentsline {section}{\numberline {4.2}Oprogramowanie}{11}
+\contentsline {paragraph}{}{11}
+\contentsline {subsection}{\numberline {4.2.1}\IeC {\'S}rodowisko programistyczne}{11}
+\contentsline {paragraph}{}{11}
+\contentsline {subsection}{\numberline {4.2.2}Wykorzystane biblioteki}{12}
+\contentsline {paragraph}{}{12}
+\contentsline {section}{\numberline {4.3}Techniki i\nobreakspace {}metodologie programistyczne}{12}
+\contentsline {paragraph}{}{12}
+\contentsline {chapter}{\numberline {5}Wyniki bada\IeC {\'n} eksperymentalnych}{13}
+\contentsline {section}{\numberline {5.1}Opis stworzonej aplikacji}{13}
+\contentsline {subsection}{\numberline {5.1.1}Podstawowy opis}{13}
+\contentsline {paragraph}{}{13}
+\contentsline {subsection}{\numberline {5.1.2}Struktura projektu}{13}
+\contentsline {paragraph}{}{13}
+\contentsline {subsection}{\numberline {5.1.3}Gramatyka regu\IeC {\l }}{14}
+\contentsline {paragraph}{}{14}
+\contentsline {chapter}{\numberline {6}Podsumowanie i\nobreakspace {}wnioski}{15}
+\contentsline {chapter}{Bibliografia}{17}
+\contentsline {chapter}{\numberline {A}Edycja i\nobreakspace {}formatowanie pracy}{19}
+\contentsline {section}{\numberline {A.1}Kwestie techniczne}{19}
+\contentsline {section}{\numberline {A.2}Formatowanie}{19}
+\contentsline {section}{\numberline {A.3}Bibliografia}{20}
+\contentsline {chapter}{\numberline {B}P\IeC {\l }yta CD}{21}

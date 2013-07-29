@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{kbibtex}
 {KBibTeX}.
@@ -7,6 +7,38 @@
 \bibitem{Kile}
 {Kile - an Integrated LaTeX Environment}.
 \newblock \url{http://kile.sourceforge.net/}.
+
+\bibitem{clj-http}
+Repozytorium biblioteki clj-http.
+\newblock \url{https://github.com/dakrone/clj-http}.
+
+\bibitem{clj-time}
+Repozytorium biblioteki clj-time.
+\newblock \url{https://github.com/clj-time/clj-time}.
+
+\bibitem{instaparse}
+Repozytorium biblioteki instaparse.
+\newblock \url{https://github.com/Engelberg/instaparse}.
+
+\bibitem{seesaw}
+Repozytorium biblioteki seesaw.
+\newblock \url{https://github.com/daveray/seesaw}.
+
+\bibitem{clooj}
+Repozytorium projektu clooj.
+\newblock \url{https://github.com/arthuredelstein/clooj}.
+
+\bibitem{incanter}
+Strona domowa biblioteki incanter.
+\newblock \url{http://incanter.org/}.
+
+\bibitem{clj}
+Strona domowa języka clojure.
+\newblock \url{http://clojure.org/}.
+
+\bibitem{leiningen}
+Strona domowa projektu leiningen.
+\newblock \url{http://leiningen.org/}.
 
 \bibitem{texlive}
 {TeX Live}.

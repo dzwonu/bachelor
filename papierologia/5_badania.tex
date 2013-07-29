@@ -1,2 +1,30 @@
 \chapter{Wyniki badań eksperymentalnych}\label{chap:badania}
-Ten rozdział zawiera opis wyników uzyskanych w~ramach pracy. Jeśli praca miała cel badawczy należy skupić się na opisie przeprowadzonych eksperymentów oraz prezentacji i~analizie uzyskanych wyników. Jeśli praca nie miała na celu uzyskania nowatorskich wyników, należy skupić się na opisie architektury stworzonej aplikacji. W~obu przypadkach podstawowym celem tego rozdziału jest realizacja celów postawionych w~rozdziale \ref{sec:cele_pracy}. Rozdział ten ma bezspornie pokazywać, że cele pracy zostały zrealizowane
+
+\section{Opis stworzonej aplikacji}
+
+\subsection{Podstawowy opis}
+
+\paragraph{}
+Aplikacja powstająca podczas pisania tej pracy to system ekspertowy, którego zadaniem jest ocena spółek giełdowych i~podejmowanie decyzji, czy w~danej chwili konkretną spółkę warto kupić bądź sprzedać. Użytkownik aplikacji może pobrać notowania spółek giełdowych notowanych na Giełdzie Papierów Wartościowych w~Warszawie z~serwisu bossa.pl. Może również korzystać z~dowolnego innego źródła notowań, pod warunkiem, że~dane będą archiwum ZIP zawierającym pliki w~formacie MST o~nazwach odpowiadających nazwom spółek. Po tym na liście dostępne są spółki, których dane znajdowały się w~archiwum. Aplikacja po wyborze konkretnej spółki tworzy wykres jej ceny i~wolumenu w~cały okresie w~jakim była notowana. Użytkownik ma możliwość wyboru z~listy ile sesji chce wyświetlić na wykresie, a~także czy ma być tworzony wykres wartości wolumenu. Po wczytaniu danych o~konkretnej spółce przycisk Analizuj pozwala na przeprowadzenie procesu wnioskowania dla danej spółki i~określenie czy w~danej chwili warto sprzedawać bądź kupować dane akcje.
+
+\subsection{Struktura projektu}
+
+\paragraph{}
+Projekt podzielony jest na 3 przestrzenie nazw:
+\begin{itemize}
+	\item bachelor.core
+	\item bachelor.wsk
+	\item bachelor.zip
+\end{itemize}
+
+\begin{tabular}{ c p{10,5cm}}
+Przestrzeń nazw & Funkcjonalności \\ \hline \\
+bachelor.core & Zawiera wszystkie funkcje parsera reguł, funkcje silnika wnioskującego, wczytywanie listy spółek, których dane znajdują się w~katalogu z~notowaniami. Tutaj również zdefiniowany jest interfejs użytkownika. Dodatkowo jest tu funkcja uruchamiająca wypakowywanie archiwum ZIP z~notowaniami \\
+bachelor.wsk & Tutaj zdefiniowana jest funkcja wczytująca notowania z~pliku i~tworząca z~nich odpowiednią strukturę umieszczaną na liście notowań. W~tej przestrzeni nazw zdefiniowane są również wszystkie wskaźniki wykorzystywane przez system wnioskujący, a~także funkcje pomocnicze do wyliczania wskaźników i~operacji na liście notowań. Jest tu również umieszczona funkcja tworząca listy wszystkich zdefiniowanych wskaźników, a~także funkcje odwołujące się do tych list, które wykorzystywane są w~regułach. \\
+bachelor.zip & Zdefiniowana jest tu funkcja do pobierania archiwum ze wskazanego adresu internetowego i~zapisu go na dysku. Znajdują się tu także wszystkie funkcje pomocnicze do rozpakowywania archiwum \\
+\end{tabular}
+
+\subsection{Gramatyka reguł}
+
+\paragraph{}
+Jedną z funkcjonalności systemu jest parser reguł, które są wczytywane z pliku tekstowego, a następnie na ich podstawie generowany jest kod nowych funkcji, które przekazywane są do mechanizmu wnioskującego. Aby można było stworzyć taki parser najpierw trzeba było zaprojektować gramatykę, zgodnie z którą można zapisywać reguły w pliku tekstowym.
