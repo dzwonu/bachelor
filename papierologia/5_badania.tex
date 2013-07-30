@@ -27,4 +27,137 @@ bachelor.zip & Zdefiniowana jest tu funkcja do pobierania archiwum ze wskazanego
 \subsection{Gramatyka reguł}
 
 \paragraph{}
-Jedną z funkcjonalności systemu jest parser reguł, które są wczytywane z pliku tekstowego, a następnie na ich podstawie generowany jest kod nowych funkcji, które przekazywane są do mechanizmu wnioskującego. Aby można było stworzyć taki parser najpierw trzeba było zaprojektować gramatykę, zgodnie z którą można zapisywać reguły w pliku tekstowym.
+Jedną z~funkcjonalności systemu jest parser reguł, które są wczytywane z~pliku tekstowego, a~następnie na ich podstawie generowany jest kod nowych funkcji, które przekazywane są do mechanizmu wnioskującego. Aby można było stworzyć taki parser najpierw trzeba było zaprojektować gramatykę, zgodnie z~którą można zapisywać reguły w~pliku tekstowym. Gramatyka ta ma następującą postać:\\
+RULE = EXPR \textgreater\textgreater FACT \\
+EXPR = (EXPR OpL EXPR) \textbar\space (WSK OpA NUM) \textbar\space (WSK OpA WSK) \textbar\space (FACT) \\
+OpL = and \textbar\space or \\
+OpA = \textgreater\space\textbar\space \textless \space\textbar\space == \\
+WSK = [A-Z]+[A-Z0-9]* \\
+FACT = [a-z]+[a-z0-9]* \\
+NUM = [-+]?[0-9]+[.]?[0-9]*\textbar[0-9]+ \\
+
+W~pierwszej kolejności linia z~regułą wczytana z~pliku parsowana jest przez bibliotekę Instaparse\cite{instaparse} do listy tokenów, czyli par opisanych jako
+\begin{figure}[h]
+	\centering 
+	[:TYP\_TOKENA WARTOŚĆ]
+\end{figure}
+
+Następnie element z~listy o~typie :EXPR przekazywany jest do funkcji, która sprawdza, którym wariantem wyrażenia jest przekazany token. Na tej podstawie tworzy listę symboli możliwych do zinterpretowania przez Clojure, które odpowiadają funkcjonalnie treści wyrażenia. Utworzona lista symboli jest wykorzystywana jako ,,ciało'' funkcji przez makro, które generuje nowe funkcje reprezentujące reguły. Każde tak wygenerowane wyrażenie musi zwracać wartość logiczną prawda bądź fałsz. Podczas procesu wnioskowania zależnie od tej wartości do listy faktów dodawany jest nowy fakt, bądź mechanizm przechodzi do ewaluacji kolejnej funkcji - reguły.
+
+\subsection{Mechanizm wnioskujący}
+
+\paragraph{}
+Silnik wnioskujący opiera się o~wnioskowanie w~przód i~składa się z~dwóch funkcji. Pierwsza z~nich cyklicznie wywołuje drugą, przekazując do niej listę reguł i~aktualną listę faktów. Druga funkcja uruchamia kolejno wszystkie reguły. Jeśli można uruchomić regułę i~wartość logiczne jej wyrażenia to prawda, wtedy sprawdzane jest czy na liście faktów znajduje się już fakt generowany przez tą regułę. Jeśli nie, jest on dodawany i~uruchamiana jest kolejna reguła. Po każdym wykonaniu funkcji sprawdzającej wszystkie reguły, główna funkcja wnioskująca sprawdza, czy na liście faktów pojawił się fakt mówiący o~tym aby kupić bądź sprzedać dane akcje. Dodatkowo sprawdza też, czy zmieniła się liczba wygenerowanych faktów. Jeśli nie, oznacza to, że~nie można uruchomić już żadnej nowej reguły i~nie da się uzyskać wniosku kupuj bądź sprzedaj.
+
+\subsection{Obsługa plików ZIP}
+
+\paragraph{}
+Archiwum ZIP z~notowaniami spółek z~GPW w~Warszawie obsługiwane jest w~przestrzeni nazw bachelor.zip. Po naciśnięciu przycisku Pobierz wywoływana jest funkcja, która pobiera plik ZIP ze~wskazanego w~polu tekstowym adresu www. Następnie ścieżka do zapisanego pliku przekazywana jest do głównej funkcji rozpakowującej. Funkcja ta dla każdego elementu z~archiwum tworzy nowy plik z~nazwą tego elementu, a~następnie zapisuje do niego tablicę bajtów z~zawartością tego pliku. Ze~względu na obsługę paska postępu wykonywanych operacji, główna funkcja wnioskująca znajduje się w~głównej przestrzeni nazw, a~wszystkie funkcje pomocnicze w~przestrzeni bachelor.zip. Cały proces pobierania i~rozpakowywania archiwum odbywa się w~osobnym wątku, tak aby nie blokować działania reszty interfejsu użytkownika.
+
+\subsection{Struktura danych o~notowaniach}
+
+\paragraph{}
+Dane o~notowaniach spółek giełdowych, które wczytywane są z~pliku, w~aplikacji przechowywane są w~następującej strukturze:
+\begin{description} 
+	\item[Company] \hfill
+		\begin{itemize}
+			\item Name - nazwa spółki
+			\item \begin{description}
+					\item[Session] \hfill
+						\begin{itemize}
+							\item Date - data sesji
+							\item Open - cena otwarcia sesji
+							\item High - cena maksymalna podczas sesji
+							\item Low - cena minimalna podczas sesji
+							\item Close - cena zamknięcia sesji
+							\item Vol - wolumen
+						\end{itemize}
+				\end{description}
+		\end{itemize}
+\end{description}
+
+\subsection{Obliczane wskaźniki analizy technicznej}
+
+\paragraph{}
+Podczas procesu wnioskowania wykorzystywanych jest wiele wskaźników analizy technicznej. Poniżej znajduje się lista tych wskaźników wraz ze~sposobem ich obliczania:
+\begin{description}
+	\item[MFI] - Money Flow Index \hfill \\
+		$\displaystyle MFI = 100 \times { pozytywny\ money\ flow \over pozytywny \ money \ flow + negatywny\ money\ flow }$  \hfill \\
+			, gdzie \hfill
+				\begin{itemize}
+					\item ,,pozytywny money flow'' jest sumą {\textit{money flow}} z~dni, w~których cena typowa przewyższała cenę typową z~dnia poprzedniego
+					\item ,,negatywny money flow'' jest sumą {\textit{money flow}} z~dni, w~których cena typowa była niższa niż w~dniu poprzednim
+					\item $\displaystyle money \ flow = cena \ typowa \times wolumen$
+					\item $\displaystyle cena\ typowa = {cena \ maksymalna + cena \ minimalna + cena \ zamkniecia \over 3}$
+				\end{itemize}
+	\item[ATR] - Average True Range \hfill \\
+		Jest to średnia arytmetyczna z rzeczywistego zakresu zmian (ang. TR - True Range) dla zadanej liczby sesji. TR to największa co do modułu wartość z:
+		\begin{itemize}
+			\item różnicy między ceną najwyższą i~najniższą podczas analizowanej sesji
+			\item różnicy między ceną zamknięcia sesji poprzedzającej analizowaną sesję a~ceną najwyższą podczas analizowanej sesji
+			\item różnicy między ceną zamknięcia sesji poprzedzającej analizowaną sesję a~ceną najniższą podczas analizowanej sesji
+		\end{itemize}
+	\item[ROC] - Wskaźnik zmiany ROC (ang. Rate of Change) \hfill \\
+		$\displaystyle ROC(n, k) = { C_n - C_{n-k} \over C_{n-k} } \times 100\%$ \\
+		, gdzie \hfill
+			\begin{itemize}
+				\item C - cena zamknięcia
+				\item n - numer analizowanej sesji
+				\item k - liczba sesji wstecz w~odniesieniu do obecnie analizowanej
+			\end{itemize}
+	\item[Momentum] \hfill \\
+		$\displaystyle Momentum(n, k) = C_n - C_{n-k}$ \\
+		, gdzie \hfill
+			\begin{itemize}
+				\item C - cena zamknięcia
+				\item n - numer analizowanej sesji
+				\item k - liczba sesji wstecz w~odniesieniu do obecnie analizowanej
+			\end{itemize}
+	\item[SMA] - Prosta średnia krocząca (ang. Simple moving average) \hfill \\
+		$\displaystyle \textit{SMA} = { C_{0} + C_{1} + \cdots + C_{n-1} \over n }$ \\
+		, gdzie \hfill
+			\begin{itemize}
+				\item C - cena zamknięcia
+				\item n - liczba analizowanych sesji
+			\end{itemize}
+	\item[WMA] - Ważona średnia krocząca (ang. Weighted moving average) \hfill \\
+		$\displaystyle \textit{WMA} = { n C_{0} + (n-1) C_{1} + \cdots + C_{n-1} \over n + (n-1) + \cdots + 2 + 1}$ \\
+		, gdzie \hfill
+			\begin{itemize}
+				\item C - cena zamknięcia
+				\item n - liczba analizowanych sesji, a~zarazem wagi kolejnych okresów
+			\end{itemize}
+	\item[EMA] - Wykładnicza średnia krocząca (ang. Expotencial moving average) \hfill \\
+		$\displaystyle \textit{EMA} = { C_0 + (1-\alpha) C_1 + (1-\alpha)^2 C_2 + (1-\alpha)^3 C_3 + \cdots + (1-\alpha)^n C_n \over 1 + (1-\alpha) + (1-\alpha)^2 + (1-\alpha)^3 + \cdots + (1-\alpha)^n}$ \\
+		, gdzie \hfill
+			\begin{itemize}
+				\item C - cena zamknięcia
+				\item n - liczba analizowanych sesji
+				\item $\displaystyle \alpha={2\over{n+1}}$
+			\end{itemize}
+	\item[RSI] - Wskaźnik siły względnej (ang. Relative Strength Index) \hfill \\
+		$\displaystyle RSI = 100 - \frac{100}{1+RS}$ \\
+		, gdzie \hfill
+			\begin{itemize}
+				\item $\displaystyle RS = \left( \frac {a}{b} \right)$
+				\item a - średnia wartość wzrostu cen zamknięcia z~x~sesji
+				\item b - średnia wartość spadku cen zamknięcia z x~sesji
+			\end{itemize}
+	\item[Accumulation/Distribution] \hfill \\
+		$\displaystyle Accum/Distr = Accum/Distr_{poprz} + wolumen \times CLV$ \\
+		, gdzie \hfill
+			\begin{itemize}
+				\item $\displaystyle CLV = { (C_{zamknięcia} - C_{minimalna}) - (C_{maksymalna} - C_{zamknięcia}) \over C_{maksymalna} - C_{minimalna}}$
+			\end{itemize}
+	\item[MACD] - Moving Average Convergence/Divergence \hfill \\
+		Wskaźnik składa się z dwóch linii:
+		\begin{itemize}
+			\item Linia MACD - $\displaystyle MACD = EMA(26) - EMA(12)$
+			\item Linia sygnału - powstaje ze~średniej wykładniczej o~okresie 9 z~linii MACD
+		\end{itemize}
+\end{description}
+
+\section{Wyniki badań}
+
+\paragraph{}
+Przy pomocy stworzonej aplikacji przeprowadziłem serię analiz różnych spółek notowanych na GPW w~Warszawie. Analizy przeprowadziłem w~perspektywie średnio i~krótkoterminowej. Dla analizy średnioterminowej wykorzystywałem notowania sprzed 60 sesji, natomiast dla krótkoterminej sprzed 20.

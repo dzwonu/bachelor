@@ -30,7 +30,7 @@
      NUM = #'[-+]?[0-9]+[.]?[0-9]*|[0-9]+'")
   )
     
-(def Facts [])
+;(def Facts [])
 
 (defn parse-expr 
   "parses expr struct into list of symbols"

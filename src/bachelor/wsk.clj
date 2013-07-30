@@ -286,7 +286,7 @@
     (empty? lst) ()
     (>= k (count lst)) (cons 0 (liczROC k (rest lst)))
     :else
-    (cons (* (/ (getClose lst) (getCloseNth k lst)) 100) (liczROC k (rest lst))))
+    (cons (* (/ (- (getClose lst) (getCloseNth k lst)) (getCloseNth k lst)) 100) (liczROC k (rest lst))))
   )
 
 (defn liczRS
