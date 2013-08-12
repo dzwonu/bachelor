@@ -82,3 +82,37 @@
 (((rsisell) and (fallingtrendmediumtime)) and ((accumsell) and (ema12sell))) >> sell
 ((DAYS10MACDCUTSIGNAL > 0) and (DAYS10SIGNALCUTMACD == 0)) >> macdbuy
 ((DAYS10SIGNALCUTMACD > 0) and (DAYS10MACDCUTSIGNAL == 0)) >> macdsell
+(((rsibuy) and (risingtrendmediumtime)) and (accumbuy)) >> buy
+(((rsibuy) and (risingtrendmediumtime)) and (ema12buy)) >> buy
+((rsibuy) and ((accumbuy) and (ema12buy))) >> buy
+((macdbuy) and ((accumbuy) and (ema12buy))) >> buy
+((rsibuy) and ((macdbuy) and (ema12buy))) >> buy
+((rsibuy) and ((accumbuy) and (macdbuy))) >> buy
+((risingtrendmediumtime) and ((accumbuy) and (ema12buy))) >> buy
+(((rsisell) and (fallingtrendmediumtime)) and (accumsell)) >> sell
+(((rsisell) and (fallingtrendmediumtime)) and (ema12sell)) >> sell
+((rsisell) and ((accumsell) and (ema12sell))) >> sell
+((macdsell) and ((accumsell) and (ema12sell))) >> sell
+((rsisell) and ((macdsell) and (ema12sell))) >> sell
+((rsisell) and ((accumsell) and (macdsell))) >> sell
+((fallingtrendmediumtime) and ((accumsell) and (ema12sell))) >> sell
+((risingtrendmediumtime) and (changetrend)) >> sell
+((risingtrendshorttime) and (changetrend)) >> sell
+((fallingtrendmediumtime) and (changetrend)) >> buy
+((fallingtrendshorttime) and (changetrend)) >> buy
+((fallingtrendshorttime) and (macdsell)) >> sell
+((fallingtrendshorttime) and (accumsell)) >> sell
+((fallingtrendshorttime) and (rsisell)) >> sell
+((fallingtrendshorttime) and (ema12sell)) >> sell
+((risingtrendshorttime) and (macdbuy)) >> buy
+((risingtrendshorttime) and (accumbuy)) >> buy
+((risingtrendshorttime) and (rsibuy)) >> buy
+((risingtrendshorttime) and (ema12buy)) >> buy
+((fallingtrendmediumtime) and (macdsell)) >> sell
+((fallingtrendmediumtime) and (accumsell)) >> sell
+((fallingtrendmediumtime) and (rsisell)) >> sell
+((fallingtrendmediumtime) and (ema12sell)) >> sell
+((risingtrendmediumtime) and (macdbuy)) >> buy
+((risingtrendmediumtime) and (accumbuy)) >> buy
+((risingtrendmediumtime) and (rsibuy)) >> buy
+((risingtrendmediumtime) and (ema12buy)) >> buy

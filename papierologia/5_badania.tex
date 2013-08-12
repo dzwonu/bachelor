@@ -7,6 +7,13 @@
 \paragraph{}
 Aplikacja powstająca podczas pisania tej pracy to system ekspertowy, którego zadaniem jest ocena spółek giełdowych i~podejmowanie decyzji, czy w~danej chwili konkretną spółkę warto kupić bądź sprzedać. Użytkownik aplikacji może pobrać notowania spółek giełdowych notowanych na Giełdzie Papierów Wartościowych w~Warszawie z~serwisu bossa.pl. Może również korzystać z~dowolnego innego źródła notowań, pod warunkiem, że~dane będą archiwum ZIP zawierającym pliki w~formacie MST o~nazwach odpowiadających nazwom spółek. Po tym na liście dostępne są spółki, których dane znajdowały się w~archiwum. Aplikacja po wyborze konkretnej spółki tworzy wykres jej ceny i~wolumenu w~cały okresie w~jakim była notowana. Użytkownik ma możliwość wyboru z~listy ile sesji chce wyświetlić na wykresie, a~także czy ma być tworzony wykres wartości wolumenu. Po wczytaniu danych o~konkretnej spółce przycisk Analizuj pozwala na przeprowadzenie procesu wnioskowania dla danej spółki i~określenie czy w~danej chwili warto sprzedawać bądź kupować dane akcje.
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{1.jpg}
+	\caption{Widok aplikacji po uruchomieniu}
+	\label{fig:1}
+\end{figure}
+
 \subsection{Struktura projektu}
 
 \paragraph{}
@@ -49,10 +56,52 @@ Następnie element z~listy o~typie :EXPR przekazywany jest do funkcji, która sp
 \paragraph{}
 Silnik wnioskujący opiera się o~wnioskowanie w~przód i~składa się z~dwóch funkcji. Pierwsza z~nich cyklicznie wywołuje drugą, przekazując do niej listę reguł i~aktualną listę faktów. Druga funkcja uruchamia kolejno wszystkie reguły. Jeśli można uruchomić regułę i~wartość logiczne jej wyrażenia to prawda, wtedy sprawdzane jest czy na liście faktów znajduje się już fakt generowany przez tą regułę. Jeśli nie, jest on dodawany i~uruchamiana jest kolejna reguła. Po każdym wykonaniu funkcji sprawdzającej wszystkie reguły, główna funkcja wnioskująca sprawdza, czy na liście faktów pojawił się fakt mówiący o~tym aby kupić bądź sprzedać dane akcje. Dodatkowo sprawdza też, czy zmieniła się liczba wygenerowanych faktów. Jeśli nie, oznacza to, że~nie można uruchomić już żadnej nowej reguły i~nie da się uzyskać wniosku kupuj bądź sprzedaj.
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{4.jpg}
+	\caption{Analiza notowań spółki}
+	\label{fig:4}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{5.jpg}
+	\caption{Przedstawienie listy wygenerowanych faktów podczas wnioskowania - wariant z wnioskiem kupuj}
+	\label{fig:5}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{7.jpg}
+	\caption{Przedstawienie listy wygenerowanych faktów podczas wnioskowania - wariant z wnioskiem sprzedaj}
+	\label{fig:2}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{6.jpg}
+	\caption{Przedstawienie listy wygenerowanych faktów podczas wnioskowania - wariant przy braku wniosków}
+	\label{fig:6}
+\end{figure}
+
 \subsection{Obsługa plików ZIP}
 
 \paragraph{}
 Archiwum ZIP z~notowaniami spółek z~GPW w~Warszawie obsługiwane jest w~przestrzeni nazw bachelor.zip. Po naciśnięciu przycisku Pobierz wywoływana jest funkcja, która pobiera plik ZIP ze~wskazanego w~polu tekstowym adresu www. Następnie ścieżka do zapisanego pliku przekazywana jest do głównej funkcji rozpakowującej. Funkcja ta dla każdego elementu z~archiwum tworzy nowy plik z~nazwą tego elementu, a~następnie zapisuje do niego tablicę bajtów z~zawartością tego pliku. Ze~względu na obsługę paska postępu wykonywanych operacji, główna funkcja wnioskująca znajduje się w~głównej przestrzeni nazw, a~wszystkie funkcje pomocnicze w~przestrzeni bachelor.zip. Cały proces pobierania i~rozpakowywania archiwum odbywa się w~osobnym wątku, tak aby nie blokować działania reszty interfejsu użytkownika.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{2.jpg}
+	\caption{Pobieranie nowych notowań}
+	\label{fig:2}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{3.jpg}
+	\caption{Poprawne pobranie i rozpakowanie nowych notowań}
+	\label{fig:3}
+\end{figure}
 
 \subsection{Struktura danych o~notowaniach}
 
@@ -75,6 +124,80 @@ Dane o~notowaniach spółek giełdowych, które wczytywane są z~pliku, w~aplika
 				\end{description}
 		\end{itemize}
 \end{description}
+
+\subsection{Wykresy}
+
+\paragraph{}
+W~aplikacji została wykorzystana biblioteka Incanter\cite{incanter} pozwalająca generować wykresy z~dostarczonych struktur danych. Wykorzystywany jest jedynie szablon wykresów czasowych, do~którego przekazujemy listę dat jako wartości dla osi poziomej i~drugą listę z~wartościami dla osi pionowej. Domyślnie rysowane są dwa wykresy:
+\begin{itemize}
+	\item Wartości akcji (indeksu) - główny wykres przedstawiający cenę akcji wybranej spółki, bądź wartość wybranego indeksu
+	\item Wolumenu - dodatkowy wykres prezentujący wartość wolumenu
+\end{itemize}
+
+Istnieje możliwość ukrycia wykresu wolumenu, a~także wyboru z~rozwijanej listy dla ilu sesji mają być rysowane wykresy.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{8.jpg}
+	\caption{Widok z ukrytym wykresem wolumenu}
+	\label{fig:8}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{9.jpg}
+	\caption{Widok wykresów dla 250 ostatnich sesji}
+	\label{fig:9}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{10.jpg}
+	\caption{Widok wykresów dla 200 ostatnich sesji}
+	\label{fig:10}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{11.jpg}
+	\caption{Widok wykresów dla 150 ostatnich sesji}
+	\label{fig:11}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{12.jpg}
+	\caption{Widok wykresów dla 90 ostatnich sesji}
+	\label{fig:12}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{13.jpg}
+	\caption{Widok wykresów dla 60 ostatnich sesji}
+	\label{fig:13}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{14.jpg}
+	\caption{Widok wykresów dla 45 ostatnich sesji}
+	\label{fig:14}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{15.jpg}
+	\caption{Widok wykresów dla 30 ostatnich sesji}
+	\label{fig:15}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth]{16.jpg}
+	\caption{Widok wykresów dla 15 ostatnich sesji}
+	\label{fig:16}
+\end{figure}
 
 \subsection{Obliczane wskaźniki analizy technicznej}
 
@@ -157,7 +280,120 @@ Podczas procesu wnioskowania wykorzystywanych jest wiele wskaźników analizy te
 		\end{itemize}
 \end{description}
 
-\section{Wyniki badań}
+\section{Badania}
+
+\subsection{Opis przeprowadzonych analiz}
 
 \paragraph{}
-Przy pomocy stworzonej aplikacji przeprowadziłem serię analiz różnych spółek notowanych na GPW w~Warszawie. Analizy przeprowadziłem w~perspektywie średnio i~krótkoterminowej. Dla analizy średnioterminowej wykorzystywałem notowania sprzed 60 sesji, natomiast dla krótkoterminej sprzed 20.
+Przy pomocy stworzonej aplikacji przeprowadziłem serię analiz różnych spółek notowanych na GPW w~Warszawie. Analizy przeprowadziłem w~perspektywie średnio i~krótkoterminowej. Dla analizy średnioterminowej wykorzystywałem notowania sprzed 60 sesji, natomiast dla krótkoterminej sprzed 20. W~obu przypadkach analizie poddanych zostało po 5~spółek z~indeksów WIG20, mWIG40 i~sWIG80.\\
+Dla WIG20:
+\begin{itemize}
+	\item PKOBP
+	\item KGHM
+	\item PGE
+	\item TPSA
+	\item JSW
+\end{itemize}
+
+Dla mWIG40:
+\begin{itemize}
+	\item ALIOR
+	\item TVN
+	\item NETIA
+	\item INTERCARS
+	\item GPW
+\end{itemize}
+
+Dla sWIG80:
+\begin{itemize}
+	\item WAWEL
+	\item AMICA
+	\item ATM
+	\item DEBICA
+	\item BENEFIT
+\end{itemize}
+
+\subsection{Wyniki badań}
+
+\subsubsection{Analiza spółek z~indeksu WIG20}
+
+\paragraph{}
+Najpierw wyniki analizy w~perspektywie krótkoterminej, czyli dla notowań sprzed 20~sesji.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ c c c c}
+	Spółka & Cena 20 sesji wstecz & Cena aktualna & Wniosek \\ \hline \\
+	PKOBP & 35.95 & 39.00 & Sprzedaj \\
+	KGHM & 119.50 & 125.95 & Brak wniosków \\
+	PGE & 14.50 & 15.12 & Sprzedaj \\
+	TPSA & 7.97 & 7.51 & Kup \\
+	JSW & 67.41 & 66.95 & Brak wniosków \\
+	\end{tabular}
+	\caption{Wyniki analizy spółek z~WIG20 w~krótkim terminie}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ c c c c}
+	Spółka & Cena 60 sesji wstecz & Cena aktualna & Wniosek \\ \hline \\
+	PKOBP & 34.50 & 39.00 & Brak wniosków \\
+	KGHM & 140.50 & 125.95 & Kup \\
+	PGE & 17.48 & 15.12 & Sprzedaj \\
+	TPSA & 7.80 & 7.51 & Brak wniosków \\
+	JSW & 79.85 & 66.95 & Brak wniosków \\
+	\end{tabular}
+	\caption{Wyniki analizy spółek z~WIG20 w~średnim terminie}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ c c c c}
+	Spółka & Cena 20 sesji wstecz & Cena aktualna & Wniosek \\ \hline \\
+	ALIOR & 88.65 & 87.80 & Kup  \\
+	TVN & 10.90 & 12.62 & Brak wniosków \\
+	NETIA & 4.33 & 4.99 & Brak wniosków \\
+	INTERCARS & 134.00 & 163.00 & Brak wniosków \\
+	GPW & 38.19 & 36.83 & Brak wniosków \\
+	\end{tabular}
+	\caption{Wyniki analizy spółek z~mWIG40 w~krótkim terminie}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ c c c c}
+	Spółka & Cena 60 sesji wstecz & Cena aktualna & Wniosek \\ \hline \\
+	ALIOR & 80.00 & 87.80 & Sprzedaj\\
+	TVN & 9.60 & 12.62 & Sprzedaj \\
+	NETIA & 4.41 & 4.99 & Brak wniosków \\
+	INTERCARS & 109.00 & 163.00 & Kup \\
+	GPW & 40.75 & 36.83 & Brak wniosków \\
+	\end{tabular}
+	\caption{Wyniki analizy spółek z~mWIG40 w~średnim terminie}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ c c c c}
+	Spółka & Cena 20 sesji wstecz & Cena aktualna & Wniosek \\ \hline \\
+	WAWEL & 861.00 & 975.00 & Brak wniosków \\
+	AMICA & 74.09 & 90.90 & Sprzedaj \\
+	ATM & 11.56 & 12.15 & Brak wniosków \\
+	DEBICA & 64.46 & 76.53 & Brak wniosków \\
+	BENEFIT & 38.19 & 279.45 & Brak wniosków \\
+	\end{tabular}
+	\caption{Wyniki analizy spółek z~sWIG80 w~krótkim terminie}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ c c c c}
+	Spółka & Cena 60 sesji wstecz & Cena aktualna & Wniosek \\ \hline \\
+	WAWEL & 808.95 & 975.00 & Brak wniosków \\
+	AMICA & 72.67 & 90.90 & Brak wniosków \\
+	ATM & 11.75 & 12.15 & Brak wniosków \\
+	DEBICA & 65.41 & 76.53 & Brak wniosków \\
+	BENEFIT & 275.00 & 279.45 & Brak wniosków \\
+	\end{tabular}
+	\caption{Wyniki analizy spółek z~sWIG80 w~średnim terminie}
+\end{table}
