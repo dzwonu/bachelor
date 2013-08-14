@@ -1,13 +1,5 @@
 \begin{thebibliography}{10}
 
-\bibitem{kbibtex}
-{KBibTeX}.
-\newblock \url{http://home.gna.org/kbibtex/}.
-
-\bibitem{Kile}
-{Kile - an Integrated LaTeX Environment}.
-\newblock \url{http://kile.sourceforge.net/}.
-
 \bibitem{clj-http}
 Repozytorium biblioteki clj-http.
 \newblock \url{https://github.com/dakrone/clj-http}.
@@ -36,13 +28,13 @@ Strona domowa biblioteki incanter.
 Strona domowa języka clojure.
 \newblock \url{http://clojure.org/}.
 
+\bibitem{java}
+Strona domowa języka java.
+\newblock \url{http://www.java.com/pl/}.
+
 \bibitem{leiningen}
 Strona domowa projektu leiningen.
 \newblock \url{http://leiningen.org/}.
-
-\bibitem{texlive}
-{TeX Live}.
-\newblock \url{http://www.tug.org/texlive/}.
 
 \bibitem{clojure}
 S.~Halloway.
@@ -58,16 +50,5 @@ J.~Mulawka.
 J.~Murphy.
 \newblock {\em Analiza techniczna rynków finansowych}.
 \newblock 2008.
-
-\bibitem{Nie10}
-A.~Niewiadomski.
-\newblock Szablon pracy dyplomowej.
-\newblock \url{http://ics.p.lodz.pl/~aniewiadomski/mgr/szablon-konspekt.pdf},
-  2010.
-
-\bibitem{Oet11}
-T.~Oetiker.
-\newblock The not so short introduction to {LaTeX2e}.
-\newblock \url{http://tobi.oetiker.ch/lshort/lshort.pdf}, 2011.
 
 \end{thebibliography}
