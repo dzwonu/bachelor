@@ -51,10 +51,171 @@ W~pierwszej kolejności linia z~regułą wczytana z~pliku parsowana jest przez b
 
 Następnie element z~listy o~typie :EXPR przekazywany jest do funkcji, która sprawdza, którym wariantem wyrażenia jest przekazany token. Na tej podstawie tworzy listę symboli możliwych do zinterpretowania przez Clojure, które odpowiadają funkcjonalnie treści wyrażenia. Utworzona lista symboli jest wykorzystywana jako ,,ciało'' funkcji przez makro, które generuje nowe funkcje reprezentujące reguły. Każde tak wygenerowane wyrażenie musi zwracać wartość logiczną prawda bądź fałsz. Podczas procesu wnioskowania zależnie od tej wartości do listy faktów dodawany jest nowy fakt, bądź mechanizm przechodzi do ewaluacji kolejnej funkcji - reguły.
 
+Dzięki bibliotece Instaparse\cite{instaparse} w~łatwy sposób można powyższą gramatykę reguł przetworzyć na listę tokenów, a~z~takiej listy wygenerować funkcję, którą następnie można wywołać w~celu sprawdzenia, czy wszystkie przesłanki danej reguły są prawdziwe i~można dodać nowy fakt do bazy wiedzy.
+
+\lstset{language=Lisp,
+	breaklines=true,
+	keywordstyle=\color{blue},
+	morekeywords={def,defn},
+	stringstyle=\color{red},
+	numbers=left,
+	numbersep=5pt,
+	showspaces=false,
+	showtabs=false,
+	showstringspaces=false,
+	captionpos=b,
+	caption={Zdefiniowana gramatyka wykorzystywania do tworzenia listy tokenów z reguły}}
+\begin{lstlisting}
+(def grammar
+  (insta/parser
+    "RULE = EXPR' >> 'FACT
+     EXPR = '('EXPR' 'OpL' 'EXPR')' | '('WSK' 'OpA' 'NUM')' | '('WSK' 'OpA' 'WSK')' | '('FACT')'
+     OpL = 'and' | 'or'
+     OpA = '>' | '<' | '=='
+     WSK = #'[A-Z]+[A-Z0-9]*'
+     FACT = #'[a-z]+[a-z0-9]*'
+     NUM = #'[-+]?[0-9]+[.]?[0-9]*|[0-9]+'")
+  )
+\end{lstlisting}
+
+\lstset{language=Lisp,
+	breaklines=true,
+	keywordstyle=\color{blue},
+	morekeywords={def,defn},
+	stringstyle=\color{red},
+	numbers=left,
+	numbersep=5pt,
+	showspaces=false,
+	showtabs=false,
+	showstringspaces=false,
+	captionpos=b,
+	caption={Makro generujące funkcję - wykorzystuje listę tokenów}}
+\begin{lstlisting}
+(defmacro generate-funcs 
+  "creates function from parse-tree"
+  [parse-tree]
+  (let [[_ expr _ [_ fact-value]] parse-tree
+        arg (gensym "facts")
+        expression (parse-expr expr arg)
+        new-fact (str fact-value)]
+    `(fn 
+       [~arg] 
+       (if ~expression
+         (str ~new-fact) 
+         ())
+       )
+    )
+  )
+\end{lstlisting}
+
+\pagebreak
+
+\lstset{language=Lisp,
+	breaklines=true,
+	keywordstyle=\color{blue},
+	morekeywords={def,defn},
+	stringstyle=\color{red},
+	numbers=left,
+	numbersep=5pt,
+	showspaces=false,
+	showtabs=false,
+	showstringspaces=false,
+	captionpos=b,
+	caption={Funkcja tworząca ,,ciało'' funkcji z listy tokenów}}
+\begin{lstlisting}
+(defn parse-expr 
+  "parses expr struct into list of symbols"
+  [expr arg]
+  (cond
+    (empty? expr) ()
+    :else
+    (let [[_ _ [part1-type part1-val] _ [part2-type part2-val] _ [part3-type part3-val] _] expr]
+      (cond 
+        (and (= :WSK part1-type) (= :OpA part2-type) (= :NUM part3-type)) 
+	(let 
+	 [wsk (symbol (str "bachelor.wsk/" part1-val))
+	 opa (symbol part2-val)
+	 num (Integer/valueOf part3-val)]
+	 (list opa (list wsk) num))
+        (and (= :WSK part1-type) (= :OpA part2-type) (= :WSK part3-type)) 
+	(let
+	 [wsk1 (symbol (str "bachelor.wsk/" part1-val))
+	 opa (symbol part2-val)
+	 wsk2 (symbol (str "bachelor.wsk/" part3-val))]
+	 (list opa (list wsk1) (list wsk2)))
+        (= :OpL part2-type) 
+	(let
+	 [expr1 (parse-expr (get expr 2) arg)
+	 opl (symbol part2-val)
+	 expr2 (parse-expr (get expr 6) arg)]
+	 (list opl expr1 expr2))
+        (= :FACT part1-type) 
+	(let
+	 [fact (str part1-val)
+	 bool (symbol "boolean")
+	 some (symbol "some")]
+	 (list bool (list some #{fact} arg)))
+        :else
+        ())
+      )
+    )
+  )
+\end{lstlisting}
+
 \subsection{Mechanizm wnioskujący}
 
 \paragraph{}
 Silnik wnioskujący opiera się o~wnioskowanie w~przód i~składa się z~dwóch funkcji. Pierwsza z~nich cyklicznie wywołuje drugą, przekazując do niej listę reguł i~aktualną listę faktów. Druga funkcja uruchamia kolejno wszystkie reguły. Jeśli można uruchomić regułę i~wartość logiczne jej wyrażenia to prawda, wtedy sprawdzane jest czy na liście faktów znajduje się już fakt generowany przez tą regułę. Jeśli nie, jest on dodawany i~uruchamiana jest kolejna reguła. Po każdym wykonaniu funkcji sprawdzającej wszystkie reguły, główna funkcja wnioskująca sprawdza, czy na liście faktów pojawił się fakt mówiący o~tym aby kupić bądź sprzedać dane akcje. Dodatkowo sprawdza też, czy zmieniła się liczba wygenerowanych faktów. Jeśli nie, oznacza to, że~nie można uruchomić już żadnej nowej reguły i~nie da się uzyskać wniosku kupuj bądź sprzedaj.
+
+\lstset{language=Lisp,
+	breaklines=true,
+	keywordstyle=\color{blue},
+	morekeywords={def,defn},
+	stringstyle=\color{red},
+	numbers=left,
+	numbersep=5pt,
+	showspaces=false,
+	showtabs=false,
+	showstringspaces=false,
+	captionpos=b,
+	caption={Główna funkcja wnioskująca}}
+\begin{lstlisting}
+(defn inference
+  "evaluates all rules as long as don't get buy or sell conclusion"
+  [rules facts]
+  (cond
+    (done? facts) facts
+    (empty? rules) facts
+    (= (count facts) (count (vec (evaluateRules rules facts)))) facts
+    :else
+    (inference rules (vec (evaluateRules rules facts))))
+  )
+\end{lstlisting}
+
+\lstset{language=Lisp,
+	breaklines=true,
+	keywordstyle=\color{blue},
+	morekeywords={def,defn},
+	stringstyle=\color{red},
+	numbers=left,
+	numbersep=5pt,
+	showspaces=false,
+	showtabs=false,
+	showstringspaces=false,
+	captionpos=b,
+	caption={Funkcja sprawdzająca wszystkie reguły}}
+\begin{lstlisting}
+(defn evaluateRules
+  "evaluates rules"
+  [rules facts]
+  (cond
+    (empty? rules) facts
+    (empty? (eval (list (first rules) facts))) (evaluateRules (rest rules) facts)
+    (containsFact? (eval (list (first rules) facts)) facts) (evaluateRules (rest rules) facts)
+    :else
+    (cons (eval (list (first rules) facts)) (evaluateRules (rest rules) facts)))
+  )
+\end{lstlisting}
 
 \begin{figure}[H]
 	\centering
@@ -88,6 +249,48 @@ Silnik wnioskujący opiera się o~wnioskowanie w~przód i~składa się z~dwóch 
 
 \paragraph{}
 Archiwum ZIP z~notowaniami spółek z~GPW w~Warszawie obsługiwane jest w~przestrzeni nazw bachelor.zip. Po naciśnięciu przycisku Pobierz wywoływana jest funkcja, która pobiera plik ZIP ze~wskazanego w~polu tekstowym adresu www. Następnie ścieżka do zapisanego pliku przekazywana jest do głównej funkcji rozpakowującej. Funkcja ta dla każdego elementu z~archiwum tworzy nowy plik z~nazwą tego elementu, a~następnie zapisuje do niego tablicę bajtów z~zawartością tego pliku. Ze~względu na obsługę paska postępu wykonywanych operacji, główna funkcja wnioskująca znajduje się w~głównej przestrzeni nazw, a~wszystkie funkcje pomocnicze w~przestrzeni bachelor.zip. Cały proces pobierania i~rozpakowywania archiwum odbywa się w~osobnym wątku, tak aby nie blokować działania reszty interfejsu użytkownika.
+\pagebreak
+
+\lstset{language=Lisp,
+	breaklines=true,
+	keywordstyle=\color{blue},
+	morekeywords={def,defn},
+	stringstyle=\color{red},
+	numbers=left,
+	numbersep=5pt,
+	showspaces=false,
+	showtabs=false,
+	showstringspaces=false,
+	captionpos=b,
+	caption={Funkcja zapisująca pojedynczy plik z archiwum}}
+\begin{lstlisting}
+(defn writeZipEntry
+  "Writes zip entry to file"
+  [zip entry]
+  (with-open [w (io/writer (str "resources/notowania/" (.getName entry)))]
+     (.write w (getZipEntryContent zip entry)))
+  )
+\end{lstlisting}
+
+\lstset{language=Lisp,
+	breaklines=true,
+	keywordstyle=\color{blue},
+	morekeywords={def,defn},
+	stringstyle=\color{red},
+	numbers=left,
+	numbersep=5pt,
+	showspaces=false,
+	showtabs=false,
+	showstringspaces=false,
+	captionpos=b,
+	caption={Funkcja odczytująca zawartość pojedynczego pliku z archiwum}}
+\begin{lstlisting}
+(defn getZipEntryContent
+  "Reads zip entry content"
+  [zip entry]
+  (slurp (.getInputStream zip entry))
+  )
+\end{lstlisting}
 
 \begin{figure}[H]
 	\centering
@@ -125,6 +328,25 @@ Dane o~notowaniach spółek giełdowych, które wczytywane są z~pliku, w~aplika
 		\end{itemize}
 \end{description}
 
+\lstset{language=Lisp,
+	breaklines=true,
+	keywordstyle=\color{blue},
+	morekeywords={def,defn},
+	deletekeywords={open,close},
+	stringstyle=\color{red},
+	numbers=left,
+	numbersep=5pt,
+	showspaces=false,
+	showtabs=false,
+	showstringspaces=false,
+	captionpos=b,
+	caption={Struktura notowań zdefiniowana w języku Clojure}}
+\begin{lstlisting}
+(defstruct Company :name :session)
+
+(defstruct Session :date :open :high :low :close :vol)
+\end{lstlisting}
+
 \subsection{Wykresy}
 
 \paragraph{}
@@ -133,6 +355,28 @@ W~aplikacji została wykorzystana biblioteka Incanter\cite{incanter} pozwalając
 	\item Wartości akcji (indeksu) - główny wykres przedstawiający cenę akcji wybranej spółki, bądź wartość wybranego indeksu
 	\item Wolumenu - dodatkowy wykres prezentujący wartość wolumenu
 \end{itemize}
+
+\lstset{language=Lisp,
+	breaklines=true,
+	keywordstyle=\color{blue},
+	morekeywords={def,defn},
+	stringstyle=\color{red},
+	numbers=left,
+	numbersep=5pt,
+	showspaces=false,
+	showtabs=false,
+	showstringspaces=false,
+	captionpos=b,
+	caption={Przykładowa funkcja rysująca wykres przy pomocy biblioteki Incanter\cite{incanter}}}
+\begin{lstlisting}
+(ChartPanel. 
+  (charts/time-series-plot 
+    (x (read-string (config sessions :text)) (wsk/createCompany (config companiesList :text))) 
+    (y (read-string (config sessions :text)) (wsk/createCompany (config companiesList :text)))
+    :title (config companiesList :text)
+    :x-label "Czas"
+    :y-label "Wartosc [zl | pkt]"))
+\end{lstlisting}
 
 Istnieje możliwość ukrycia wykresu wolumenu, a~także wyboru z~rozwijanej listy dla ilu sesji mają być rysowane wykresy.
 
@@ -315,36 +559,95 @@ Dla sWIG80:
 
 \subsection{Wyniki badań}
 
-\subsubsection{Analiza spółek z~indeksu WIG20}
+Załóżmy, że~dla każdego zestawu danych w~sytuacji wniosku ,,Kup'' kupujemy 1000 akcji, a~następnie sumujemy zyski/straty po upływie odpowiednio 20 bądź 60 sesji. Analogiczną operację przeprowadzamy dla faktu ,,Sprzedaj''. Obliczamy różnicę w~wartości 1000~akcji każdej spółki z~zaleceniem sprzedaży odpowiednio 20~i~60 sesji wstecz. W~sytuacji gdy nie ma wniosków nie jest podejmowane żadne działanie.
 
-\paragraph{}
-Najpierw wyniki analizy w~perspektywie krótkoterminej, czyli dla notowań sprzed 20~sesji.
+\subsubsection{Analiza spółek z~indeksu WIG20}
 
 \begin{table}[H]
 	\centering
 	\begin{tabular}{ c c c c}
 	Spółka & Cena 20 sesji wstecz & Cena aktualna & Wniosek \\ \hline \\
-	PKOBP & 35.95 & 39.00 & Sprzedaj \\
+	PKOBP & 35.95 & 39.00 & Kup \\
 	KGHM & 119.50 & 125.95 & Brak wniosków \\
-	PGE & 14.50 & 15.12 & Sprzedaj \\
-	TPSA & 7.97 & 7.51 & Kup \\
-	JSW & 67.41 & 66.95 & Brak wniosków \\
+	PGE & 14.50 & 15.12 & Kup \\
+	TPSA & 7.97 & 7.51 & Sprzedaj \\
+	JSW & 67.41 & 66.95 & Kup \\
 	\end{tabular}
 	\caption{Wyniki analizy spółek z~WIG20 w~krótkim terminie}
+	\label{tab:wig20short}
 \end{table}
 
 \begin{table}[H]
 	\centering
 	\begin{tabular}{ c c c c}
 	Spółka & Cena 60 sesji wstecz & Cena aktualna & Wniosek \\ \hline \\
-	PKOBP & 34.50 & 39.00 & Brak wniosków \\
-	KGHM & 140.50 & 125.95 & Kup \\
-	PGE & 17.48 & 15.12 & Sprzedaj \\
-	TPSA & 7.80 & 7.51 & Brak wniosków \\
+	PKOBP & 34.50 & 39.00 & Kup \\
+	KGHM & 140.50 & 125.95 & Sprzedaj \\
+	PGE & 17.48 & 15.12 & Kup \\
+	TPSA & 7.80 & 7.51 & Sprzedaj \\
 	JSW & 79.85 & 66.95 & Brak wniosków \\
 	\end{tabular}
 	\caption{Wyniki analizy spółek z~WIG20 w~średnim terminie}
+	\label{tab:wig20medium}
 \end{table}
+
+Poniżej zestawienie zysków/strat inwestycji prowadzonej zgodnie z~zaleceniami systemu dla wybranych spółek z~indeksu WIG20.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ | c | >{\centering\arraybackslash}p{3cm} | >{\centering\arraybackslash}p{3cm} | >{\centering\arraybackslash}p{2cm} | >{\centering\arraybackslash}p{2cm} |}
+	\hline
+	Spółka & Zakup 60 sesji wstecz & Zakup 20 sesji wstecz & Wartość zakupu & Wartość sprzedaży \\ \hline
+	PKOBP & TAK & TAK & 70 450zł & 78 000zł \\ \hline
+	KGHM & NIE & NIE & 0 zł & 0 zł \\ \hline
+	PGE & TAK & TAK & 31 980zł & 30 240zł \\ \hline
+	TPSA & NIE & NIE & 0zł & 0zł \\ \hline
+	JSW & NIE & TAK & 67 410zł & 66 950zł \\ \hline
+	\end{tabular}
+	\caption{Wynik finansowy inwestycji w wybrane spółki z WIG20}
+	\label{tab:wig20buy}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{| c | c |}
+		\hline
+		Wartość zakupu wszystkich akcji: & 169 840zł\\ \hline
+		Wartość sprzedaży wszystkich akcji: & 175 190zł\\ \hline
+		Zysk netto: & 5 350zł (3.15\%)\\ \hline
+	\end{tabular}
+	\caption{Podsumowanie inwestycji w wybrane spółki z WIG20}
+	\label{tab:sumWIG20buy}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ | c | >{\centering\arraybackslash}p{3cm} | >{\centering\arraybackslash}p{3cm} | >{\centering\arraybackslash}p{2cm} | >{\centering\arraybackslash}p{2cm} |}
+	\hline
+	Spółka & Sprzedaż 60 sesji wstecz & Sprzedaż 20 sesji wstecz & Wartość sprzedaży & Wartość zakupu \\ \hline
+	PKOBP & NIE & NIE & 0zł & 0zł \\ \hline
+	KGHM & TAK & NIE & 140 500zł & 125 950zł \\ \hline
+	PGE & NIE & NIE & 0zł & 0zł \\ \hline
+	TPSA & TAK & TAK & 15 770zł & 15 020zł \\ \hline
+	JSW & NIE & NIE & 0zł & 0zł \\ \hline
+	\end{tabular}
+	\caption{Wynik finansowy po sprzedaży wybranych spółek z WIG20}
+	\label{tab:wig20sell}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{| c | c |}
+		\hline
+		Wartość sprzedaży wszystkich akcji: & 156 270zł\\ \hline
+		Wartość ponownego zakupu wszystkich akcji: & 140 970zł\\ \hline
+		Zysk netto: & 15 300zł (9.79\%) \\ \hline
+	\end{tabular}
+	\caption{Podsumowanie sprzedaży wybranych spółek z WIG20}
+	\label{tab:sumWIG20sell}
+\end{table}
+
+\subsubsection{Analiza spółek z~indeksu mWIG40}
 
 \begin{table}[H]
 	\centering
@@ -353,36 +656,97 @@ Najpierw wyniki analizy w~perspektywie krótkoterminej, czyli dla notowań sprze
 	ALIOR & 88.65 & 87.80 & Kup  \\
 	TVN & 10.90 & 12.62 & Brak wniosków \\
 	NETIA & 4.33 & 4.99 & Brak wniosków \\
-	INTERCARS & 134.00 & 163.00 & Brak wniosków \\
+	INTERCARS & 134.00 & 163.00 & Sprzedaj \\
 	GPW & 38.19 & 36.83 & Brak wniosków \\
 	\end{tabular}
 	\caption{Wyniki analizy spółek z~mWIG40 w~krótkim terminie}
+	\label{tab:mwig40short}
 \end{table}
 
 \begin{table}[H]
 	\centering
 	\begin{tabular}{ c c c c}
 	Spółka & Cena 60 sesji wstecz & Cena aktualna & Wniosek \\ \hline \\
-	ALIOR & 80.00 & 87.80 & Sprzedaj\\
-	TVN & 9.60 & 12.62 & Sprzedaj \\
+	ALIOR & 80.00 & 87.80 & Kup \\
+	TVN & 9.60 & 12.62 & Kup \\
 	NETIA & 4.41 & 4.99 & Brak wniosków \\
 	INTERCARS & 109.00 & 163.00 & Kup \\
-	GPW & 40.75 & 36.83 & Brak wniosków \\
+	GPW & 40.75 & 36.83 & Kup \\
 	\end{tabular}
 	\caption{Wyniki analizy spółek z~mWIG40 w~średnim terminie}
+	\label{tab:mwig40medium}
 \end{table}
+
+Poniżej zestawienie zysków/strat inwestycji prowadzonej zgodnie z~zaleceniami systemu dla wybranych spółek z~indeksu mWIG40.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ | c | >{\centering\arraybackslash}p{3cm} | >{\centering\arraybackslash}p{3cm} | >{\centering\arraybackslash}p{2cm} | >{\centering\arraybackslash}p{2cm} |}
+	\hline
+	Spółka & Zakup 60 sesji wstecz & Zakup 20 sesji wstecz & Wartość zakupu & Wartość sprzedaży \\ \hline
+	ALIOR & TAK & TAK & 168 650zł & 175 600zł \\ \hline
+	TVN & TAK & NIE & 9 600 zł & 12 620 zł \\ \hline
+	NETIA & NIE & NIE & 0zł & 0zł \\ \hline
+	INTERCARS & TAK & NIE & 109 000zł & 163 000zł \\ \hline
+	GPW & TAK & NIE & 40 750zł & 36 830zł \\ \hline
+	\end{tabular}
+	\caption{Wynik finansowy inwestycji w wybrane spółki z mWIG40}
+	\label{tab:mwig40buy}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{| c | c |}
+		\hline
+		Wartość zakupu wszystkich akcji: & 328 000zł\\ \hline
+		Wartość sprzedaży wszystkich akcji: & 388 050zł\\ \hline
+		Zysk netto: & 60 050zł (18.31\%)\\ \hline
+	\end{tabular}
+	\caption{Podsumowanie inwestycji w wybrane spółki z mWIG40}
+	\label{tab:summWIG40buy}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ | c | >{\centering\arraybackslash}p{3cm} | >{\centering\arraybackslash}p{3cm} | >{\centering\arraybackslash}p{2cm} | >{\centering\arraybackslash}p{2cm} |}
+	\hline
+	Spółka & Sprzedaż 60 sesji wstecz & Sprzedaż 20 sesji wstecz & Wartość sprzedaży & Wartość zakupu \\ \hline
+	ALIOR & NIE & NIE & 0zł & 0zł \\ \hline
+	TVN & NIE & NIE & 0 zł & 0 zł \\ \hline
+	NETIA & NIE & NIE & 0zł & 0zł \\ \hline
+	INTERCARS & NIE & TAK & 134 000zł & 163 000zł \\ \hline
+	GPW & NIE & NIE & 0zł & 0zł \\ \hline
+	\end{tabular}
+	\caption{Wynik finansowy po sprzedaży wybranych spółek z mWIG40}
+	\label{tab:mwig40sell}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{| c | c |}
+		\hline
+		Wartość sprzedaży wszystkich akcji: & 134 000zł\\ \hline
+		Wartość ponownego zakupu wszystkich akcji: & 163 000zł\\ \hline
+		Zysk netto: & -29 000zł (-21.64\%) \\ \hline
+	\end{tabular}
+	\caption{Podsumowanie sprzedaży wybranych spółek z mWIG40}
+	\label{tab:summWIG40sell}
+\end{table}
+
+\subsubsection{Analiza spółek z~indeksu sWIG80}
 
 \begin{table}[H]
 	\centering
 	\begin{tabular}{ c c c c}
 	Spółka & Cena 20 sesji wstecz & Cena aktualna & Wniosek \\ \hline \\
-	WAWEL & 861.00 & 975.00 & Brak wniosków \\
-	AMICA & 74.09 & 90.90 & Sprzedaj \\
+	WAWEL & 861.00 & 975.00 & Kup \\
+	AMICA & 74.09 & 90.90 & Kup \\
 	ATM & 11.56 & 12.15 & Brak wniosków \\
 	DEBICA & 64.46 & 76.53 & Brak wniosków \\
-	BENEFIT & 38.19 & 279.45 & Brak wniosków \\
+	BENEFIT & 275.00 & 279.45 & Sprzedaj \\
 	\end{tabular}
 	\caption{Wyniki analizy spółek z~sWIG80 w~krótkim terminie}
+	\label{tab:swig80short}
 \end{table}
 
 \begin{table}[H]
@@ -390,10 +754,96 @@ Najpierw wyniki analizy w~perspektywie krótkoterminej, czyli dla notowań sprze
 	\begin{tabular}{ c c c c}
 	Spółka & Cena 60 sesji wstecz & Cena aktualna & Wniosek \\ \hline \\
 	WAWEL & 808.95 & 975.00 & Brak wniosków \\
-	AMICA & 72.67 & 90.90 & Brak wniosków \\
+	AMICA & 72.67 & 90.90 & Sprzedaj \\
 	ATM & 11.75 & 12.15 & Brak wniosków \\
 	DEBICA & 65.41 & 76.53 & Brak wniosków \\
-	BENEFIT & 275.00 & 279.45 & Brak wniosków \\
+	BENEFIT & 259.00 & 279.45 & Brak wniosków \\
 	\end{tabular}
 	\caption{Wyniki analizy spółek z~sWIG80 w~średnim terminie}
+	\label{tab:swig80medium}
 \end{table}
+
+Poniżej zestawienie zysków/strat inwestycji prowadzonej zgodnie z~zaleceniami systemu dla wybranych spółek z~indeksu sWIG80.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ | c | >{\centering\arraybackslash}p{3cm} | >{\centering\arraybackslash}p{3cm} | >{\centering\arraybackslash}p{2cm} | >{\centering\arraybackslash}p{2cm} |}
+	\hline
+	Spółka & Zakup 60 sesji wstecz & Zakup 20 sesji wstecz & Wartość zakupu & Wartość sprzedaży \\ \hline
+	WAWEL & NIE & TAK & 861 000zł & 975 000zł \\ \hline
+	AMICA & NIE & TAK & 74 090 zł & 90 900 zł \\ \hline
+	ATM & NIE & NIE & 0zł & 0zł \\ \hline
+	DEBICA & NIE & NIE & 0zł & 0zł \\ \hline
+	BENEFIT & NIE & NIE & 0zł & 0zł \\ \hline
+	\end{tabular}
+	\caption{Wynik finansowy inwestycji w wybrane spółki z sWIG80}
+	\label{tab:mwig40buy}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{| c | c |}
+		\hline
+		Wartość zakupu wszystkich akcji: & 935 090zł\\ \hline
+		Wartość sprzedaży wszystkich akcji: & 1 065 900zł\\ \hline
+		Zysk netto: & 130 810zł (13.99\%)\\ \hline
+	\end{tabular}
+	\caption{Podsumowanie inwestycji w wybrane spółki z sWIG80}
+	\label{tab:sumsWIG80buy}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ | c | >{\centering\arraybackslash}p{3cm} | >{\centering\arraybackslash}p{3cm} | >{\centering\arraybackslash}p{2cm} | >{\centering\arraybackslash}p{2cm} |}
+	\hline
+	Spółka & Sprzedaż 60 sesji wstecz & Sprzedaż 20 sesji wstecz & Wartość sprzedaży & Wartość zakupu \\ \hline
+	WAWEL & NIE & NIE & 0zł & 0zł \\ \hline
+	AMICA & TAK & NIE & 72 670 zł & 90 900 zł \\ \hline
+	ATM & NIE & NIE & 0zł & 0zł \\ \hline
+	DEBICA & NIE & NIE & 0zł & 0zł \\ \hline
+	BENEFIT & NIE & TAK & 275 000zł & 279 450zł \\ \hline
+	\end{tabular}
+	\caption{Wynik finansowy po sprzedaży wybranych spółek z sWIG80}
+	\label{tab:swig80sell}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{| c | c |}
+		\hline
+		Wartość sprzedaży wszystkich akcji: & 347 670zł\\ \hline
+		Wartość ponownego zakupu wszystkich akcji: & 370 350zł\\ \hline
+		Zysk netto: & -22 680zł (-6.52\%) \\ \hline
+	\end{tabular}
+	\caption{Podsumowanie sprzedaży wybranych spółek z sWIG80}
+	\label{tab:sumsWIG80sell}
+\end{table}
+
+\subsubsection{Podsumowanie inwestycji we wszystkie spółki}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{| c | c |}
+		\hline
+		Wartość zakupu wszystkich akcji: & 1 432 930zł\\ \hline
+		Wartość sprzedaży wszystkich akcji: & 1 629 140zł\\ \hline
+		Zysk netto: & 196 210zł (13.69\%)\\ \hline
+	\end{tabular}
+	\caption{Podsumowanie inwestycji we wszystkie spółki}
+	\label{tab:summaryBuy}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{| c | c |}
+		\hline
+		Wartość sprzedaży wszystkich akcji: & 637 940zł\\ \hline
+		Wartość ponownego zakupu wszystkich akcji: & 674 320zł\\ \hline
+		Zysk netto: & -36 380zł (-5.70\%) \\ \hline
+	\end{tabular}
+	\caption{Podsumowanie sprzedaży wszystkich spółek}
+	\label{tab:summarySell}
+\end{table}
+
+\paragraph{}
+Jak widać z~powyższych podsumowań system pozwala zarobić dzięki inwestycji w~akcje giełdowe spółek. W~większości przypadków prawidłowo daje sygnały zakupu. Niestety zdecydowanie gorzej wypada w~przypadku wyłapywania sygnałów do sprzedaży. Jednak zyski z~zakupu akcji bilansują częściowe straty poniesione podczas sprzedaży.

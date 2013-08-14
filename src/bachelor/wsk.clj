@@ -191,7 +191,11 @@
 (defn mfi
   "Calculates money flow index for last k sessions"
   [k lst]
-  (* 100 (/ (posMoneyFlow k lst) (+ (posMoneyFlow k lst) (negMoneyFlow k lst))))
+  (cond
+    (empty? lst) ()
+    (>= k (count lst)) (cons 0 (mfi k (rest lst)))
+    :else
+    (cons (* 100 (/ (posMoneyFlow k lst) (+ (posMoneyFlow k lst) (negMoneyFlow k lst)))) (mfi k (rest lst))))
   )
 
 (defn TR
@@ -453,6 +457,8 @@
   (def macd (lineMACD listWykSK12 listWykSK26))
   
   (def sigLine (signalLine 9 macd))
+  
+  (def listEma5 (wykSK 5 notowania))
   
   (def listVol (for [line notowania]
                  (:vol (:session line))))
@@ -767,22 +773,40 @@
   (first listAccum)
   )
 
-(defn MFI10
-  "Gets MFI value for k = 10"
+(defn MFI10CUT20
+  "Checks if MFI value for k = 10 cuts 20-line from bottom"
   []
-  mfi10
+  (checkSK mfi10 (repeat (count mfi10) 20) 10)
   )
 
-(defn MFI20
-  "Gets MFI value for k = 20"
+(defn MFI10CUT80
+  "Checks if MFI value for k = 10 is cut by 80-line from bottom"
   []
-  mfi20
+  (checkSK (repeat (count mfi10) 80) mfi10 10)
   )
 
-(defn MFI30
-  "Gets MFI value for k = 30"
+(defn MFI20CUT20
+  "Checks if MFI value for k = 20 cuts 20-line from bottom"
   []
-  mfi30
+  (checkSK mfi20 (repeat (count mfi20) 20) 10)
+  )
+
+(defn MFI20CUT80
+  "Checks if MFI value for k = 20 is cut by 80-line from bottom"
+  []
+  (checkSK (repeat (count mfi20) 80) mfi20 10)
+  )
+
+(defn MFI30CUT20
+  "Checks if MFI value for k = 30 cuts 20-line from bottom"
+  []
+  (checkSK mfi30 (repeat (count mfi30) 20) 10)
+  )
+
+(defn MFI30CUT80
+  "Checks if MFI value for k = 30 is cut by 80-line from bottom"
+  []
+  (checkSK (repeat (count mfi30) 80) mfi30 10)
   )
 
 (defn ATR10PERCENT
@@ -827,4 +851,26 @@
   (checkSK sigLine macd 10)
   )
 
+(defn DAYS5CLOSECUTEMA5
+  "Gets how many times close price line cuts ema5 line from bottom in last 5 days"
+  []
+  (checkSK listClose listEma5 5)
+  )
 
+(defn DAYS5EMA5CUTCLOSE
+  "Gets how many times ema5 line cuts close price line from bottom in last 5 days"
+  []
+  (checkSK listEma5 listClose 5)
+  )
+
+(defn DAYS12CLOSECUTEMA12
+  "Gets how many times close price line cuts ema12 line from bottom in last 12 days"
+  []
+  (checkSK listClose listWykSK12 12)
+  )
+
+(defn DAYS12EMA12CUTCLOSE
+  "Gets how many times ema12 line cuts close price line from bottom in last 12 days"
+  []
+  (checkSK listWykSK12 listClose 12)
+  )

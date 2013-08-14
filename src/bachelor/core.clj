@@ -142,9 +142,11 @@
   "checks if list of facts contains conclusion"
   [facts]
   (cond
-    (done? facts) (if (buy? facts)
-                    "buy"
-                    "sell")
+    (done? facts) (if (and (buy? facts) (sell? facts))
+                           "no conclusion"
+                           (if (buy? facts)
+                             "buy"
+                             "sell"))
     :else
     "no conclusion")
   )

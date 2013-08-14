@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/W32TeX) (format=pdflatex 2013.7.22)  12 AUG 2013 15:48
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/W32TeX) (format=pdflatex 2013.7.22)  14 AUG 2013 10:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -353,28 +353,61 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \@float@everytoks=\toks18
 \@floatcapt=\box27
 )
+(c:/texlive/2013/texmf-dist/tex/latex/listings/listings.sty
+\lst@mode=\count90
+\lst@gtempboxa=\box28
+\lst@token=\toks19
+\lst@length=\count91
+\lst@currlwidth=\dimen105
+\lst@column=\count92
+\lst@pos=\count93
+\lst@lostspace=\dimen106
+\lst@width=\dimen107
+\lst@newlines=\count94
+\lst@lineno=\count95
+\lst@maxwidth=\dimen108
+
+(c:/texlive/2013/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2013/07/10 1.5 (Carsten Heinz)
+\c@lstnumber=\count96
+\lst@skipnumbers=\count97
+\lst@framebox=\box29
+)
+(c:/texlive/2013/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2013/06/27 1.5pre1 listings configuration
+))
+Package: listings 2013/07/10 1.5 (Carsten Heinz)
+
+(c:/texlive/2013/texmf-dist/tex/latex/tools/array.sty
+Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
+\col@sep=\dimen109
+\extrarowheight=\dimen110
+\NC@list=\toks20
+\extratabsurround=\skip43
+\backup@length=\skip44
+)
 (c:/texlive/2013/texmf-dist/tex/latex/mh/mathtools.sty
 Package: mathtools 2013/02/12 v1.13 mathematical typesetting tools
 
 (c:/texlive/2013/texmf-dist/tex/latex/tools/calc.sty
 Package: calc 2007/08/22 v4.3 Infix arithmetic (KKT,FJ)
-\calc@Acount=\count90
-\calc@Bcount=\count91
-\calc@Adimen=\dimen105
-\calc@Bdimen=\dimen106
-\calc@Askip=\skip43
-\calc@Bskip=\skip44
+\calc@Acount=\count98
+\calc@Bcount=\count99
+\calc@Adimen=\dimen111
+\calc@Bdimen=\dimen112
+\calc@Askip=\skip45
+\calc@Bskip=\skip46
 LaTeX Info: Redefining \setlength on input line 76.
 LaTeX Info: Redefining \addtolength on input line 77.
-\calc@Ccount=\count92
-\calc@Cskip=\skip45
+\calc@Ccount=\count100
+\calc@Cskip=\skip47
 )
 (c:/texlive/2013/texmf-dist/tex/latex/mh/mhsetup.sty
 Package: mhsetup 2010/01/21 v1.2a programming setup (MH)
 )
 (c:/texlive/2013/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2013/01/14 v2.14 AMS math features
-\@mathmargin=\skip46
+\@mathmargin=\skip48
 
 For additional information on amsmath, use the `?' option.
 (c:/texlive/2013/texmf-dist/tex/latex/amsmath/amstext.sty
@@ -382,77 +415,77 @@ Package: amstext 2000/06/29 v2.01
 
 (c:/texlive/2013/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0
-\@emptytoks=\toks19
-\ex@=\dimen107
+\@emptytoks=\toks21
+\ex@=\dimen113
 ))
 (c:/texlive/2013/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d
-\pmbraise@=\dimen108
+\pmbraise@=\dimen114
 )
 (c:/texlive/2013/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 1999/12/14 v2.01 operator names
 )
-\inf@bad=\count93
+\inf@bad=\count101
 LaTeX Info: Redefining \frac on input line 210.
-\uproot@=\count94
-\leftroot@=\count95
+\uproot@=\count102
+\leftroot@=\count103
 LaTeX Info: Redefining \overline on input line 306.
-\classnum@=\count96
-\DOTSCASE@=\count97
+\classnum@=\count104
+\DOTSCASE@=\count105
 LaTeX Info: Redefining \ldots on input line 378.
 LaTeX Info: Redefining \dots on input line 381.
 LaTeX Info: Redefining \cdots on input line 466.
-\Mathstrutbox@=\box28
-\strutbox@=\box29
-\big@size=\dimen109
+\Mathstrutbox@=\box30
+\strutbox@=\box31
+\big@size=\dimen115
 LaTeX Font Info:    Redeclaring font encoding OML on input line 566.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
-\macc@depth=\count98
-\c@MaxMatrixCols=\count99
+\macc@depth=\count106
+\c@MaxMatrixCols=\count107
 \dotsspace@=\muskip11
-\c@parentequation=\count100
-\dspbrk@lvl=\count101
-\tag@help=\toks20
-\row@=\count102
-\column@=\count103
-\maxfields@=\count104
-\andhelp@=\toks21
-\eqnshift@=\dimen110
-\alignsep@=\dimen111
-\tagshift@=\dimen112
-\tagwidth@=\dimen113
-\totwidth@=\dimen114
-\lineht@=\dimen115
-\@envbody=\toks22
-\multlinegap=\skip47
-\multlinetaggap=\skip48
-\mathdisplay@stack=\toks23
+\c@parentequation=\count108
+\dspbrk@lvl=\count109
+\tag@help=\toks22
+\row@=\count110
+\column@=\count111
+\maxfields@=\count112
+\andhelp@=\toks23
+\eqnshift@=\dimen116
+\alignsep@=\dimen117
+\tagshift@=\dimen118
+\tagwidth@=\dimen119
+\totwidth@=\dimen120
+\lineht@=\dimen121
+\@envbody=\toks24
+\multlinegap=\skip49
+\multlinetaggap=\skip50
+\mathdisplay@stack=\toks25
 LaTeX Info: Redefining \[ on input line 2665.
 LaTeX Info: Redefining \] on input line 2666.
 )
 LaTeX Info: Thecontrolsequence`\['isalreadyrobust on input line 129.
 LaTeX Info: Thecontrolsequence`\]'isalreadyrobust on input line 129.
-\g_MT_multlinerow_int=\count105
-\l_MT_multwidth_dim=\dimen116
-\origjot=\skip49
-\l_MT_shortvdotswithinadjustabove_dim=\dimen117
-\l_MT_shortvdotswithinadjustbelow_dim=\dimen118
-\l_MT_above_intertext_sep=\dimen119
-\l_MT_below_intertext_sep=\dimen120
-\l_MT_above_shortintertext_sep=\dimen121
-\l_MT_below_shortintertext_sep=\dimen122
+\g_MT_multlinerow_int=\count113
+\l_MT_multwidth_dim=\dimen122
+\origjot=\skip51
+\l_MT_shortvdotswithinadjustabove_dim=\dimen123
+\l_MT_shortvdotswithinadjustbelow_dim=\dimen124
+\l_MT_above_intertext_sep=\dimen125
+\l_MT_below_intertext_sep=\dimen126
+\l_MT_above_shortintertext_sep=\dimen127
+\l_MT_below_shortintertext_sep=\dimen128
 )
 (c:/texlive/2013/texmf-dist/tex/latex/amscls/amsthm.sty
 Package: amsthm 2004/08/06 v2.20
-\thm@style=\toks24
-\thm@bodyfont=\toks25
-\thm@headfont=\toks26
-\thm@notefont=\toks27
-\thm@headpunct=\toks28
-\thm@preskip=\skip50
-\thm@postskip=\skip51
-\thm@headsep=\skip52
-\dth@everypar=\toks29
+\thm@style=\toks26
+\thm@bodyfont=\toks27
+\thm@headfont=\toks28
+\thm@notefont=\toks29
+\thm@headpunct=\toks30
+\thm@preskip=\skip52
+\thm@postskip=\skip53
+\thm@headsep=\skip54
+\dth@everypar=\toks31
 )
 (c:/texlive/2013/texmf-dist/tex/latex/amsfonts/amsfonts.sty
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
@@ -465,19 +498,22 @@ LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
 )
 (c:/texlive/2013/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
-\fancy@headwidth=\skip53
-\f@ncyO@elh=\skip54
-\f@ncyO@erh=\skip55
-\f@ncyO@olh=\skip56
-\f@ncyO@orh=\skip57
-\f@ncyO@elf=\skip58
-\f@ncyO@erf=\skip59
-\f@ncyO@olf=\skip60
-\f@ncyO@orf=\skip61
+\fancy@headwidth=\skip55
+\f@ncyO@elh=\skip56
+\f@ncyO@erh=\skip57
+\f@ncyO@olh=\skip58
+\f@ncyO@orh=\skip59
+\f@ncyO@elf=\skip60
+\f@ncyO@erf=\skip61
+\f@ncyO@olf=\skip62
+\f@ncyO@orf=\skip63
 ))
 (./szablon_pracy_dyplomowej.aux
 
 LaTeX Warning: Label `fig:2' multiply defined.
+
+
+LaTeX Warning: Label `tab:mwig40buy' multiply defined.
 
 )
 \openout1 = `szablon_pracy_dyplomowej.aux'.
@@ -498,17 +534,17 @@ LaTeX Font Info:    Checking defaults for OT4/cmr/m/n on input line 8.
 LaTeX Font Info:    ... okay on input line 8.
  (c:/texlive/2013/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count106
-\scratchdimen=\dimen123
-\scratchbox=\box30
-\nofMPsegments=\count107
-\nofMParguments=\count108
-\everyMPshowfont=\toks30
-\MPscratchCnt=\count109
-\MPscratchDim=\dimen124
-\MPnumerator=\count110
-\makeMPintoPDFobject=\count111
-\everyMPtoPDFconversion=\toks31
+\scratchcounter=\count114
+\scratchdimen=\dimen129
+\scratchbox=\box32
+\nofMPsegments=\count115
+\nofMParguments=\count116
+\everyMPshowfont=\toks32
+\MPscratchCnt=\count117
+\MPscratchDim=\dimen130
+\MPnumerator=\count118
+\makeMPintoPDFobject=\count119
+\everyMPtoPDFconversion=\toks33
 ) (c:/texlive/2013/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
 )
@@ -557,6 +593,8 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
+\c@lstlisting=\count120
+
 (./0_strona_tytulowa.tex
 LaTeX Font Info:    Try loading font information for OML+plm on input line 19.
  (c:/texlive/2013/texmf-dist/tex/latex/polski/omlplm.fd
@@ -615,15 +653,8 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
  [1
 
 
-]
-
-LaTeX Warning: Reference `chap:nowa_teoria' on page 2 undefined on input line 2
-0.
-
-
-LaTeX Warning: Reference `app:edycja' on page 2 undefined on input line 20.
-
-) (./2_teoria.tex [2]
+]) (./2_teoria.tex
+[2]
 Rozdzia\PlPrIeC {\l } 2.
 LaTeX Font Info:    External font `plex10' loaded for size
 (Font)              <10> on input line 6.
@@ -673,170 +704,176 @@ Underfull \hbox (badness 10000) in paragraph at lines 37--45
 
  []
 
-[13] <./Graphics/4.jpg, id=66, 770.88pt x 744.53156pt>
-File: ./Graphics/4.jpg Graphic file (type jpg)
- <use ./Graphics/4.jpg>
-Package pdftex.def Info: ./Graphics/4.jpg used on input line 61.
-(pdftex.def)             Requested size: 377.24702pt x 364.34651pt.
-
+[13] (c:/texlive/2013/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2013/06/27 1.5pre1 listings language file
+)
+(c:/texlive/2013/texmf-dist/tex/latex/listings/lstlang2.sty
+File: lstlang2.sty 2013/06/27 1.5pre1 listings language file
+)
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [14]
-<./Graphics/5.jpg, id=70, 773.13844pt x 744.53156pt>
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [15]
+<./Graphics/4.jpg, id=74, 770.88pt x 744.53156pt>
+File: ./Graphics/4.jpg Graphic file (type jpg)
+ <use ./Graphics/4.jpg>
+Package pdftex.def Info: ./Graphics/4.jpg used on input line 222.
+(pdftex.def)             Requested size: 377.24702pt x 364.34651pt.
+
+Underfull \vbox (badness 2556) has occurred while \output is active []
+
+ [16]
+<./Graphics/5.jpg, id=78, 773.13844pt x 744.53156pt>
 File: ./Graphics/5.jpg Graphic file (type jpg)
  <use ./Graphics/5.jpg>
-Package pdftex.def Info: ./Graphics/5.jpg used on input line 68.
+Package pdftex.def Info: ./Graphics/5.jpg used on input line 229.
 (pdftex.def)             Requested size: 377.24702pt x 363.28998pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [15 <./Graphics/4.jpg>] <./Graphics/7.jpg, id=75, 770.88pt x 744.53156pt>
+ [17 <./Graphics/4.jpg>] <./Graphics/7.jpg, id=82, 770.88pt x 744.53156pt>
 File: ./Graphics/7.jpg Graphic file (type jpg)
 
 <use ./Graphics/7.jpg>
-Package pdftex.def Info: ./Graphics/7.jpg used on input line 75.
+Package pdftex.def Info: ./Graphics/7.jpg used on input line 236.
 (pdftex.def)             Requested size: 377.24702pt x 364.34651pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [16 <./Graphics/5.jpg>] <./Graphics/6.jpg, id=79, 770.88pt x 744.53156pt>
+ [18 <./Graphics/5.jpg>] <./Graphics/6.jpg, id=86, 770.88pt x 744.53156pt>
 File: ./Graphics/6.jpg Graphic file (type jpg)
 
 <use ./Graphics/6.jpg>
-Package pdftex.def Info: ./Graphics/6.jpg used on input line 82.
+Package pdftex.def Info: ./Graphics/6.jpg used on input line 243.
 (pdftex.def)             Requested size: 377.24702pt x 364.34651pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [17 <./Graphics/7.jpg>] <./Graphics/2.jpg, id=83, 773.13844pt x 744.53156pt>
+ [19 <./Graphics/7.jpg>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [20 <./Graphics/6.jpg>] <./Graphics/2.jpg, id=93, 773.13844pt x 744.53156pt>
 File: ./Graphics/2.jpg Graphic file (type jpg)
 
 <use ./Graphics/2.jpg>
-Package pdftex.def Info: ./Graphics/2.jpg used on input line 94.
+Package pdftex.def Info: ./Graphics/2.jpg used on input line 297.
 (pdftex.def)             Requested size: 377.24702pt x 363.28998pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [18 <./Graphics/6.jpg>] <./Graphics/3.jpg, id=87, 773.13844pt x 744.53156pt>
+ <./Graphics/3.jpg, id=94, 773.13844pt x 744.53156pt>
 File: ./Graphics/3.jpg Graphic file (type jpg)
 
 <use ./Graphics/3.jpg>
-Package pdftex.def Info: ./Graphics/3.jpg used on input line 101.
+Package pdftex.def Info: ./Graphics/3.jpg used on input line 304.
+(pdftex.def)             Requested size: 377.24702pt x 363.28998pt.
+ [21 <./Graphics/2.jpg>] [22 <./Graphics/3.jpg>]
+<./Graphics/8.jpg, id=102, 773.13844pt x 744.53156pt>
+File: ./Graphics/8.jpg Graphic file (type jpg)
+ <use ./Graphics/8.jpg>
+Package pdftex.def Info: ./Graphics/8.jpg used on input line 385.
 (pdftex.def)             Requested size: 377.24702pt x 363.28998pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [19 <./Graphics/2.jpg>] [20 <./Graphics/3.jpg>]
-<./Graphics/8.jpg, id=94, 773.13844pt x 744.53156pt>
-File: ./Graphics/8.jpg Graphic file (type jpg)
- <use ./Graphics/8.jpg>
-Package pdftex.def Info: ./Graphics/8.jpg used on input line 141.
-(pdftex.def)             Requested size: 377.24702pt x 363.28998pt.
-
-<./Graphics/9.jpg, id=95, 770.88pt x 744.53156pt>
+ [23]
+<./Graphics/9.jpg, id=106, 770.88pt x 744.53156pt>
 File: ./Graphics/9.jpg Graphic file (type jpg)
  <use ./Graphics/9.jpg>
-Package pdftex.def Info: ./Graphics/9.jpg used on input line 148.
+Package pdftex.def Info: ./Graphics/9.jpg used on input line 392.
 (pdftex.def)             Requested size: 377.24702pt x 364.34651pt.
 
-Underfull \vbox (badness 1199) has occurred while \output is active []
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [21 <./Graphics/8.jpg>] <./Graphics/10.jpg, id=100, 773.13844pt x 744.53156pt>
+ [24 <./Graphics/8.jpg>] <./Graphics/10.jpg, id=110, 773.13844pt x 744.53156pt>
 File: ./Graphics/10.jpg Graphic file (type jpg)
 
 <use ./Graphics/10.jpg>
-Package pdftex.def Info: ./Graphics/10.jpg used on input line 155.
+Package pdftex.def Info: ./Graphics/10.jpg used on input line 399.
 (pdftex.def)             Requested size: 377.24702pt x 363.28998pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [22 <./Graphics/9.jpg>] <./Graphics/11.jpg, id=104, 770.88pt x 746.79pt>
+ [25 <./Graphics/9.jpg>] <./Graphics/11.jpg, id=114, 770.88pt x 746.79pt>
 File: ./Graphics/11.jpg Graphic file (type jpg)
 
 <use ./Graphics/11.jpg>
-Package pdftex.def Info: ./Graphics/11.jpg used on input line 162.
+Package pdftex.def Info: ./Graphics/11.jpg used on input line 406.
 (pdftex.def)             Requested size: 377.24702pt x 365.4517pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [23 <./Graphics/10.jpg>] <./Graphics/12.jpg, id=108, 773.13844pt x 744.53156pt
+ [26 <./Graphics/10.jpg>] <./Graphics/12.jpg, id=118, 773.13844pt x 744.53156pt
 >
 File: ./Graphics/12.jpg Graphic file (type jpg)
 
 <use ./Graphics/12.jpg>
-Package pdftex.def Info: ./Graphics/12.jpg used on input line 169.
+Package pdftex.def Info: ./Graphics/12.jpg used on input line 413.
 (pdftex.def)             Requested size: 377.24702pt x 363.28998pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [24 <./Graphics/11.jpg>] <./Graphics/13.jpg, id=112, 770.88pt x 744.53156pt>
+ [27 <./Graphics/11.jpg>] <./Graphics/13.jpg, id=123, 770.88pt x 744.53156pt>
 File: ./Graphics/13.jpg Graphic file (type jpg)
 
 <use ./Graphics/13.jpg>
-Package pdftex.def Info: ./Graphics/13.jpg used on input line 176.
+Package pdftex.def Info: ./Graphics/13.jpg used on input line 420.
 (pdftex.def)             Requested size: 377.24702pt x 364.34651pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [25 <./Graphics/12.jpg>] <./Graphics/14.jpg, id=116, 770.88pt x 744.53156pt>
+ [28 <./Graphics/12.jpg>] <./Graphics/14.jpg, id=127, 770.88pt x 744.53156pt>
 File: ./Graphics/14.jpg Graphic file (type jpg)
 
 <use ./Graphics/14.jpg>
-Package pdftex.def Info: ./Graphics/14.jpg used on input line 183.
+Package pdftex.def Info: ./Graphics/14.jpg used on input line 427.
 (pdftex.def)             Requested size: 377.24702pt x 364.34651pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [26 <./Graphics/13.jpg>] <./Graphics/15.jpg, id=120, 773.13844pt x 744.53156pt
+ [29 <./Graphics/13.jpg>] <./Graphics/15.jpg, id=131, 773.13844pt x 744.53156pt
 >
 File: ./Graphics/15.jpg Graphic file (type jpg)
 
 <use ./Graphics/15.jpg>
-Package pdftex.def Info: ./Graphics/15.jpg used on input line 190.
+Package pdftex.def Info: ./Graphics/15.jpg used on input line 434.
 (pdftex.def)             Requested size: 377.24702pt x 363.28998pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [27 <./Graphics/14.jpg>] <./Graphics/16.jpg, id=125, 770.88pt x 744.53156pt>
+ [30 <./Graphics/14.jpg>] <./Graphics/16.jpg, id=135, 770.88pt x 744.53156pt>
 File: ./Graphics/16.jpg Graphic file (type jpg)
 
 <use ./Graphics/16.jpg>
-Package pdftex.def Info: ./Graphics/16.jpg used on input line 197.
+Package pdftex.def Info: ./Graphics/16.jpg used on input line 441.
 (pdftex.def)             Requested size: 377.24702pt x 364.34651pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [28 <./Graphics/15.jpg>]
+ [31 <./Graphics/15.jpg>]
 
 Package amsmath Warning: Foreign command \over;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 208.
+(amsmath)                 on input line 452.
 
 
-Overfull \hbox (16.54332pt too wide) in paragraph at lines 214--215
+Overfull \hbox (16.54332pt too wide) in paragraph at lines 458--459
 []$\OML/plm/m/it/12 cena typowa \OT4/cmr/m/n/12 = []$ 
  []
 
-[29 <./Graphics/16.jpg>] [30]
+[32 <./Graphics/16.jpg>] [33]
 
-LaTeX Warning: Command \k invalid in math mode on input line 273.
+LaTeX Warning: Command \k invalid in math mode on input line 517.
 
 
-LaTeX Warning: Command \k invalid in math mode on input line 273.
+LaTeX Warning: Command \k invalid in math mode on input line 517.
 
 Missing character: There is no ¦ in font plmi8!
 Missing character: There is no ¦ in font plmi8!
-[31]
-Overfull \hbox (2.32516pt too wide) in paragraph at lines 321--322
- [] \OT4/cmr/m/n/12 Naj-pierw wy-ni-ki ana-li-zy w per-spek-ty-wie krót-ko-ter-
-mi-nej, czy-li dla no-to-wa« sprzed
- []
-
-[32]) (./6_podsumowanie.tex [33] [34
-
-]
+[34] [35] [36] [37] [38] [39]) (./6_podsumowanie.tex [40]
 Rozdzia\PlPrIeC {\l } 5.
-) (./szablon_pracy_dyplomowej.bbl [35] [36
+) (./szablon_pracy_dyplomowej.bbl [41
+
+] [42
 
 ]
 LaTeX Font Info:    Try loading font information for OT4+cmtt on input line 5.
@@ -861,30 +898,27 @@ Underfull \hbox (badness 1057) in paragraph at lines 28--30
 / github . com / arthuredelstein /
  []
 
-) (./b_cd.tex [37] [38
+) (./b_cd.tex [43] [44
 
 ]
 Dodatek A.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [39])
-[40] (./szablon_pracy_dyplomowej.aux)
-
-LaTeX Warning: There were undefined references.
-
+ [45])
+[46] (./szablon_pracy_dyplomowej.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 4151 strings out of 493311
- 55907 string characters out of 6141401
- 118919 words of memory out of 5000000
- 7438 multiletter control sequences out of 15000+600000
+ 6295 strings out of 493311
+ 83456 string characters out of 6141401
+ 251692 words of memory out of 5000000
+ 9561 multiletter control sequences out of 15000+600000
  20140 words of font info for 60 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 40i,11n,46p,1994b,374s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 40i,12n,46p,1994b,1697s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/texlive/2013/texmf-dist/fonts/enc/dvips/pl/pltt.enc}{c:/texlive/2013/texm
 f-dist/fonts/enc/dvips/pl/plme.enc}{c:/texlive/2013/texmf-dist/fonts/enc/dvips/
 pl/plms.enc}{c:/texlive/2013/texmf-dist/fonts/enc/dvips/pl/plmi.enc}{c:/texlive
@@ -902,10 +936,10 @@ ive/2013/texmf-dist/fonts/type1/public/pl/plsl12.pfb><c:/texlive/2013/texmf-dis
 t/fonts/type1/public/pl/plsy10.pfb><c:/texlive/2013/texmf-dist/fonts/type1/publ
 ic/pl/plsy8.pfb><c:/texlive/2013/texmf-dist/fonts/type1/public/pl/plti12.pfb><c
 :/texlive/2013/texmf-dist/fonts/type1/public/pl/pltt12.pfb>
-Output written on szablon_pracy_dyplomowej.pdf (44 pages, 2795090 bytes).
+Output written on szablon_pracy_dyplomowej.pdf (50 pages, 2810593 bytes).
 PDF statistics:
- 234 PDF objects out of 1000 (max. 8388607)
- 154 compressed objects within 2 object streams
+ 253 PDF objects out of 1000 (max. 8388607)
+ 167 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  81 words of extra memory for PDF output out of 10000 (max. 10000000)
 

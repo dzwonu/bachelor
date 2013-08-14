@@ -1,7 +1,5 @@
-((RSI > 70) and (RSI < 95)) >> rsisell
-((RSI == 95) or (RSI > 95)) >> sell
-((RSI > 5) and (RSI < 30)) >> rsibuy
-((RSI == 5) or (RSI < 5)) >> buy
+(RSI > 70) >> rsisell
+(RSI < 30) >> rsibuy
 (MAX10ROC10 == ROC10) >> roc10max10
 (MAX20ROC10 == ROC10) >> roc10max20
 (MAX30ROC10 == ROC10) >> roc10max30
@@ -13,12 +11,12 @@
 (MAX15CLOSE == LASTCLOSE) >> lastclosemax15
 (MAX20CLOSE == LASTCLOSE) >> lastclosemax20
 (MAX30CLOSE == LASTCLOSE) >> lastclosemax30
-((roc10max10) and (lastclosemax10)) >> risingtrendmediumtime
-((roc10max20) and (lastclosemax20)) >> risingtrendmediumtime
-((roc10max30) and (lastclosemax30)) >> risingtrendmediumtime
-((roc5max5) and (lastclosemax5)) >> risingtrendshorttime
-((roc5max10) and (lastclosemax10)) >> risingtrendshorttime
-((roc5max15) and (lastclosemax15)) >> risingtrendshorttime
+((roc10max10) and (lastclosemax10)) >> risingtrendmediumtime10
+((roc10max20) and (lastclosemax20)) >> risingtrendmediumtime20
+((roc10max30) and (lastclosemax30)) >> risingtrendmediumtime30
+((roc5max5) and (lastclosemax5)) >> risingtrendshorttime5
+((roc5max10) and (lastclosemax10)) >> risingtrendshorttime10
+((roc5max15) and (lastclosemax15)) >> risingtrendshorttime15
 ((roc10max10) and (lastclosemin10)) >> changetrend
 ((roc10max20) and (lastclosemin20)) >> changetrend
 ((roc10max30) and (lastclosemin30)) >> changetrend
@@ -36,22 +34,30 @@
 (MIN15CLOSE == LASTCLOSE) >> lastclosemin15
 (MIN20CLOSE == LASTCLOSE) >> lastclosemin20
 (MIN30CLOSE == LASTCLOSE) >> lastclosemin30
-((roc10min10) and (lastclosemin10)) >> fallingtrendmediumtime
-((roc10min20) and (lastclosemin20)) >> fallingtrendmediumtime
-((roc10min30) and (lastclosemin30)) >> fallingtrendmediumtime
-((roc5min5) and (lastclosemin5)) >> fallingtrendshorttime
-((roc5min10) and (lastclosemin10)) >> fallingtrendshorttime
-((roc5min15) and (lastclosemin15)) >> fallingtrendshorttime
+((roc10min10) and (lastclosemin10)) >> fallingtrendmediumtime10
+((roc10min20) and (lastclosemin20)) >> fallingtrendmediumtime20
+((roc10min30) and (lastclosemin30)) >> fallingtrendmediumtime30
+((roc5min5) and (lastclosemin5)) >> fallingtrendshorttime5
+((roc5min10) and (lastclosemin10)) >> fallingtrendshorttime10
+((roc5min15) and (lastclosemin15)) >> fallingtrendshorttime15
 ((roc10min10) and (lastclosemax10)) >> changetrend
 ((roc10min20) and (lastclosemax20)) >> changetrend
 ((roc10min30) and (lastclosemax30)) >> changetrend
 ((roc5min5) and (lastclosemax5)) >> changetrend
 ((roc5min10) and (lastclosemax10)) >> changetrend
 ((roc5min15) and (lastclosemax15)) >> changetrend
-((rsisell) and (fallingtrendmediumtime)) >> sell
-((rsibuy) and (risingtrendmediumtime)) >> buy
-((rsisell) and (fallingtrendshorttime)) >> sell
-((rsibuy) and (risingtrendshorttime)) >> buy
+((rsisell) and (fallingtrendmediumtime10)) >> sell
+((rsisell) and (fallingtrendmediumtime20)) >> sell
+((rsisell) and (fallingtrendmediumtime30)) >> sell
+((rsibuy) and (risingtrendmediumtime10)) >> buy
+((rsibuy) and (risingtrendmediumtime20)) >> buy
+((rsibuy) and (risingtrendmediumtime30)) >> buy
+((rsisell) and (fallingtrendshorttime5)) >> sell
+((rsisell) and (fallingtrendshorttime10)) >> sell
+((rsisell) and (fallingtrendshorttime15)) >> sell
+((rsibuy) and (risingtrendshorttime5)) >> buy
+((rsibuy) and (risingtrendshorttime10)) >> buy
+((rsibuy) and (risingtrendshorttime15)) >> buy
 (MAX10ACCUM == LASTACCUM) >> lastaccummax10
 (MAX20ACCUM == LASTACCUM) >> lastaccummax20
 (MAX30ACCUM == LASTACCUM) >> lastaccummax20
@@ -64,12 +70,24 @@
 ((lastaccummin10) and (lastclosemax10)) >> accumsell
 ((lastaccummin20) and (lastclosemax20)) >> accumsell
 ((lastaccummin30) and (lastclosemax30)) >> accumsell
-(MFI10 > 80) >> mfimarketpurchased
-(MFI20 > 80) >> mfimarketpurchased
-(MFI30 > 80) >> mfimarketpurchased
-(MFI10 < 20) >> mfimarketsold
-(MFI20 < 20) >> mfimarketsold
-(MFI30 < 20) >> mfimarketsold
+(MFI10CUT20 > 0) >> mfi10buy
+(MFI20CUT20 > 0) >> mfi20buy
+(MFI30CUT20 > 0) >> mfi30buy
+(MFI10CUT80 > 0) >> mfi10sell
+(MFI20CUT80 > 0) >> mfi20sell
+(MFI30CUT80 > 0) >> mfi30sell
+((mfi10buy) and (lastclosemin10)) >> buy
+((mfi20buy) and (lastclosemin20)) >> buy
+((mfi30buy) and (lastclosemin30)) >> buy
+((mfi10sell) and (lastclosemax10)) >> sell
+((mfi20sell) and (lastclosemax20)) >> sell
+((mfi30sell) and (lastclosemax30)) >> sell
+((mfi10buy) and (mfi20buy)) >> buy
+((mfi10buy) and (mfi30buy)) >> buy
+((mfi20buy) and (mfi30buy)) >> buy
+((mfi10sell) and (mfi20sell)) >> sell
+((mfi10sell) and (mfi30sell)) >> sell
+((mfi20sell) and (mfi30sell)) >> sell
 (ATR10PERCENT < 2) >> atr10lowvolatility
 (ATR20PERCENT < 2) >> atr20lowvolatility
 (ATR30PERCENT < 2) >> atr30lowvolatility
@@ -78,41 +96,148 @@
 (ATR30PERCENT > 5) >> atr30highvolatility
 ((DAYS10EMA12CUTEMA26 > 0) and (DAYS10EMA26CUTEMA12 == 0)) >> ema12buy
 ((DAYS10EMA26CUTEMA12 > 0) and (DAYS10EMA12CUTEMA26 == 0)) >> ema12sell
-(((rsibuy) and (risingtrendmediumtime)) and ((accumbuy) and (ema12buy))) >> buy
-(((rsisell) and (fallingtrendmediumtime)) and ((accumsell) and (ema12sell))) >> sell
+((DAYS5CLOSECUTEMA5 > 0) and (DAYS5EMA5CUTCLOSE == 0)) >> ema5buy
+((DAYS5EMA5CUTCLOSE > 0) and (DAYS5CLOSECUTEMA5 == 0)) >> ema5sell
+((DAYS12CLOSECUTEMA12 > 0) and (DAYS12EMA12CUTCLOSE == 0)) >> ema12closebuy
+((DAYS12EMA12CUTCLOSE > 0) and (DAYS12CLOSECUTEMA12 == 0)) >> ema12closesell
+((ema12closesell) and (ema12sell)) >> sell
+((ema12closebuy) and (ema12buy)) >> buy
+((ema12closesell) and (ema5sell)) >> sell
+((ema12closebuy) and (ema5buy)) >> buy
+((ema5sell) and (ema12sell)) >> sell
+((ema5buy) and (ema12buy)) >> buy
+(((rsibuy) and (risingtrendmediumtime10)) and ((accumbuy) and (ema12buy))) >> buy
+(((rsibuy) and (risingtrendmediumtime20)) and ((accumbuy) and (ema12buy))) >> buy
+(((rsibuy) and (risingtrendmediumtime30)) and ((accumbuy) and (ema12buy))) >> buy
+(((rsisell) and (fallingtrendmediumtime10)) and ((accumsell) and (ema12sell))) >> sell
+(((rsisell) and (fallingtrendmediumtime20)) and ((accumsell) and (ema12sell))) >> sell
+(((rsisell) and (fallingtrendmediumtime30)) and ((accumsell) and (ema12sell))) >> sell
 ((DAYS10MACDCUTSIGNAL > 0) and (DAYS10SIGNALCUTMACD == 0)) >> macdbuy
 ((DAYS10SIGNALCUTMACD > 0) and (DAYS10MACDCUTSIGNAL == 0)) >> macdsell
-(((rsibuy) and (risingtrendmediumtime)) and (accumbuy)) >> buy
-(((rsibuy) and (risingtrendmediumtime)) and (ema12buy)) >> buy
+(((macdbuy) and (ema5buy)) and (risingtrendshorttime5)) >> buy
+(((macdbuy) and (ema5buy)) and (risingtrendshorttime10)) >> buy
+(((macdbuy) and (ema5buy)) and (risingtrendshorttime15)) >> buy
+(((macdbuy) and (ema12buy)) and (risingtrendmediumtime10)) >> buy
+(((macdbuy) and (ema12buy)) and (risingtrendmediumtime20)) >> buy
+(((macdbuy) and (ema12buy)) and (risingtrendmediumtime30)) >> buy
+(((macdbuy) and (ema12closebuy)) and (risingtrendmediumtime10)) >> buy
+(((macdbuy) and (ema12closebuy)) and (risingtrendmediumtime20)) >> buy
+(((macdbuy) and (ema12closebuy)) and (risingtrendmediumtime30)) >> buy
+(((macdsell) and (ema5sell)) and (fallingtrendshorttime5)) >> sell
+(((macdsell) and (ema5sell)) and (fallingtrendshorttime10)) >> sell
+(((macdsell) and (ema5sell)) and (fallingtrendshorttime15)) >> sell
+(((macdsell) and (ema12sell)) and (fallingtrendshorttime5)) >> sell
+(((macdsell) and (ema12sell)) and (fallingtrendshorttime10)) >> sell
+(((macdsell) and (ema12sell)) and (fallingtrendshorttime15)) >> sell
+(((macdsell) and (ema12closesell)) and (fallingtrendshorttime5)) >> sell
+(((macdsell) and (ema12closesell)) and (fallingtrendshorttime10)) >> sell
+(((macdsell) and (ema12closesell)) and (fallingtrendshorttime15)) >> sell
+(((rsibuy) and (risingtrendmediumtime10)) and (accumbuy)) >> buy
+(((rsibuy) and (risingtrendmediumtime20)) and (accumbuy)) >> buy
+(((rsibuy) and (risingtrendmediumtime30)) and (accumbuy)) >> buy
+(((rsibuy) and (risingtrendmediumtime10)) and (ema12buy)) >> buy
+(((rsibuy) and (risingtrendmediumtime20)) and (ema12buy)) >> buy
+(((rsibuy) and (risingtrendmediumtime30)) and (ema12buy)) >> buy
 ((rsibuy) and ((accumbuy) and (ema12buy))) >> buy
 ((macdbuy) and ((accumbuy) and (ema12buy))) >> buy
 ((rsibuy) and ((macdbuy) and (ema12buy))) >> buy
 ((rsibuy) and ((accumbuy) and (macdbuy))) >> buy
-((risingtrendmediumtime) and ((accumbuy) and (ema12buy))) >> buy
-(((rsisell) and (fallingtrendmediumtime)) and (accumsell)) >> sell
-(((rsisell) and (fallingtrendmediumtime)) and (ema12sell)) >> sell
+((risingtrendmediumtime10) and ((accumbuy) and (ema12buy))) >> buy
+((risingtrendmediumtime20) and ((accumbuy) and (ema12buy))) >> buy
+((risingtrendmediumtime30) and ((accumbuy) and (ema12buy))) >> buy
+(((rsisell) and (fallingtrendmediumtime10)) and (accumsell)) >> sell
+(((rsisell) and (fallingtrendmediumtime20)) and (accumsell)) >> sell
+(((rsisell) and (fallingtrendmediumtime30)) and (accumsell)) >> sell
+(((rsisell) and (fallingtrendmediumtime10)) and (ema12sell)) >> sell
+(((rsisell) and (fallingtrendmediumtime20)) and (ema12sell)) >> sell
+(((rsisell) and (fallingtrendmediumtime30)) and (ema12sell)) >> sell
+(((rsisell) and (fallingtrendshorttime5)) and (accumsell)) >> sell
+(((rsisell) and (fallingtrendshorttime10)) and (accumsell)) >> sell
+(((rsisell) and (fallingtrendshorttime15)) and (accumsell)) >> sell
+(((rsisell) and (fallingtrendshorttime5)) and (ema5sell)) >> sell
+(((rsisell) and (fallingtrendshorttime10)) and (ema5sell)) >> sell
+(((rsisell) and (fallingtrendshorttime15)) and (ema5sell)) >> sell
 ((rsisell) and ((accumsell) and (ema12sell))) >> sell
 ((macdsell) and ((accumsell) and (ema12sell))) >> sell
-((rsisell) and ((macdsell) and (ema12sell))) >> sell
+(((rsisell) and (fallingtrendmediumtime10)) and ((macdsell) and (ema12sell))) >> sell
+(((rsisell) and (fallingtrendmediumtime20)) and ((macdsell) and (ema12sell))) >> sell
+(((rsisell) and (fallingtrendmediumtime30)) and ((macdsell) and (ema12sell))) >> sell
 ((rsisell) and ((accumsell) and (macdsell))) >> sell
-((fallingtrendmediumtime) and ((accumsell) and (ema12sell))) >> sell
-((risingtrendmediumtime) and (changetrend)) >> sell
-((risingtrendshorttime) and (changetrend)) >> sell
-((fallingtrendmediumtime) and (changetrend)) >> buy
-((fallingtrendshorttime) and (changetrend)) >> buy
-((fallingtrendshorttime) and (macdsell)) >> sell
-((fallingtrendshorttime) and (accumsell)) >> sell
-((fallingtrendshorttime) and (rsisell)) >> sell
-((fallingtrendshorttime) and (ema12sell)) >> sell
-((risingtrendshorttime) and (macdbuy)) >> buy
-((risingtrendshorttime) and (accumbuy)) >> buy
-((risingtrendshorttime) and (rsibuy)) >> buy
-((risingtrendshorttime) and (ema12buy)) >> buy
-((fallingtrendmediumtime) and (macdsell)) >> sell
-((fallingtrendmediumtime) and (accumsell)) >> sell
-((fallingtrendmediumtime) and (rsisell)) >> sell
-((fallingtrendmediumtime) and (ema12sell)) >> sell
-((risingtrendmediumtime) and (macdbuy)) >> buy
-((risingtrendmediumtime) and (accumbuy)) >> buy
-((risingtrendmediumtime) and (rsibuy)) >> buy
-((risingtrendmediumtime) and (ema12buy)) >> buy
+((fallingtrendmediumtime10) and ((accumsell) and (ema12sell))) >> sell
+((fallingtrendmediumtime20) and ((accumsell) and (ema12sell))) >> sell
+((fallingtrendmediumtime30) and ((accumsell) and (ema12sell))) >> sell
+((fallingtrendshorttime5) and ((accumsell) and (ema5sell))) >> sell
+((fallingtrendshorttime10) and ((accumsell) and (ema5sell))) >> sell
+((fallingtrendshorttime15) and ((accumsell) and (ema5sell))) >> sell
+((risingtrendmediumtime10) and (changetrend)) >> sell
+((risingtrendmediumtime20) and (changetrend)) >> sell
+((risingtrendmediumtime30) and (changetrend)) >> sell
+((risingtrendshorttime5) and (changetrend)) >> sell
+((risingtrendshorttime10) and (changetrend)) >> sell
+((risingtrendshorttime15) and (changetrend)) >> sell
+((fallingtrendmediumtime10) and (changetrend)) >> buy
+((fallingtrendmediumtime20) and (changetrend)) >> buy
+((fallingtrendmediumtime30) and (changetrend)) >> buy
+((fallingtrendshorttime5) and (changetrend)) >> buy
+((fallingtrendshorttime10) and (changetrend)) >> buy
+((fallingtrendshorttime15) and (changetrend)) >> buy
+((risingtrendshorttime5) and (risingtrendshorttime10)) >> buy
+((risingtrendshorttime5) and (risingtrendshorttime15)) >> buy
+((risingtrendshorttime10) and (risingtrendshorttime15)) >> buy
+((risingtrendmediumtime10) and (risingtrendmediumtime20)) >> buy
+((risingtrendmediumtime10) and (risingtrendmediumtime30)) >> buy
+((risingtrendmediumtime20) and (risingtrendmediumtime30)) >> buy
+((fallingtrendshorttime5) and (fallingtrendshorttime10)) >> sell
+((fallingtrendshorttime5) and (fallingtrendshorttime15)) >> sell
+((fallingtrendshorttime10) and (fallingtrendshorttime15)) >> sell
+((fallingtrendmediumtime10) and (fallingtrendmediumtime20)) >> sell
+((fallingtrendmediumtime10) and (fallingtrendmediumtime30)) >> sell
+((fallingtrendmediumtime20) and (fallingtrendmediumtime30)) >> sell
+((fallingtrendshorttime5) and (macdsell)) >> sell
+((fallingtrendshorttime10) and (macdsell)) >> sell
+((fallingtrendshorttime15) and (macdsell)) >> sell
+((fallingtrendshorttime5) and (accumsell)) >> sell
+((fallingtrendshorttime10) and (accumsell)) >> sell
+((fallingtrendshorttime15) and (accumsell)) >> sell
+((fallingtrendshorttime5) and (rsisell)) >> sell
+((fallingtrendshorttime10) and (rsisell)) >> sell
+((fallingtrendshorttime15) and (rsisell)) >> sell
+((risingtrendshorttime5) and (macdbuy)) >> buy
+((risingtrendshorttime10) and (macdbuy)) >> buy
+((risingtrendshorttime15) and (macdbuy)) >> buy
+((risingtrendshorttime5) and (accumbuy)) >> buy
+((risingtrendshorttime10) and (accumbuy)) >> buy
+((risingtrendshorttime15) and (accumbuy)) >> buy
+((risingtrendshorttime5) and (rsibuy)) >> buy
+((risingtrendshorttime10) and (rsibuy)) >> buy
+((risingtrendshorttime15) and (rsibuy)) >> buy
+((fallingtrendmediumtime10) and (macdsell)) >> sell
+((fallingtrendmediumtime20) and (macdsell)) >> sell
+((fallingtrendmediumtime30) and (macdsell)) >> sell
+((fallingtrendmediumtime10) and (accumsell)) >> sell
+((fallingtrendmediumtime20) and (accumsell)) >> sell
+((fallingtrendmediumtime30) and (accumsell)) >> sell
+((fallingtrendmediumtime10) and (rsisell)) >> sell
+((fallingtrendmediumtime20) and (rsisell)) >> sell
+((fallingtrendmediumtime30) and (rsisell)) >> sell
+((fallingtrendmediumtime10) and ((ema12closesell) and (ema12sell))) >> sell
+((fallingtrendmediumtime20) and ((ema12closesell) and (ema12sell))) >> sell
+((fallingtrendmediumtime30) and ((ema12closesell) and (ema12sell))) >> sell
+((risingtrendmediumtime10) and (macdbuy)) >> buy
+((risingtrendmediumtime20) and (macdbuy)) >> buy
+((risingtrendmediumtime30) and (macdbuy)) >> buy
+((risingtrendmediumtime10) and (accumbuy)) >> buy
+((risingtrendmediumtime20) and (accumbuy)) >> buy
+((risingtrendmediumtime30) and (accumbuy)) >> buy
+((risingtrendmediumtime10) and (rsibuy)) >> buy
+((risingtrendmediumtime20) and (rsibuy)) >> buy
+((risingtrendmediumtime30) and (rsibuy)) >> buy
+((risingtrendmediumtime10) and ((ema12closebuy) and (ema12buy))) >> buy
+((risingtrendmediumtime20) and ((ema12closebuy) and (ema12buy))) >> buy
+((risingtrendmediumtime30) and ((ema12closebuy) and (ema12buy))) >> buy
+((fallingtrendshorttime5) and (ema5sell)) >> sell
+((fallingtrendshorttime10) and (ema5sell)) >> sell
+((fallingtrendshorttime15) and (ema5sell)) >> sell
+((risingtrendshorttime5) and (ema5buy)) >> buy
+((risingtrendshorttime10) and (ema5buy)) >> buy
+((risingtrendshorttime15) and (ema5buy)) >> buy

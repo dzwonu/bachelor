@@ -28,22 +28,25 @@
 \contentsline {paragraph}{}{12}
 \contentsline {subsection}{\numberline {4.1.3}Gramatyka regu\IeC {\l }}{13}
 \contentsline {paragraph}{}{13}
-\contentsline {subsection}{\numberline {4.1.4}Mechanizm wnioskuj\IeC {\k a}cy}{14}
-\contentsline {paragraph}{}{14}
-\contentsline {subsection}{\numberline {4.1.5}Obs\IeC {\l }uga plik\IeC {\'o}w ZIP}{18}
-\contentsline {paragraph}{}{18}
-\contentsline {subsection}{\numberline {4.1.6}Struktura danych o\nobreakspace {}notowaniach}{20}
+\contentsline {subsection}{\numberline {4.1.4}Mechanizm wnioskuj\IeC {\k a}cy}{16}
+\contentsline {paragraph}{}{16}
+\contentsline {subsection}{\numberline {4.1.5}Obs\IeC {\l }uga plik\IeC {\'o}w ZIP}{20}
 \contentsline {paragraph}{}{20}
-\contentsline {subsection}{\numberline {4.1.7}Wykresy}{21}
-\contentsline {paragraph}{}{21}
-\contentsline {subsection}{\numberline {4.1.8}Obliczane wska\IeC {\'z}niki analizy technicznej}{29}
-\contentsline {paragraph}{}{29}
-\contentsline {section}{\numberline {4.2}Badania}{31}
-\contentsline {subsection}{\numberline {4.2.1}Opis przeprowadzonych analiz}{31}
-\contentsline {paragraph}{}{31}
-\contentsline {subsection}{\numberline {4.2.2}Wyniki bada\IeC {\'n}}{32}
-\contentsline {subsubsection}{Analiza sp\IeC {\'o}\IeC {\l }ek z\nobreakspace {}indeksu WIG20}{32}
+\contentsline {subsection}{\numberline {4.1.6}Struktura danych o\nobreakspace {}notowaniach}{22}
+\contentsline {paragraph}{}{22}
+\contentsline {subsection}{\numberline {4.1.7}Wykresy}{23}
+\contentsline {paragraph}{}{23}
+\contentsline {subsection}{\numberline {4.1.8}Obliczane wska\IeC {\'z}niki analizy technicznej}{32}
 \contentsline {paragraph}{}{32}
-\contentsline {chapter}{\numberline {5}Podsumowanie i\nobreakspace {}wnioski}{35}
-\contentsline {chapter}{Bibliografia}{37}
-\contentsline {chapter}{\numberline {A}P\IeC {\l }yta CD}{39}
+\contentsline {section}{\numberline {4.2}Badania}{34}
+\contentsline {subsection}{\numberline {4.2.1}Opis przeprowadzonych analiz}{34}
+\contentsline {paragraph}{}{34}
+\contentsline {subsection}{\numberline {4.2.2}Wyniki bada\IeC {\'n}}{35}
+\contentsline {subsubsection}{Analiza sp\IeC {\'o}\IeC {\l }ek z\nobreakspace {}indeksu WIG20}{35}
+\contentsline {subsubsection}{Analiza sp\IeC {\'o}\IeC {\l }ek z\nobreakspace {}indeksu mWIG40}{37}
+\contentsline {subsubsection}{Analiza sp\IeC {\'o}\IeC {\l }ek z\nobreakspace {}indeksu sWIG80}{38}
+\contentsline {subsubsection}{Podsumowanie inwestycji we wszystkie sp\IeC {\'o}\IeC {\l }ki}{39}
+\contentsline {paragraph}{}{40}
+\contentsline {chapter}{\numberline {5}Podsumowanie i\nobreakspace {}wnioski}{41}
+\contentsline {chapter}{Bibliografia}{43}
+\contentsline {chapter}{\numberline {A}P\IeC {\l }yta CD}{45}
