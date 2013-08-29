@@ -12,6 +12,7 @@
         [clj-time.coerce])
   (:import java.io.File)
   (:import java.io.FileNotFoundException)
+  (:gen-class)
   )
 
 (import '(java.io BufferedReader FileReader)

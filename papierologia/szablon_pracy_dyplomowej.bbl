@@ -36,10 +36,35 @@ Strona domowa języka java.
 Strona domowa projektu leiningen.
 \newblock \url{http://leiningen.org/}.
 
+\bibitem{achelis}
+S.~Achelis.
+\newblock {\em Technical Analysis from A to Z}.
+\newblock 2000.
+
+\bibitem{ai}
+S.~Rajeev C.S.~Krishnamoorthy.
+\newblock {\em Artificial Intelligence and Expert Systems for Engineers}.
+\newblock 1996.
+
+\bibitem{joy}
+M.~Fogus.
+\newblock {\em The Joy of Clojure}.
+\newblock 2011.
+
 \bibitem{clojure}
 S.~Halloway.
 \newblock {\em Programming Clojure}.
 \newblock 2012.
+
+\bibitem{haskell}
+M.~Lipovaca.
+\newblock {\em Learn You a Haskell for Great Good!: A Beginner's Guide}.
+\newblock 2011.
+
+\bibitem{merritt}
+D.~Merritt.
+\newblock {\em Building Expert Systems in Prolog}.
+\newblock 1989.
 
 \bibitem{mulawka}
 J.~Mulawka.

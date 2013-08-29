@@ -4,7 +4,6 @@
 
 \paragraph{}
 Według Jana Mulawki:\\System ekspertowy jest programem komputerowym, który wykonuje złożone zadania o~dużych wymaganiach intelektualnych i~robi to tak dobrze jak człowiek, będący ekspertem w~tej dziedzinie.\footnote{\cite{mulawka}, str. 20}\\
-Inne ujęcie definicji systemu ekspertowego mówi, że jest to aplikacja zawierająca niealgorytmiczną wiedzę pozwalającą na rozwiązywanie konkretnego typu problemów.\footnote{\cite{merritt}, str. 1}\\
 Biorąc pod uwagę powyższe można powiedzieć, że~system ekspertowy to aplikacja przeprowadzająca proces wnioskowania na podstawie zbioru specjalistycznej wiedzy. Wnioskowanie takie wymaga oprócz wiedzy, zbioru reguł, według których proces ten będzie przeprowadzany. Można wyróżnić następujące elementy składowe systemu ekspertowego:
 \begin{itemize}
 	\item Baza wiedzy - Baza specjalistycznej wiedzy (np. zbiór reguł) z~dziedziny, dla~której tworzony jest system ekspertowy
@@ -60,26 +59,10 @@ Najbardziej szczegółowy podział to podział ze~względu na zadania realizowan
 
 Jak już wcześniej wspomniano, najistotniejszą częścią systemu ekspertowego jest baza wiedzy. Systemy ekspertowe których baza wiedzy składa się z~faktów i~reguł nazywa się systemami regułowymi. Zdecydowana większość systemów ekspertowych to właśnie systemy regułowe. Fakty w~bazie wiedzy są to zdania oznajmujące, opisujące jakiś obiekt bądź jego stan. Reguły natomiast są zdaniami warunkowymi. Gdy spełnione są przesłanki występujące w~części warunkowej takiego zdania, wtedy do bazy faktów dodawane jest nowe zdanie.
 
-Sam proces wnioskowania, czyli przetwarzania reguł i faktów może odbywać się na kilka sposobów. Wyróżniamy następujące metody wnioskowania:
-\begin{itemize}
-	\item Wnioskowanie w przód
-	\item Wnioskowanie wstecz
-	\item Wnioskowanie mieszane
-	\item Wnioskowanie rozmyte
-\end{itemize}
-
-Metoda wnioskowania w~przód polega na ciągłym przetwarzaniu faktów i~reguł do momentu uzyskania wśród wygenerowanych faktów postawionego celu. Taki sposób wnioskowania wiąże się z~powiększaniem się bazy wiedzy. Dzięki temu proces jest szybszy, jednak w~szczególnych sytuacjach może dojść do całkowitego zapełnienia pamięci nowymi faktami.
-
-Wnioskowanie wstecz, inaczej nazywane regresywnym, odbywa się w~sposób odwrotny do wnioskowania w~przód. Polega ono na potwierdzeniu głównej hipotezy sprawdzając czy przesłanki dla niej są prawdziwe. Jeśli nie wiadomo czy jakaś przesłanka jest prawdziwa, to traktowana jest ona jako nowa hipoteza i~jest dla niej przeprowadzany analogiczny proces wnioskowania wstecz. Postępuje się w ten sposób do chwili znalezienia reguły, dla której wszystkie przesłanki są prawdziwe.
-
-Mechanizm wnioskowania mieszanego polega na przełączaniu w~zależności od sytuacji metody wnioskowania na wnioskowanie w~przód bądź wstecz. Sam program zarządzający przełączaniem metod wnioskowania opiera się na zbiorze metareguł, które zawierają informacje o~priorytecie rodzajów wnioskowania w~zależności od sytuacji.
-
-Koncepcja wnioskowania rozmytego opiera się o~logikę rozmytą. Wnioskowanie takie można przeprowadzić dzięki reprezentacji wiedzy za pomocą zbiorów rozmytych i~stosowaniu przekształceń danych wejściowych w~postać końcową.
-
 Systemy ekspertowe są to aplikacje mieszczące się w~dziedzinie sztucznej inteligencji. Jest to nauka definiowana na wiele sposobów. Dwie definicje prezentujące odmienne aspekty badań prowadzonych w tej dziedzinie:
 \begin{itemize}
 	\item Według Minsky'ego sztuczna inteligencja jest nauką o maszynach realizujących zadania, które wymagają inteligencji wówczas, gdy są wykonywane przez człowieka.\footnote{\cite{mulawka}, str. 17}
-	\item Według Feigenbauma sztuczna inteligencja stanowi dziedzinę informatyki dotyczącą metod i~technik wnioskowania symbolicznego przez komputer oraz symbolicznej reprezentacji wiedzy stosowanej podczas takiego wnioskowania.\footnotemark[4]
+	\item Według Feigenbauma sztuczna inteligencja stanowi dziedzinę informatyki dotyczącą metod i~technik wnioskowania symbolicznego przez komputer oraz symbolicznej reprezentacji wiedzy stosowanej podczas takiego wnioskowania.\footnotemark[3]
 \end{itemize}
 
 

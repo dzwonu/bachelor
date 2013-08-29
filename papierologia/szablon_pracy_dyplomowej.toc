@@ -6,9 +6,9 @@
 \contentsline {chapter}{\numberline {2}Teoria}{3}
 \contentsline {section}{\numberline {2.1}Systemy ekspertowe}{3}
 \contentsline {paragraph}{}{3}
-\contentsline {section}{\numberline {2.2}Programowanie funkcyjne}{5}
-\contentsline {paragraph}{}{5}
-\contentsline {section}{\numberline {2.3}Analiza techniczna}{7}
+\contentsline {section}{\numberline {2.2}Programowanie funkcyjne}{6}
+\contentsline {paragraph}{}{6}
+\contentsline {section}{\numberline {2.3}Analiza techniczna}{8}
 \contentsline {chapter}{\numberline {3}Technologie i\nobreakspace {}narz\IeC {\k e}dzia}{9}
 \contentsline {section}{\numberline {3.1}J\IeC {\k e}zyk programowania}{9}
 \contentsline {paragraph}{}{9}
