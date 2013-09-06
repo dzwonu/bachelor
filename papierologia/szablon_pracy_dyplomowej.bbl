@@ -1,5 +1,13 @@
 \begin{thebibliography}{10}
 
+\bibitem{kbibtex}
+{KBibTeX}.
+\newblock \url{http://home.gna.org/kbibtex/}.
+
+\bibitem{kile}
+{Kile - an Integrated LaTeX Environment}.
+\newblock \url{http://kile.sourceforge.net/}.
+
 \bibitem{clj-http}
 Repozytorium biblioteki clj-http.
 \newblock \url{https://github.com/dakrone/clj-http}.
@@ -36,15 +44,34 @@ Strona domowa języka java.
 Strona domowa projektu leiningen.
 \newblock \url{http://leiningen.org/}.
 
+\bibitem{texlive}
+{TeX Live}.
+\newblock \url{http://www.tug.org/texlive/}.
+
 \bibitem{achelis}
 S.~Achelis.
 \newblock {\em Technical Analysis from A to Z}.
 \newblock 2000.
 
+\bibitem{akerkar}
+R.~Akerkar.
+\newblock {\em Knowledge-Based Systems}.
+\newblock 2009.
+
 \bibitem{ai}
 S.~Rajeev C.S.~Krishnamoorthy.
 \newblock {\em Artificial Intelligence and Expert Systems for Engineers}.
 \newblock 1996.
+
+\bibitem{durkin}
+J.~Durkin.
+\newblock {\em Expert Systems: Design and Development}.
+\newblock 1994.
+
+\bibitem{technicalAnalysisOfStockTrends}
+R.~Edwards.
+\newblock {\em Technical Analysis of Stock Trends, Tenth Edition}.
+\newblock 2012.
 
 \bibitem{joy}
 M.~Fogus.
@@ -56,6 +83,11 @@ S.~Halloway.
 \newblock {\em Programming Clojure}.
 \newblock 2012.
 
+\bibitem{jackson}
+P.~Jackson.
+\newblock {\em Introduction To Expert Systems (3rd Edition)}.
+\newblock 1998.
+
 \bibitem{haskell}
 M.~Lipovaca.
 \newblock {\em Learn You a Haskell for Great Good!: A Beginner's Guide}.
@@ -66,6 +98,12 @@ D.~Merritt.
 \newblock {\em Building Expert Systems in Prolog}.
 \newblock 1989.
 
+\bibitem{lambdaCalculus}
+G.~Michaelson.
+\newblock {\em An Introduction to Functional Programming Through Lambda
+  Calculus}.
+\newblock 2011.
+
 \bibitem{mulawka}
 J.~Mulawka.
 \newblock {\em Systemy ekspertowe}.
@@ -75,5 +113,21 @@ J.~Mulawka.
 J.~Murphy.
 \newblock {\em Analiza techniczna rynków finansowych}.
 \newblock 2008.
+
+\bibitem{Nie10}
+A.~Niewiadomski.
+\newblock Szablon pracy dyplomowej.
+\newblock \url{http://ics.p.lodz.pl/~aniewiadomski/mgr/szablon-konspekt.pdf},
+  2010.
+
+\bibitem{Oet11}
+T.~Oetiker.
+\newblock The not so short introduction to {LaTeX2e}.
+\newblock \url{http://tobi.oetiker.ch/lshort/lshort.pdf}, 2011.
+
+\bibitem{functionalDataStructures}
+C.~Okasaki.
+\newblock {\em Purely Functional Data Structures}.
+\newblock 1999.
 
 \end{thebibliography}

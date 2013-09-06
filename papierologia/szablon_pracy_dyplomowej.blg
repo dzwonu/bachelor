@@ -3,6 +3,8 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: szablon_pracy_dyplomowej.aux
 The style file: plplain.bst
 Database file #1: bibliografia.bib
+Warning--entry type for "Nie10" isn't style-file defined
+--line 152 of file bibliografia.bib
 Warning--to sort, need author or key in clj
 Warning--to sort, need author or key in java
 Warning--to sort, need author or key in leiningen
@@ -12,53 +14,62 @@ Warning--to sort, need author or key in incanter
 Warning--to sort, need author or key in instaparse
 Warning--to sort, need author or key in clj-time
 Warning--to sort, need author or key in clj-http
+Warning--to sort, need author or key in texlive
+Warning--to sort, need author or key in kile
+Warning--to sort, need author or key in kbibtex
 Warning--empty publisher in achelis
+Warning--empty publisher in akerkar
 Warning--empty publisher in ai
+Warning--empty publisher in durkin
+Warning--empty publisher in technicalAnalysisOfStockTrends
 Warning--empty publisher in joy
 Warning--empty publisher in clojure
+Warning--empty publisher in jackson
 Warning--empty publisher in haskell
 Warning--empty publisher in merritt
+Warning--empty publisher in lambdaCalculus
 Warning--empty publisher in mulawka
 Warning--empty publisher in analiza
-You've used 17 entries,
+Warning--empty publisher in functionalDataStructures
+You've used 28 entries,
             2129 wiz_defined-function locations,
-            572 strings with 5267 characters,
-and the built_in function-call counts, 3183 in all, are:
-= -- 279
-> -- 65
+            617 strings with 6158 characters,
+and the built_in function-call counts, 5376 in all, are:
+= -- 472
+> -- 124
 < -- 0
-+ -- 34
-- -- 16
-* -- 127
-:= -- 460
-add.period$ -- 42
-call.type$ -- 17
-change.case$ -- 51
++ -- 63
+- -- 32
+* -- 214
+:= -- 803
+add.period$ -- 72
+call.type$ -- 28
+change.case$ -- 86
 chr.to.int$ -- 0
-cite$ -- 34
-duplicate$ -- 159
-empty$ -- 384
-format.name$ -- 16
-if$ -- 721
+cite$ -- 54
+duplicate$ -- 266
+empty$ -- 629
+format.name$ -- 32
+if$ -- 1203
 int.to.chr$ -- 0
-int.to.str$ -- 17
-missing$ -- 16
-newline$ -- 79
-num.names$ -- 16
-pop$ -- 144
+int.to.str$ -- 28
+missing$ -- 28
+newline$ -- 131
+num.names$ -- 32
+pop$ -- 238
 preamble$ -- 1
-purify$ -- 42
+purify$ -- 72
 quote$ -- 0
-skip$ -- 119
+skip$ -- 193
 stack$ -- 0
-substring$ -- 86
-swap$ -- 17
+substring$ -- 143
+swap$ -- 28
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 52
-warning$ -- 17
-while$ -- 16
-width$ -- 19
-write$ -- 137
-(There were 17 warnings)
+type$ -- 84
+warning$ -- 26
+while$ -- 32
+width$ -- 30
+write$ -- 232
+(There were 27 warnings)

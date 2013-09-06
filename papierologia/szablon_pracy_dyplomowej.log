@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/W32TeX) (format=pdflatex 2013.7.22)  28 AUG 2013 16:29
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/W32TeX) (format=pdflatex 2013.7.22)  2 SEP 2013 11:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -879,43 +879,43 @@ LaTeX Font Info:    Try loading font information for OT4+cmtt on input line 5.
 (c:/texlive/2013/texmf-dist/tex/latex/polski/ot4cmtt.fd
 File: ot4cmtt.fd 2008/02/24 v1.2.1 Font defs for fonts PL (MW)
 )
-Underfull \hbox (badness 10000) in paragraph at lines 8--10
+Underfull \hbox (badness 10000) in paragraph at lines 16--18
 []\OT4/cmr/m/n/12 Repozytorium bi-blio-te-ki clj-time.  $\OT4/cmtt/m/n/12 https
  : / / github . com / clj-[]time /
  []
 
 
-Underfull \hbox (badness 2197) in paragraph at lines 12--14
+Underfull \hbox (badness 2197) in paragraph at lines 20--22
 []\OT4/cmr/m/n/12 Repozytorium bi-blio-te-ki in-sta-par-se.  $\OT4/cmtt/m/n/12 
 https : / / github . com / Engelberg /
  []
 
 
-Underfull \hbox (badness 1057) in paragraph at lines 20--22
+Underfull \hbox (badness 1057) in paragraph at lines 28--30
 []\OT4/cmr/m/n/12 Repozytorium pro-jek-tu clo-oj.  $\OT4/cmtt/m/n/12 https : / 
 / github . com / arthuredelstein /
  []
 
-) (./b_cd.tex [43
+[43
 
-] [44
-
-]
+]) (./b_cd.tex [44]
 Dodatek A.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [45])
+ [45
+
+])
 [46] (./szablon_pracy_dyplomowej.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 6298 strings out of 493311
- 83491 string characters out of 6141401
- 251720 words of memory out of 5000000
- 9564 multiletter control sequences out of 15000+600000
+ 6309 strings out of 493311
+ 83629 string characters out of 6141401
+ 251764 words of memory out of 5000000
+ 9575 multiletter control sequences out of 15000+600000
  20140 words of font info for 60 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  40i,12n,46p,3468b,1697s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -936,7 +936,7 @@ ive/2013/texmf-dist/fonts/type1/public/pl/plsl12.pfb><c:/texlive/2013/texmf-dis
 t/fonts/type1/public/pl/plsy10.pfb><c:/texlive/2013/texmf-dist/fonts/type1/publ
 ic/pl/plsy8.pfb><c:/texlive/2013/texmf-dist/fonts/type1/public/pl/plti12.pfb><c
 :/texlive/2013/texmf-dist/fonts/type1/public/pl/pltt12.pfb>
-Output written on szablon_pracy_dyplomowej.pdf (50 pages, 2818010 bytes).
+Output written on szablon_pracy_dyplomowej.pdf (50 pages, 2820294 bytes).
 PDF statistics:
  253 PDF objects out of 1000 (max. 8388607)
  167 compressed objects within 2 object streams
